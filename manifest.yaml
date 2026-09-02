@@ -1,0 +1,26 @@
+name: donghua-3d-realistic
+slug: donghua-3d-realistic
+version: 1.0.0
+description: 生成国产 3D 动漫（斗罗大陆/斗破苍穹/灵笼/完美世界）写实风格的图像。适用于仙侠玄幻角色立绘、场景概念图、宣传海报、头像壁纸等。
+author: webkubor
+category: 内容创作
+tags:
+  - 国漫
+  - 3D写实
+  - 仙侠
+  - 玄幻
+  - Donghua
+  - 3D Anime
+triggers:
+  - 国漫风格
+  - 国漫3D
+  - 灵笼风格
+  - 斗破风格
+  - donghua style
+  - 国漫仙侠
+  - generate donghua image
+homepage: https://github.com/webkubor/donghua-3d-skill
+license: MIT
+permissions:
+  - image_generation
+  - video_generation
