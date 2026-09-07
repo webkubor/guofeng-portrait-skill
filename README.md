@@ -1,10 +1,11 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](./CHANGELOG.md)
-[![Styles](https://img.shields.io/badge/Styles-2-green.svg)](#-两种风格)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](./CHANGELOG.md)
+[![Styles](https://img.shields.io/badge/画法-2-green.svg)](#-维度一画法)
+[![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-维度二朝代形制)
 
-> 🎨 古风**人像**提示词库与 Agent Skill —— 国漫 3D 写实 + 国风水墨写意，两种风格一套工具
+> 🎨 古风**人像**提示词库与 Agent Skill —— 画法（3D 写实 / 水墨）× 朝代（唐 / 宋 / 魏晋）自由组合
 
 ---
 
@@ -15,7 +16,10 @@
 **只做人物。** 不做场景概念图、器物法宝、花鸟山水——人物所处的环境只作为
 背景服务于人像。要那些题材请另找 skill，混在一起会让提示词失焦。
 
-## 🌟 两种风格
+两个**正交维度**自由组合：**画法**（怎么画）× **朝代**（画哪个年代的形制）。
+"宋韵美人的水墨画法" = `--style ink-wash` + `dynasties/song/`。
+
+## 🌟 维度一：画法
 
 ### `3d-realistic` —— 国漫 3D 写实
 
@@ -35,7 +39,27 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 
 题材：`character`
 
-> ⚠️ **两套提示词互不相通**。3D 那套讲渲染与材质，水墨这套讲笔触与留白，
+### 📜 维度二：朝代形制
+
+不指定朝代时，模型画的"汉服"多半是杂糅形制——各朝代的衣领、袖型、腰线混在一起，
+懂的人一眼看出不对。指定朝代能拿到具体的服饰 token 与配色：
+
+| 朝代 | 审美核心 | 适合 |
+|---|---|---|
+| **唐 `tang`** | 华贵丰腴、色彩浓烈 | 宫廷仕女、盛世气象 |
+| **宋 `song`** | "淡到极致才是宋韵"，清雅低饱和 | 江南园林、庭院、肖像特写（资料最全） |
+| **魏晋 `wei-jin`** | 飘逸出尘、褒衣博带 | 名士、洛神、松下抚琴 |
+
+跨朝代通用的 4 段式骨架（主体 + 场景 + 光影 + 质感）在
+`dynasties/common-prompt-base.md`，三个朝代只在服饰 / 色彩 / 气质上分支。
+每个朝代还带一个 `scripts/generate.py`，直接调 museav 出图。
+
+```bash
+./dynasties/song/scripts/generate.py --dynasty song \
+  --subject "春日庭院，少女倚栏观花，海棠初开" --ratio 3:4
+```
+
+> ⚠️ **两套画法的提示词互不相通**。3D 那套讲渲染与材质，水墨这套讲笔触与留白，
 > 混用会让画面既不像 3D 也不像水墨。所以两边各自保留完整的
 > references / examples / assets / build_prompt.py，顶层脚本只做路由。
 
@@ -82,6 +106,9 @@ python scripts/build_prompt.py --style ink-wash \
 SKILL.md                    Agent 入口（风格路由 + 工作流）
 manifest.yaml               与 SKILL.md frontmatter 同步
 scripts/build_prompt.py     薄分发器，按 --style 转给对应风格
+dynasties/
+  common-prompt-base.md     跨朝代 4 段式通用骨架
+  tang/ song/ wei-jin/      各朝代的 SKILL.md + references/ + scripts/generate.py
 styles/
   3d-realistic/
     build_prompt.py         该风格完整的提示词构建器
@@ -107,12 +134,17 @@ v2.0.0 之前这是三个独立仓库，主题互相重叠：
 | `donghua-3d-skill` | 国漫 3D 写实 skill（英文，结构完整） | 本仓库（保留 git 历史） |
 | `guoman-3d-skill` | 同主题的中文提示词库版本 | `styles/3d-realistic/prompt-library-zh.md` + `examples-zh/` |
 | `guoman-ink-wash-skill` | 国风水墨 skill | `styles/ink-wash/` |
+| `guofeng-meiren` | 古风美人 skill 集（唐/宋/魏晋朝代形制） | `dynasties/` |
 
 前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），一个是 skill 包格式、
 一个是提示词库格式，各自演进互不知情——正是"一个项目两个仓库"的典型。
 
 v2.1.0 进一步收窄为**纯人像**：场景、器物、自然、诗意题材的素材与提示词全部移除，
 两份 `build_prompt.py` 的对应 category 一并删掉。定位模糊的工具没人用得顺手。
+
+v3.0.0 并入 `guofeng-meiren`——它同样是古风人像出图 skill，只是切分维度不同
+（按朝代而非按画法）。两者正交互补：原来只说"形制统一的汉服"却没有朝代知识，
+现在补上了唐/宋/魏晋的具体服饰 token 与配色。
 
 ## 📄 License
 

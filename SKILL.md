@@ -1,13 +1,16 @@
 ---
 name: guofeng-portrait
 slug: guofeng-portrait
-version: 2.0.0
-description: 生成古风人像图像与短视频，只做人物。两种风格：国漫 3D 写实（斗罗大陆/斗破苍穹/灵笼/完美世界）与国风水墨写意（大鱼海棠/中国奇谭/天书奇谭）。适用于角色立绘、头像、人物海报。
+version: 3.0.0
+description: 生成古风人像图像与短视频，只做人物。两个维度自由组合——画法：国漫 3D 写实 / 国风水墨写意；朝代形制：唐 / 宋 / 魏晋。适用于角色立绘、头像、人物海报。
 author: 山鬼映画
 category: 内容创作
 tags:
   - 古风
   - 人像
+  - 唐制
+  - 宋制
+  - 魏晋
   - 国漫
   - 3D写实
   - 水墨
@@ -17,6 +20,10 @@ tags:
 triggers:
   - 古风人像
   - 古风头像
+  - 古风美人
+  - 唐制美人
+  - 宋韵美人
+  - 魏晋风骨
   - 国漫风格
   - 国漫3D
   - 灵笼风格
@@ -40,16 +47,42 @@ permissions:
 
 生成**古风人像**（角色立绘、头像、人物海报）的图像与短视频。
 **这是一个纯人像 skill —— 只画人**，不做场景概念图、器物法宝、花鸟山水。
-人物所处的环境只作为背景服务于人像。两种视觉风格：
+人物所处的环境只作为背景服务于人像。
+
+两个**正交维度**，自由组合：**画法**（怎么画）× **朝代**（画哪个年代的形制）。
+"宋韵美人的水墨画法" = `--style ink-wash` + `dynasties/song/`。
+
+## 维度一：画法（必选）
 
 | 风格 | 对标作品 | 特征 | 目录 |
 |---|---|---|---|
 | **`3d-realistic`** 国漫 3D 写实 | 斗罗大陆、斗破苍穹、灵笼、完美世界、一念永恒 | UE5 电影级渲染、皮肤毛孔与发丝可见、仙侠光效、体积光 | `styles/3d-realistic/` |
 | **`ink-wash`** 国风水墨写意 | 大鱼海棠、中国奇谭、天书奇谭、山水情 | 手绘笔触、宣纸质感、极致留白、写意而非写实 | `styles/ink-wash/` |
 
-两种风格的提示词体系**互不相通**——一个讲渲染与材质，一个讲笔触与留白，
+两种画法的提示词体系**互不相通**——一个讲渲染与材质，一个讲笔触与留白，
 所以各自保留完整的一套 references / examples / assets / build_prompt.py，
 本文只做路由。**混用两套关键词会让画面既不像 3D 也不像水墨。**
+
+## 维度二：朝代形制（可选，但强烈建议指定）
+
+不指定朝代时，模型画出来的"汉服"多半是杂糅形制——各朝代的衣领、袖型、
+腰线混在一起，懂的人一眼看出不对。指定朝代能拿到具体的服饰 token 与配色。
+
+| 朝代 | 审美核心 | 适合 | 目录 |
+|---|---|---|---|
+| **`tang`** 唐 | 华贵丰腴、色彩浓烈 | 宫廷仕女、盛世气象 | `dynasties/tang/` |
+| **`song`** 宋 | "淡到极致才是宋韵"，清雅低饱和 | 江南园林、庭院、肖像特写 | `dynasties/song/`（最完整） |
+| **`wei-jin`** 魏晋 | 飘逸出尘、褒衣博带 | 名士、洛神、松下抚琴 | `dynasties/wei-jin/` |
+
+用法：读 `dynasties/<朝代>/SKILL.md` 取服饰形制与配色 token，拼进 `--subject`。
+每个朝代目录下：
+
+- `SKILL.md` — 该朝代的人物 / 服饰 / 色彩 / 气质定义
+- `references/scene-matrix.md` — 场景 × 人物的组合矩阵（宋另有 `style-tokens.md` 服饰 token 速查、`prompt-core.md`）
+- `scripts/generate.py` — 直接调 museav 出图的 wrapper（与 `scripts/build_prompt.py` 是两条路：前者出图，后者只出提示词）
+
+跨朝代通用的 4 段式骨架（主体 + 场景 + 光影 + 质感）在
+`dynasties/common-prompt-base.md`，三个朝代只在服饰 / 色彩 / 气质上分支。
 
 ## When to Use This Skill
 
@@ -71,11 +104,13 @@ permissions:
    - `3d-realistic`：`character-male` / `character-female`
    - `ink-wash`：`character`
 
-3. **媒介**：`image`（默认）/ `video`
+3. **朝代**（可选）：`tang` / `song` / `wei-jin`，不指定则不加朝代形制约束
 
-4. **画幅**：`3:4` 人像立绘（默认）/ `9:16` 手机壁纸 / `16:9` 横构图 / `1:1` 头像
+4. **媒介**：`image`（默认）/ `video`
 
-5. **主体描述**：要具体，例如「冷峻的青年剑修，月下山巅，黑色长发高束」。
+5. **画幅**：`3:4` 人像立绘（默认）/ `9:16` 手机壁纸 / `16:9` 横构图 / `1:1` 头像
+
+6. **主体描述**：要具体，例如「冷峻的青年剑修，月下山巅，黑色长发高束」。
 
 ## Workflow
 
@@ -140,7 +175,8 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 - 不要现代元素（汽车、手机、现代建筑）
 - 手部要明确写「解剖正确的手，五指」——模型极易画坏
 - 发丝要写「根根分明」，否则出塑料感
-- 服装写「形制统一的汉服 / 战袍」避免年代混搭
+- 服装形制别含糊 —— 指定朝代后用 `dynasties/<朝代>/` 里的具体 token
+  （如宋制的 `sheer silk beizi` 薄纱褙子），别只写「汉服」
 - 环境只做背景：写「背景虚化」「浅景深」，别让场景抢走主体
 
 **`ink-wash`**
@@ -157,4 +193,7 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 | `styles/<风格>/references/model-recommendations.md` | 各模型（Seedream / GPT-image / qwen / MJ）的调法 |
 | `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方（特写 / 半身 / 全身） |
 | `styles/ink-wash/references/brush-techniques.md` | 笔法、墨法、宣纸质感 |
+| `dynasties/common-prompt-base.md` | 跨朝代通用 4 段式骨架 |
+| `dynasties/<朝代>/SKILL.md` | 该朝代的服饰 / 色彩 / 气质定义 |
 | `styles/ink-wash/SKILL-original.md` | 水墨 skill 合并前的独立版本（保留备查） |
+| `dynasties/README-original.md` | 古风美人 skill 集合并前的独立版本（保留备查） |

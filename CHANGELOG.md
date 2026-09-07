@@ -1,5 +1,40 @@
 # 更新日志 / Changelog
 
+## v3.0.0（2026-09-07）
+
+并入 `guofeng-meiren`（古风美人 skill 集），新增**朝代**维度。
+
+### 新增（Added）
+
+- **`dynasties/`** —— 唐 / 宋 / 魏晋三个朝代的形制知识，每个朝代含
+  `SKILL.md`（人物 / 服饰 / 色彩 / 气质）、`references/scene-matrix.md`
+  （场景 × 人物组合矩阵）、`scripts/generate.py`（直接调 museav 出图）。
+  宋另有 `style-tokens.md` 服饰 token 速查与 `prompt-core.md`，资料最全。
+- **`dynasties/common-prompt-base.md`** —— 跨朝代通用的 4 段式骨架
+  （主体 + 场景 + 光影 + 质感），三个朝代只在服饰 / 色彩 / 气质上分支。
+
+### 变更（Changed）
+
+- SKILL.md 重组为**两个正交维度**：画法（必选，3D 写实 / 水墨）× 朝代（可选，
+  唐 / 宋 / 魏晋）。"宋韵美人的水墨画法" = `--style ink-wash` + `dynasties/song/`。
+- 硬规则里「服装写形制统一的汉服」改为「指定朝代后用具体 token」——
+  不指定朝代时模型画的"汉服"多半是杂糅形制，各朝代的衣领袖型腰线混在一起。
+- 原 `shared/common-prompt-base.md` 提到 `dynasties/` 同级，链接少一层。
+- `guofeng-meiren` CLI 已不存在（仓库并入），朝代 SKILL.md 里的调用改为
+  仓库自带的 `./dynasties/<朝代>/scripts/generate.py`，输出目录改为
+  `~/Movies/guofeng-portrait/`。
+
+### 修复（Fixed）
+
+- v2.1.0 只改了本文件，`SKILL.md` / `manifest.yaml` 的 `version` 字段
+  还停在 2.0.0，本次一并修正。
+
+### 为什么并
+
+`guofeng-meiren` 同样是「古风人像出图 skill」，只是按朝代切分而非按画法。
+两者正交互补：这边有渲染风格体系却没有朝代形制知识，那边正好相反。
+一个项目一个仓库 —— 同一件事不该长成两个仓。
+
 ## v2.1.0（2026-09-07）
 
 收窄为**纯人像 skill**。
