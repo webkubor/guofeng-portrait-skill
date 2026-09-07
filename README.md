@@ -4,14 +4,16 @@
 [![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/Styles-2-green.svg)](#-两种风格)
 
-> 🎨 古风人像提示词库与 Agent Skill —— 国漫 3D 写实 + 国风水墨写意，两种风格一套工具
+> 🎨 古风**人像**提示词库与 Agent Skill —— 国漫 3D 写实 + 国风水墨写意，两种风格一套工具
 
 ---
 
 ## 📋 这是什么？
 
-生成**古风人像**（角色立绘、头像、海报）的提示词库。主线是人物，
-场景 / 器物 / 自然题材作为配景一并提供。
+生成**古风人像**（角色立绘、头像、人物海报）的提示词库。
+
+**只做人物。** 不做场景概念图、器物法宝、花鸟山水——人物所处的环境只作为
+背景服务于人像。要那些题材请另找 skill，混在一起会让提示词失焦。
 
 ## 🌟 两种风格
 
@@ -22,7 +24,7 @@
 不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**：
 UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒子、电影级景深。
 
-题材：`character-male` / `character-female` / `scene` / `weapon` / `action`
+题材：`character-male` / `character-female`
 
 ### `ink-wash` —— 国风水墨写意
 
@@ -31,7 +33,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 手绘笔触（飞白、湿墨晕染）、宣纸质感、**极致留白**——留白是构图的一部分，
 不是没画完。写意而非写实。
 
-题材：`character` / `creature` / `nature` / `poetry` / `scene`
+题材：`character`
 
 > ⚠️ **两套提示词互不相通**。3D 那套讲渲染与材质，水墨这套讲笔触与留白，
 > 混用会让画面既不像 3D 也不像水墨。所以两边各自保留完整的
@@ -65,10 +67,10 @@ python scripts/build_prompt.py --style ink-wash \
 
 ### 三、直接抄示例
 
-- `styles/3d-realistic/examples/` — 英文提示词，按题材分目录
-- `styles/3d-realistic/examples-zh/` — 中文提示词，更细
-- `styles/3d-realistic/prompt-library-zh.md` — 中文提示词库全文（关键词表、组合公式、避坑）
-- `styles/ink-wash/examples/` — 水墨示例
+- `styles/3d-realistic/examples/character-male|character-female/` — 英文提示词
+- `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
+- `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词表、镜头参数、组合公式、避坑）
+- `styles/ink-wash/examples/character/` — 水墨人物示例
 
 每个示例带完整提示词（中英）、参考图、推荐画幅。
 
@@ -85,8 +87,8 @@ styles/
     build_prompt.py         该风格完整的提示词构建器
     prompt-library-zh.md    中文提示词库全文
     references/             visual-dna / camera-lenses / negative-prompts / model-recommendations
-    examples/  examples-zh/ 示例提示词（英 / 中）
-    assets/                 参考图
+    examples/  examples-zh/ 人像示例提示词（英 / 中）
+    assets/                 人像参考图
   ink-wash/
     build_prompt.py
     references/             visual-dna / brush-techniques / negative-prompts / model-recommendations
@@ -108,7 +110,9 @@ v2.0.0 之前这是三个独立仓库，主题互相重叠：
 
 前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），一个是 skill 包格式、
 一个是提示词库格式，各自演进互不知情——正是"一个项目两个仓库"的典型。
-合并时两边内容全部保留，没有删改。
+
+v2.1.0 进一步收窄为**纯人像**：场景、器物、自然、诗意题材的素材与提示词全部移除，
+两份 `build_prompt.py` 的对应 category 一并删掉。定位模糊的工具没人用得顺手。
 
 ## 📄 License
 

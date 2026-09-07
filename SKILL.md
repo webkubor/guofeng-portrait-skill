@@ -2,7 +2,7 @@
 name: guofeng-portrait
 slug: guofeng-portrait
 version: 2.0.0
-description: 生成古风人像图像与短视频。两种风格：国漫 3D 写实（斗罗大陆/斗破苍穹/灵笼/完美世界）与国风水墨写意（大鱼海棠/中国奇谭/天书奇谭）。适用于角色立绘、头像壁纸、宣传海报。
+description: 生成古风人像图像与短视频，只做人物。两种风格：国漫 3D 写实（斗罗大陆/斗破苍穹/灵笼/完美世界）与国风水墨写意（大鱼海棠/中国奇谭/天书奇谭）。适用于角色立绘、头像、人物海报。
 author: 山鬼映画
 category: 内容创作
 tags:
@@ -38,7 +38,9 @@ permissions:
 
 ## Overview
 
-生成**古风人像**（角色立绘、头像、海报）的图像与短视频，两种视觉风格：
+生成**古风人像**（角色立绘、头像、人物海报）的图像与短视频。
+**这是一个纯人像 skill —— 只画人**，不做场景概念图、器物法宝、花鸟山水。
+人物所处的环境只作为背景服务于人像。两种视觉风格：
 
 | 风格 | 对标作品 | 特征 | 目录 |
 |---|---|---|---|
@@ -49,9 +51,6 @@ permissions:
 所以各自保留完整的一套 references / examples / assets / build_prompt.py，
 本文只做路由。**混用两套关键词会让画面既不像 3D 也不像水墨。**
 
-主线是**人像**；场景、器物、自然、诗意题材的素材一并保留，用作人像的配景
-（人像需要环境，删掉是净损失），但不是这个 skill 的主打。
-
 ## When to Use This Skill
 
 - "画个古风人像 / 古风头像"
@@ -60,15 +59,17 @@ permissions:
 - "Chinese 3D donghua portrait" / "ink wash portrait"
 - 任何「古风 / 仙侠 / 国风」+ 人物 + 出图的请求
 
+**不适用**：纯场景概念图、器物法宝特写、花鸟山水、无人物的意境图 —— 这个 skill 不做这些。
+
 ## Required Decisions Before Generating
 
 1. **风格**（最重要，先问这个）
    - `3d-realistic` — 想要电影感、写实、有光效 → 默认
    - `ink-wash` — 想要手绘感、留白、意境
 
-2. **题材**（两种风格的取值不同）
-   - `3d-realistic`：`character-male` / `character-female` / `scene` / `weapon` / `action`
-   - `ink-wash`：`character` / `creature` / `nature` / `poetry` / `scene`
+2. **题材**
+   - `3d-realistic`：`character-male` / `character-female`
+   - `ink-wash`：`character`
 
 3. **媒介**：`image`（默认）/ `video`
 
@@ -100,10 +101,10 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 
 脚本跑不了、或用户要更具体的风格时，翻对应风格的示例：
 
-- `styles/3d-realistic/examples/` — 英文提示词，按题材分目录
-- `styles/3d-realistic/examples-zh/` — 中文提示词，更细
-- `styles/3d-realistic/prompt-library-zh.md` — 中文提示词库全文（关键词、公式、避坑）
-- `styles/ink-wash/examples/` — 水墨示例
+- `styles/3d-realistic/examples/character-male|character-female/` — 英文提示词
+- `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
+- `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词、镜头、公式、避坑）
+- `styles/ink-wash/examples/character/` — 水墨人物示例
 
 每个示例都带完整提示词（中英）、参考图、推荐画幅、调风格的注意事项。
 
@@ -140,6 +141,7 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 - 手部要明确写「解剖正确的手，五指」——模型极易画坏
 - 发丝要写「根根分明」，否则出塑料感
 - 服装写「形制统一的汉服 / 战袍」避免年代混搭
+- 环境只做背景：写「背景虚化」「浅景深」，别让场景抢走主体
 
 **`ink-wash`**
 - 留白是构图的一部分，不是没画完 —— 提示词里要主动要求留白
@@ -153,6 +155,6 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 | `styles/<风格>/references/visual-dna.md` | 该风格的完整视觉定义、配色、光影规则 |
 | `styles/<风格>/references/negative-prompts.md` | 负面词清单（**两风格不通用**） |
 | `styles/<风格>/references/model-recommendations.md` | 各模型（Seedream / GPT-image / qwen / MJ）的调法 |
-| `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方 |
+| `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方（特写 / 半身 / 全身） |
 | `styles/ink-wash/references/brush-techniques.md` | 笔法、墨法、宣纸质感 |
 | `styles/ink-wash/SKILL-original.md` | 水墨 skill 合并前的独立版本（保留备查） |

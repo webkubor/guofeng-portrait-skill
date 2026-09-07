@@ -2,12 +2,9 @@
 """
 Build prompts for the Donghua 3D Realistic style skill.
 
-Supports five subject categories:
+Supports two subject categories (this is a portrait-only skill):
   - character-male : swordsman, sect master, demon lord, young hero
   - character-female: immortal fairy, enchantress, demoness, female warrior
-  - scene         : sect mountain gate, cultivation cave, ancient battlefield
-  - weapon        : flying sword, demon blade, spirit pearl
-  - action        : battle slash, spell casting, flying technique
 
 Supports two media types:
   - image : static image (default)
@@ -76,54 +73,12 @@ CHARACTER_FEMALE = {
     ),
 }
 
-SCENE = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级场景渲染，UE5 大气散射，体积云，"
-        "建筑材质有历史感，雾气飘渺，丁达尔效应，意境悠远，"
-        "东方美学，仙侠玄幻，气势恢宏，史诗感"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic environment render, "
-        "UE5 atmospheric scattering, volumetric clouds, "
-        "weathered architectural materials, drifting mist, god rays, "
-        "deep atmosphere, oriental aesthetics, xianxia fantasy, epic scale, masterpiece"
-    ),
-}
 
-WEAPON = {
-    "fixed_zh": (
-        "国产3D动漫风格，UE5 渲染，PBR材质细节，金属反射正确，"
-        "宝石发光质感，灵气粒子环绕，光效自然，"
-        "暗色调突出主体，电影级质感"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, UE5 render, detailed PBR materials, "
-        "correct metal reflections, glowing gemstone textures, "
-        "spiritual energy particles, natural light effects, "
-        "dark tones highlight subject, cinematic quality, masterpiece"
-    ),
-}
 
-ACTION = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级动作场面，UE5 Lumen 全局光照，"
-        "粒子特效，体积光，动态模糊，高速摄影冻结瞬间，"
-        "环境破坏，史诗感，仙侠战斗"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic action scene, "
-        "UE5 Lumen global illumination, particle effects, volumetric light, "
-        "motion blur, high-speed photography frozen moment, "
-        "environment destruction, epic feel, xianxia battle, masterpiece"
-    ),
-}
 
 CATEGORIES = {
     "character-male": CHARACTER_MALE,
     "character-female": CHARACTER_FEMALE,
-    "scene": SCENE,
-    "weapon": WEAPON,
-    "action": ACTION,
 }
 
 

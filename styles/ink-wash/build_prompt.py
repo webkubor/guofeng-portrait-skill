@@ -73,68 +73,12 @@ CHARACTER = {
     ),
 }
 
-SCENE = {
-    "fixed_zh": (
-        "中国传统水墨山水，手绘毛笔笔触，宣纸纹理，"
-        "墨分五色，皴法纹理，留白意境，"
-        "三远法构图，诗意空灵，史诗感"
-    ),
-    "fixed_en": (
-        "traditional Chinese ink landscape painting, hand-painted brushwork, "
-        "rice paper texture, five-tone ink variation, "
-        "cun texture strokes, vast negative space, "
-        "three-distance composition, poetic ethereal mood, epic"
-    ),
-}
 
-NATURE = {
-    "fixed_zh": (
-        "中国传统花鸟画，手绘毛笔笔触，宣纸纹理，"
-        "工笔写意结合，留白构图，"
-        "传统国画美学，诗意意境"
-    ),
-    "fixed_en": (
-        "traditional Chinese flower-and-bird painting, hand-painted brushwork, "
-        "rice paper texture, mixed gongbi and freehand, "
-        "vast negative space, "
-        "traditional Chinese painting, poetic mood"
-    ),
-}
 
-CREATURE = {
-    "fixed_zh": (
-        "中国传统瑞兽水墨画，手绘毛笔笔触，宣纸纹理，"
-        "泼墨写意，留白构图，"
-        "传统国画美学，气势磅礴，史诗感"
-    ),
-    "fixed_en": (
-        "traditional Chinese mythical creature ink painting, hand-painted brushwork, "
-        "rice paper texture, splash ink freehand, "
-        "vast negative space, "
-        "traditional Chinese painting, epic grandeur"
-    ),
-}
 
-POETRY = {
-    "fixed_zh": (
-        "中国传统诗意水墨画，手绘毛笔笔触，宣纸纹理，"
-        "墨色淡雅，留白构图，"
-        "传统国画美学，诗意空灵，禅意"
-    ),
-    "fixed_en": (
-        "traditional Chinese poetic ink painting, hand-painted brushwork, "
-        "rice paper texture, light elegant ink, "
-        "vast negative space, "
-        "traditional Chinese painting, poetic ethereal mood, Zen"
-    ),
-}
 
 CATEGORIES = {
     "character": CHARACTER,
-    "scene": SCENE,
-    "nature": NATURE,
-    "creature": CREATURE,
-    "poetry": POETRY,
 }
 
 
