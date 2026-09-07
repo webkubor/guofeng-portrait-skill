@@ -1,5 +1,41 @@
 # 更新日志 / Changelog
 
+## v2.0.0（2026-09-07）
+
+三个重叠的提示词仓库合并为一个，主题重新定位为**古风人像**。
+
+### 变更（Changed）
+
+- **仓库更名** `donghua-3d-skill` → `guofeng-portrait-skill`，slug
+  `donghua-3d-realistic` → `guofeng-portrait`。GitHub 会自动重定向旧地址。
+- **主线从「国漫 3D 风格」收窄为「古风人像」**：人物是主打，
+  场景 / 器物 / 自然题材保留为配景（人像需要环境，删掉是净损失）。
+- **按风格分目录**：原 `references/` `examples/` `assets/` 移入
+  `styles/3d-realistic/`，git 历史保留。
+- **`scripts/build_prompt.py` 改为薄分发器**，按 `--style` 转给
+  `styles/<风格>/build_prompt.py`。原脚本原样移入 3D 风格目录。
+  不带 `--style` 默认 `3d-realistic`，旧调用方式只差一个参数。
+
+### 新增（Added）
+
+- **`styles/ink-wash/`** —— 国风水墨写意风格，来自 `guoman-ink-wash-skill`：
+  10 张参考图、5 组示例、`brush-techniques.md`（笔法墨法）、完整 visual-dna
+  与负面词表、独立的 build_prompt.py。
+- **`styles/3d-realistic/prompt-library-zh.md`** —— 中文提示词库全文（349 行，
+  关键词表 / 组合公式 / 避坑），来自 `guoman-3d-skill`。
+- **`styles/3d-realistic/examples-zh/`** —— 中文示例 4 组（人物男女、场景、武器）。
+- **`CONTRIBUTING.md`** —— 贡献指南，同样来自 `guoman-3d-skill`。
+
+### 合并说明
+
+`guoman-3d-skill` 与本仓库是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），
+一个是 skill 包格式、一个是提示词库格式，各自演进互不知情。
+合并时两边内容全部保留，没有删改；`guoman-ink-wash-skill` 的原始 SKILL.md
+留在 `styles/ink-wash/SKILL-original.md` 备查。
+
+**两种风格的提示词体系互不相通**（一个讲渲染材质，一个讲笔触留白），
+所以不做内容层面的融合，各自保留完整一套，顶层只做路由。
+
 ## v1.0.0（2026-09-02）
 
 初始发布。基于实测验证的国漫 3D 写实风格 Skill 框架。

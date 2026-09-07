@@ -1,25 +1,32 @@
-name: donghua-3d-realistic
-slug: donghua-3d-realistic
-version: 1.0.0
-description: 生成国产 3D 动漫（斗罗大陆/斗破苍穹/灵笼/完美世界）写实风格的图像。适用于仙侠玄幻角色立绘、场景概念图、宣传海报、头像壁纸等。
-author: webkubor
+name: guofeng-portrait
+slug: guofeng-portrait
+version: 2.0.0
+description: 生成古风人像图像与短视频。两种风格：国漫 3D 写实（斗罗大陆/斗破苍穹/灵笼/完美世界）与国风水墨写意（大鱼海棠/中国奇谭/天书奇谭）。适用于角色立绘、头像壁纸、宣传海报。
+author: 山鬼映画
 category: 内容创作
 tags:
+  - 古风
+  - 人像
   - 国漫
   - 3D写实
+  - 水墨
   - 仙侠
-  - 玄幻
-  - Donghua
-  - 3D Anime
+  - guofeng
+  - portrait
 triggers:
+  - 古风人像
+  - 古风头像
   - 国漫风格
   - 国漫3D
   - 灵笼风格
   - 斗破风格
-  - donghua style
-  - 国漫仙侠
-  - generate donghua image
-homepage: https://github.com/webkubor/donghua-3d-skill
+  - 国风水墨
+  - 水墨人物
+  - 写意人物
+  - donghua portrait
+  - ink wash portrait
+  - guofeng portrait
+homepage: https://github.com/webkubor/guofeng-portrait-skill
 license: MIT
 permissions:
   - image_generation

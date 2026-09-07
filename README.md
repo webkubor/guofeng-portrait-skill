@@ -1,263 +1,115 @@
-# 国漫 3D 写实风格 / Donghua 3D Realistic Skill
+# 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](./CHANGELOG.md)
-[![Categories](https://img.shields.io/badge/Categories-5-green.svg)](#-能力概览)
+[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](./CHANGELOG.md)
+[![Styles](https://img.shields.io/badge/Styles-2-green.svg)](#-两种风格)
 
-> 🎨 为 AI 创作者提供**斗罗大陆 / 斗破苍穹 / 灵笼 / 完美世界**风格的国产 3D 动漫提示词库与 Agent Skill
+> 🎨 古风人像提示词库与 Agent Skill —— 国漫 3D 写实 + 国风水墨写意，两种风格一套工具
 
 ---
 
 ## 📋 这是什么？
 
-本 Skill 用于生成**国产 3D 动漫（国漫）写实风格**的图像与短视频，风格定位对标：
+生成**古风人像**（角色立绘、头像、海报）的提示词库。主线是人物，
+场景 / 器物 / 自然题材作为配景一并提供。
 
-- 🎬 《斗罗大陆》——角色塑造、武魂特效
-- 🎬 《斗破苍穹》——火焰特效、热血战斗
-- 🎬 《灵笼》——末日废土、机甲融合
-- 🎬 《完美世界》——仙气飘逸、山水意境
-- 🎬 《一念永恒》——水墨意境、幽默感
-- 🎬 《凡人修仙传》——写实细腻、暗黑风
+## 🌟 两种风格
 
-不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**。
+### `3d-realistic` —— 国漫 3D 写实
+
+对标《斗罗大陆》《斗破苍穹》《灵笼》《完美世界》《一念永恒》《凡人修仙传》。
+
+不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**：
+UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒子、电影级景深。
+
+题材：`character-male` / `character-female` / `scene` / `weapon` / `action`
+
+### `ink-wash` —— 国风水墨写意
+
+对标《大鱼海棠》《中国奇谭》《天书奇谭》《山水情》。
+
+手绘笔触（飞白、湿墨晕染）、宣纸质感、**极致留白**——留白是构图的一部分，
+不是没画完。写意而非写实。
+
+题材：`character` / `creature` / `nature` / `poetry` / `scene`
+
+> ⚠️ **两套提示词互不相通**。3D 那套讲渲染与材质，水墨这套讲笔触与留白，
+> 混用会让画面既不像 3D 也不像水墨。所以两边各自保留完整的
+> references / examples / assets / build_prompt.py，顶层脚本只做路由。
 
 ---
 
-## 🌟 三种使用方式
+## 🚀 三种用法
 
-### 方式一：一键复制给 AI（最简单）
+### 一、装成 Agent Skill（推荐）
 
-直接复制下面文字发给任意桌面 Agent：
+把整个仓库放进 agent 的 skills 目录，`SKILL.md` 就是入口，
+agent 会自己问清风格与题材再出图。
 
-```
-帮我安装这个 Skill：https://github.com/webkubor/donghua-3d-skill
-```
-
-支持从 GitHub 链接直接装 Skill 的客户端会自动拉取生效。
-
-### 方式二：本地克隆到 Skill 目录
+### 二、命令行生成提示词
 
 ```bash
-# 找到你客户端的 skills 目录
-git clone https://github.com/webkubor/donghua-3d-skill.git
-```
-
-克隆完成后重启客户端即可使用「国漫风格」「donghua style」等调用。
-
-### 方式三：手动下载 ZIP
-
-1. 打开 https://github.com/webkubor/donghua-3d-skill
-2. 点 `Code → Download ZIP`
-3. 解压到客户端 skills 目录
-
----
-
-## ✨ 能力概览
-
-| 分类 | 数量 | 说明 |
-|------|------|------|
-| 男性角色 | 3 | 剑修、宗主、魔尊 |
-| 女性角色 | 2 | 仙子、妖女 |
-| 场景 | 3 | 仙门、洞府、战场 |
-| 武器法宝 | 3 | 飞剑、魔刀、灵珠 |
-| 战斗动作 | 2 | 剑修出招、施法 |
-
-每个分类都有：
-- ✅ 完整中英双语提示词
-- ✅ 实测参考样图
-- ✅ 推荐出图参数
-- ✅ 模型选型建议
-
----
-
-## 🚀 快速上手
-
-### 安装 Skill 后，对 Agent 说：
-
-```
-用国漫 3D 风格生成一张图：冷峻的青年剑修，月下山巅，黑色长发高束
-```
-
-```
-Donghua style: a cold young swordsman portrait, moonlit mountain peak
-```
-
-```
-用国漫 3D 风格生成一张战斗海报：白衣剑修挥剑出招，悬崖边
-```
-
-### Agent 会自动：
-
-1. 选择 `character-male` 分类
-2. 调用 `scripts/build_prompt.py` 生成提示词
-3. 应用负向约束
-4. 调用生成工具
-5. 返回结果
-
----
-
-## 🎨 风格速览
-
-### 核心特征
-
-- **UE5 Nanite + Lumen 渲染** —— 几何 + 光照的电影级质感
-- **PBR 材质** —— 皮肤毛孔、发丝纹理、衣物反射
-- **东方美学** —— 仙侠玄幻、气势磅礴
-- **电影光影** —— 侧逆光、体积光、粒子特效
-
-### 视觉对比
-
-| 风格 | 特征 |
-|------|------|
-| ❌ 日漫 2D | 平面、赛璐璐、大眼卡通 |
-| ❌ 好莱坞 3D | 西方审美、动作捕捉感 |
-| ❌ 古风 2D | 工笔、写意、水墨 |
-| ✅ **国漫 3D** | 东方审美 + 写实渲染 + 仙侠光效 |
-
----
-
-## 📁 文件结构
-
-```
-donghua-3d-skill/
-├── README.md                      # 本文件
-├── SKILL.md                       # Skill 入口与使用说明（Agent 读取）
-├── CHANGELOG.md                   # 版本更新日志
-├── manifest.yaml                  # 元数据（名称 / 触发词 / 权限）
-├── LICENSE                        # MIT
-├── scripts/
-│   └── build_prompt.py            # 提示词生成脚本（中英双语）
-├── references/
-│   ├── visual-dna.md              # 视觉基因（色彩 / 光影 / 角色）
-│   ├── camera-lenses.md           # 镜头与光影手册
-│   ├── negative-prompts.md        # 负向提示词清单
-│   └── model-recommendations.md   # 模型选型建议
-├── examples/
-│   ├── character-male/            # 男性角色示例（带样图）
-│   ├── character-female/          # 女性角色示例（带样图）
-│   ├── scene/                     # 场景示例（带样图）
-│   ├── weapon/                    # 武器法宝示例（带样图）
-│   └── action/                    # 战斗动作示例（带样图）
-└── assets/                        # 参考样图
-    ├── character-male/
-    ├── character-female/
-    ├── scene/
-    ├── weapon/
-    └── action/
-```
-
----
-
-## 🛠 提示词脚本用法
-
-```bash
-python scripts/build_prompt.py \
-  --category <character-male|character-female|scene|weapon|action> \
-  --media <image|video> \
-  --subject "<主体描述>" \
-  --ratio <3:4|16:9|9:16|1:1>
-```
-
-**参数说明**：
-- `--category`：主体分类（必填）
-- `--media`：生成媒介（默认 `image`）
-- `--subject`：具体主体，如「冷峻的青年剑修，月下山巅」
-- `--ratio`：画面比例（默认 `3:4`）
-
-**输出**：JSON 含 `positive_zh` / `positive_en` / `negative_zh` / `negative_en` / `recommended_size`
-
-**示例**：
-
-```bash
-python scripts/build_prompt.py \
-  --category character-male \
+# 国漫 3D 写实 · 男性角色 · 人像画幅
+python scripts/build_prompt.py --style 3d-realistic \
   --subject "冷峻的青年剑修，月下山巅，黑色长发高束" \
-  --ratio 3:4
+  --category character-male --ratio 3:4
+
+# 国风水墨 · 人物
+python scripts/build_prompt.py --style ink-wash \
+  --subject "白衣书生，竹林独坐" \
+  --category character --ratio 3:4
+```
+
+输出 JSON，含 `positive_zh` / `positive_en` / `negative_*` / `recommended_size`。
+不带 `--style` 默认 `3d-realistic`。
+
+### 三、直接抄示例
+
+- `styles/3d-realistic/examples/` — 英文提示词，按题材分目录
+- `styles/3d-realistic/examples-zh/` — 中文提示词，更细
+- `styles/3d-realistic/prompt-library-zh.md` — 中文提示词库全文（关键词表、组合公式、避坑）
+- `styles/ink-wash/examples/` — 水墨示例
+
+每个示例带完整提示词（中英）、参考图、推荐画幅。
+
+---
+
+## 📁 目录结构
+
+```
+SKILL.md                    Agent 入口（风格路由 + 工作流）
+manifest.yaml               与 SKILL.md frontmatter 同步
+scripts/build_prompt.py     薄分发器，按 --style 转给对应风格
+styles/
+  3d-realistic/
+    build_prompt.py         该风格完整的提示词构建器
+    prompt-library-zh.md    中文提示词库全文
+    references/             visual-dna / camera-lenses / negative-prompts / model-recommendations
+    examples/  examples-zh/ 示例提示词（英 / 中）
+    assets/                 参考图
+  ink-wash/
+    build_prompt.py
+    references/             visual-dna / brush-techniques / negative-prompts / model-recommendations
+    examples/  assets/
+    SKILL-original.md       合并前的独立版本，保留备查
 ```
 
 ---
 
-## 📊 模型选型建议
+## 📜 由三个仓库合并而来
 
-| 模型 | 国漫 3D 表现 | 中文理解 | 成本 | 推荐 |
-|------|-------------|---------|------|------|
-| Seedream（火山）| ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ¥0.2-0.3 | 🥇 |
-| gpt-image-2 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ¥0.38 | 🥈 |
-| qwen-image-3.0 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ¥0.18 | 🥉 性价比 |
-| Midjourney v6 | ⭐⭐⭐ | ⭐⭐ | 订阅制 | 灵感 |
+v2.0.0 之前这是三个独立仓库，主题互相重叠：
 
-详细对比见 `references/model-recommendations.md`
+| 原仓库 | 内容 | 去处 |
+|---|---|---|
+| `donghua-3d-skill` | 国漫 3D 写实 skill（英文，结构完整） | 本仓库（保留 git 历史） |
+| `guoman-3d-skill` | 同主题的中文提示词库版本 | `styles/3d-realistic/prompt-library-zh.md` + `examples-zh/` |
+| `guoman-ink-wash-skill` | 国风水墨 skill | `styles/ink-wash/` |
 
----
-
-## 💬 使用案例（可直接复制）
-
-### 案例 A：生成角色图
-
-```
-用国漫 3D 风格生成一张图：冷峻的青年剑修，月下山巅
-```
-
-### 案例 B：生成场景图
-
-```
-Donghua style landscape: ancient sect mountain gate floating above cloud sea, golden hour
-```
-
-### 案例 C：生成战斗场面
-
-```
-用国漫 3D 风格生成一张战斗海报：白衣剑修挥剑出招，悬崖边
-```
-
-### 案例 D：生成武器展示
-
-```
-国漫风格飞剑：剑身泛冰蓝灵光，龙纹雕刻，灵气粒子环绕
-```
-
----
-
-## ⚠️ 注意事项
-
-- **效果因模型而异**：不同生图模型对提示词理解不同，结果有差别是正常的。
-- **手部/发丝**：AI 最容易翻车的两个点，必须在提示词中显式约束。
-- **历史服饰**：避免混搭，指定朝代（汉 / 唐 / 宋 / 明）。
-- **现代元素**：必须显式排除（手机、汽车、玻璃幕墙等）。
-- **版权说明**：本 Skill 基于公开动画作品视觉特征整理，仅供个人学习 / 二次创作参考，请勿用于侵权商用。
-
----
-
-## 🎬 参考作品
-
-| 作品 | 风格特色 |
-|------|----------|
-| 《斗罗大陆》| 角色塑造、武魂特效 |
-| 《斗破苍穹》| 火焰特效、热血战斗 |
-| 《灵笼》| 末日废土、机甲融合 |
-| 《完美世界》| 仙气飘逸、山水意境 |
-| 《一念永恒》| 水墨意境、幽默感 |
-| 《凡人修仙传》| 写实细腻、暗黑风 |
-
----
+前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），一个是 skill 包格式、
+一个是提示词库格式，各自演进互不知情——正是"一个项目两个仓库"的典型。
+合并时两边内容全部保留，没有删改。
 
 ## 📄 License
 
-[MIT](./LICENSE) © 2026 webkubor
-
----
-
-## 🌟 Star History
-
-如果这个 Skill 对你有帮助，请给个 ⭐ Star 支持一下！
-
----
-
-## 📞 联系方式
-
-- GitHub: [@webkubor](https://github.com/webkubor)
-- 小红书：山鬼映画
-
----
-
-**🤝 欢迎贡献！** 提交 Issue 或 PR 一起完善这个 Skill。
+MIT

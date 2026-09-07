@@ -1,200 +1,158 @@
 ---
-name: donghua-3d-realistic
-slug: donghua-3d-realistic
-version: 1.0.0
-description: 生成国产 3D 动漫（斗罗大陆/斗破苍穹/灵笼/完美世界）写实风格的图像。适用于仙侠玄幻角色立绘、场景概念图、宣传海报、头像壁纸等。
+name: guofeng-portrait
+slug: guofeng-portrait
+version: 2.0.0
+description: 生成古风人像图像与短视频。两种风格：国漫 3D 写实（斗罗大陆/斗破苍穹/灵笼/完美世界）与国风水墨写意（大鱼海棠/中国奇谭/天书奇谭）。适用于角色立绘、头像壁纸、宣传海报。
 author: 山鬼映画
 category: 内容创作
 tags:
+  - 古风
+  - 人像
   - 国漫
   - 3D写实
+  - 水墨
   - 仙侠
-  - 玄幻
-  - Donghua
-  - 3D Anime
+  - guofeng
+  - portrait
 triggers:
+  - 古风人像
+  - 古风头像
   - 国漫风格
   - 国漫3D
   - 灵笼风格
   - 斗破风格
-  - donghua style
-  - 国漫仙侠
-  - generate donghua image
-homepage: https://github.com/webkubor/donghua-3d-skill
+  - 国风水墨
+  - 水墨人物
+  - 写意人物
+  - donghua portrait
+  - ink wash portrait
+  - guofeng portrait
+homepage: https://github.com/webkubor/guofeng-portrait-skill
 license: MIT
 permissions:
   - image_generation
   - video_generation
 ---
 
-# 国漫 3D 写实风格 / Donghua 3D Realistic
+# 古风人像 / Guofeng Portrait
 
 ## Overview
 
-Generate still images or short videos in the visual style associated with mainstream Chinese 3D donghua (animated series) such as *Douluo Dalu* (斗罗大陆), *Doupo Cangqiong* (斗破苍穹), *Ling Long* (灵笼), *Wanmei Shijie* (完美世界), and *Yinian Yongheng* (一念永恒).
+生成**古风人像**（角色立绘、头像、海报）的图像与短视频，两种视觉风格：
 
-The style is characterized by:
-- **High-end Unreal Engine 5 / PBR cinematic render** with cinematic 3D lighting
-- **Next-gen character render** with visible skin pores, hair strands, and material reflections
-- **Xianxia / xuanhuan fantasy aesthetics** with Eastern color palettes
-- **Atmospheric particles, volumetric light, motion effects** to convey cultivation and spiritual energy
-- **Cinematic depth of field**, golden hour rim light, back-lit silhouettes
+| 风格 | 对标作品 | 特征 | 目录 |
+|---|---|---|---|
+| **`3d-realistic`** 国漫 3D 写实 | 斗罗大陆、斗破苍穹、灵笼、完美世界、一念永恒 | UE5 电影级渲染、皮肤毛孔与发丝可见、仙侠光效、体积光 | `styles/3d-realistic/` |
+| **`ink-wash`** 国风水墨写意 | 大鱼海棠、中国奇谭、天书奇谭、山水情 | 手绘笔触、宣纸质感、极致留白、写意而非写实 | `styles/ink-wash/` |
 
-Always confirm whether the user wants a **character portrait**, **scene/environment**, **weapon/artifact**, or **action/battle** shot before generating.
+两种风格的提示词体系**互不相通**——一个讲渲染与材质，一个讲笔触与留白，
+所以各自保留完整的一套 references / examples / assets / build_prompt.py，
+本文只做路由。**混用两套关键词会让画面既不像 3D 也不像水墨。**
+
+主线是**人像**；场景、器物、自然、诗意题材的素材一并保留，用作人像的配景
+（人像需要环境，删掉是净损失），但不是这个 skill 的主打。
 
 ## When to Use This Skill
 
-Use this skill when the user asks for anything like:
-- "用国漫 3D 风格生成一张图"
-- "斗罗大陆风格的剑修"
-- "灵笼风格的角色"
-- "完美世界风格的海报"
-- "Chinese 3D donghua style"
-- "Doupo style swordsman portrait"
-- Any request involving Chinese 3D anime / xianxia / xuanhuan content combined with image generation.
+- "画个古风人像 / 古风头像"
+- "斗罗大陆风格的剑修" / "灵笼风格的角色"
+- "水墨风格的白衣书生" / "写意人物画"
+- "Chinese 3D donghua portrait" / "ink wash portrait"
+- 任何「古风 / 仙侠 / 国风」+ 人物 + 出图的请求
 
 ## Required Decisions Before Generating
 
-1. **Subject category**
-   - `character-male` — swordsman, sect master, demon lord, young hero, old master
-   - `character-female` — immortal fairy, enchantress, demoness, female warrior, maiden
-   - `scene` — sect mountain gate, cultivation cave, ancient battlefield, heavenly realm, bamboo forest
-   - `weapon` — flying sword, demon blade, spirit pearl, mystical instrument
-   - `action` — battle slash, spell casting, flying technique, cultivation breakthrough
+1. **风格**（最重要，先问这个）
+   - `3d-realistic` — 想要电影感、写实、有光效 → 默认
+   - `ink-wash` — 想要手绘感、留白、意境
 
-2. **Media**
-   - `image` — static picture
-   - `video` — short AI-generated video clip
-   - If only "content" or "visual" is mentioned, default to `image`.
+2. **题材**（两种风格的取值不同）
+   - `3d-realistic`：`character-male` / `character-female` / `scene` / `weapon` / `action`
+   - `ink-wash`：`character` / `creature` / `nature` / `poetry` / `scene`
 
-3. **Aspect ratio**
-   - `3:4` (portrait) — character portraits, posters
-   - `16:9` (landscape) — scenes, panoramas, action shots
-   - `9:16` (mobile portrait) — wallpapers, mobile-optimized posters
-   - `1:1` (square) — weapon showcases, avatars
+3. **媒介**：`image`（默认）/ `video`
 
-4. **Subject description**
-   - Always ask for concrete subject, e.g. "冷峻的青年剑修，月下山巅"
-   - Or accept existing prompt and re-style it.
+4. **画幅**：`3:4` 人像立绘（默认）/ `9:16` 手机壁纸 / `16:9` 横构图 / `1:1` 头像
+
+5. **主体描述**：要具体，例如「冷峻的青年剑修，月下山巅，黑色长发高束」。
 
 ## Workflow
 
-### Step 1 — Gather Inputs
+### Step 1 — 确认输入
 
-Confirm the user's choices:
-- Subject category (see above)
-- Media: image or video
-- Aspect ratio
-- Subject description (Chinese or English)
+风格、题材、媒介、画幅、主体描述。用户只说"画个古风人像"时，
+按 `3d-realistic` + `character-male` + `image` + `3:4` 走。
 
-### Step 2 — Build the Prompt
-
-Run the bundled prompt builder script from the skill root directory:
+### Step 2 — 构建提示词
 
 ```bash
-python scripts/build_prompt.py \
-  --subject "<subject description>" \
-  --category <character-male|character-female|scene|weapon|action> \
+python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
+  --subject "<主体描述>" \
+  --category <见上方题材> \
   --ratio <3:4|16:9|9:16|1:1> \
   [--media image]
 ```
 
-Example:
+不带 `--style` 默认 `3d-realistic`。输出是 JSON，取 `positive_en` 或
+`positive_zh`（Seedream / qwen-image 这类中文理解强的模型用后者）。
 
-```bash
-python scripts/build_prompt.py \
-  --subject "冷峻的青年剑修，月下山巅，黑色长发高束" \
-  --category character-male \
-  --ratio 3:4
-```
+### Step 3 — 参考已有示例
 
-Capture the JSON output. Use the language that best matches the user's request:
-- Prefer `positive_en` for most generation models.
-- Use `positive_zh` if the model explicitly supports strong Chinese prompt understanding (e.g. Seedream, qwen-image).
+脚本跑不了、或用户要更具体的风格时，翻对应风格的示例：
 
-### Step 3 — Use Reference Examples
+- `styles/3d-realistic/examples/` — 英文提示词，按题材分目录
+- `styles/3d-realistic/examples-zh/` — 中文提示词，更细
+- `styles/3d-realistic/prompt-library-zh.md` — 中文提示词库全文（关键词、公式、避坑）
+- `styles/ink-wash/examples/` — 水墨示例
 
-If the script cannot be executed, or the user wants a more specific style, browse the `examples/` directory for hand-crafted prompts grouped by category:
+每个示例都带完整提示词（中英）、参考图、推荐画幅、调风格的注意事项。
 
-- `examples/character-male/` — male character prompts (swordsman, sect master, demon lord)
-- `examples/character-female/` — female character prompts (fairy, enchantress, warrior)
-- `examples/scene/` — environment prompts (sect gate, cave, battlefield)
-- `examples/weapon/` — weapon/artifact prompts (sword, blade, pearl)
-- `examples/action/` — battle/action prompts
+### Step 4 — 合并负面词
 
-Each example includes:
-- The full prompt (Chinese + English versions)
-- The accompanying reference image
-- Recommended aspect ratio
-- Notes on style tweaks
+`ImageGen` / `VideoGen` 没有独立的 negative 字段，把负面词用 "Avoid:" 拼进提示词末尾。
+完整清单在各风格的 `references/negative-prompts.md` —— **两份不能混用**：
+3D 风格要避开水墨和 2D，水墨风格要避开 3D 渲染和照片写实。
 
-### Step 4 — Merge Negative Terms
+### Step 5 — 告知消耗
 
-The `ImageGen` and `VideoGen` tools do not expose a separate negative-prompt field. Append the relevant negative terms directly into the prompt with "avoid" or "no" phrasing:
+- ImageGen 人像：约 5-10 积分/张
+- ImageGen 横构图：约 8-12 积分/张
+- VideoGen：约 50-100 积分 / 5 秒
 
-```text
-<positive prompt>. Avoid: traditional 2D anime, watercolor, ink wash, cel-shading, flat cartoon, modern elements, smartphones, cars, Western fantasy armor, oversized weapons, deformed hands, plastic skin...
-```
+超过 10 积分先让用户确认。
 
-The full negative prompt list lives in `references/negative-prompts.md`.
+### Step 6 — 生成
 
-### Step 5 — Inform User About Credits
+**图片** `ImageGen`：`size` 映射 `3:4`→`1024x1536`、`16:9`→`1536x1024`、
+`9:16`→`1024x1536`、`1:1`→`1024x1024`；`quality` 草稿用 `medium`，定稿用 `high`（贵约 3 倍）。
 
-Before calling generation tools, tell the user:
-- ImageGen (portrait): roughly 5-10 credits per image.
-- ImageGen (landscape/panorama): roughly 8-12 credits per image.
-- VideoGen: roughly 50-100 credits per 5-second video.
+**视频** `VideoGen`：`resolution` 默认 `720P`，`seconds` 默认 5。
 
-### Step 6 — Generate
+### Step 7 — 呈现
 
-For **images**, call `ImageGen`:
-- `prompt`: the assembled prompt.
-- `size`: map `3:4` → `1024x1536`, `16:9` → `1536x1024` (or `1024x576` for low-cost), `9:16` → `1024x1536`, `1:1` → `1024x1024`.
-- `quality`: `medium` for drafts, `high` for final renders (high costs ~3× more credits).
+用 `present_files` 把结果给用户看。
 
-For **videos**, call `VideoGen`:
-- `prompt`: the assembled prompt.
-- `resolution`: `720P` default; use `1080P` only if the user requests higher resolution.
-- `seconds`: default to 5 unless the user specifies otherwise.
+## 两种风格的硬规则
 
-### Step 7 — Present the Result
+**`3d-realistic`**
+- 绝不混入 2D 水彩 / 赛璐璐 / 平涂卡通 —— 它是纯 3D 渲染
+- 不要现代元素（汽车、手机、现代建筑）
+- 手部要明确写「解剖正确的手，五指」——模型极易画坏
+- 发丝要写「根根分明」，否则出塑料感
+- 服装写「形制统一的汉服 / 战袍」避免年代混搭
 
-Use `present_files` to show the generated image or video to the user.
+**`ink-wash`**
+- 留白是构图的一部分，不是没画完 —— 提示词里要主动要求留白
+- 绝不要 3D 渲染 / 照片写实 / 厚涂 —— 那会毁掉写意
+- 笔触要可见（飞白、湿墨晕染），细节见 `styles/ink-wash/references/brush-techniques.md`
 
-## Style DNA (核心视觉基因)
+## 参考资料
 
-The style DNA is fully documented in `references/visual-dna.md`. Key pillars:
-
-1. **Cinematic UE5 render** — Nanite geometry, Lumen global illumination, PBR materials
-2. **Visible micro-detail** — skin pores, individual hair strands, fabric weave, metal reflections
-3. **Xianxia color palette** — ice blue, deep red, jade green, royal gold, ink black, misty white
-4. **Atmospheric effects** — volumetric fog, spiritual light particles, sword qi, glowing auras
-5. **Cinematic lighting** — golden hour rim light, back-lit silhouettes, volumetric god rays, Rembrandt lighting
-6. **Dynamic motion** — flowing hair, billowing robes, dynamic poses, particle trails
-
-## Reference Materials
-
-- `references/visual-dna.md` — Full visual definition, color palette, lighting rules
-- `references/camera-lenses.md` — Camera, lens, focal length, and lighting recipes
-- `references/negative-prompts.md` — Complete negative prompt checklist
-- `references/model-recommendations.md` — Model-specific tweaks (Seedream / GPT-image / qwen / Midjourney)
-- `examples/` — Hand-crafted prompt examples grouped by category with reference images
-
-## Important Style Rules
-
-- **Never mix 2D watercolor / cel-shading** — this skill is strictly 3D rendered.
-- **Keep Eastern aesthetics** — no modern elements (cars, smartphones, modern buildings).
-- **Hand correctness** — explicitly request "anatomically correct hands, five fingers" since AI models commonly deform them.
-- **Hair detail** — request "individual hair strands visible" to avoid plastic look.
-- **Clothing consistency** — request "historically consistent hanfu / warrior robes" to avoid anachronism.
-- **Weapon proportions** — request "proportionally correct weapons" since swords tend to be too long or too short.
-
-## Output Defaults
-
-Default behavior when the user provides only a vague request ("generate a donghua image"):
-- Category: `character-male` (most common starting point)
-- Media: `image`
-- Aspect ratio: `3:4` (portrait, best for character)
-- Quality: `medium` (cost-conscious default)
-
-Ask the user to confirm before generating if cost > 10 credits.
+| 文件 | 内容 |
+|---|---|
+| `styles/<风格>/references/visual-dna.md` | 该风格的完整视觉定义、配色、光影规则 |
+| `styles/<风格>/references/negative-prompts.md` | 负面词清单（**两风格不通用**） |
+| `styles/<风格>/references/model-recommendations.md` | 各模型（Seedream / GPT-image / qwen / MJ）的调法 |
+| `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方 |
+| `styles/ink-wash/references/brush-techniques.md` | 笔法、墨法、宣纸质感 |
+| `styles/ink-wash/SKILL-original.md` | 水墨 skill 合并前的独立版本（保留备查） |

@@ -1,246 +1,46 @@
 #!/usr/bin/env python3
 """
-Build prompts for the Donghua 3D Realistic style skill.
+古风人像提示词构建器 —— 按风格分发到 styles/<style>/build_prompt.py。
 
-Supports five subject categories:
-  - character-male : swordsman, sect master, demon lord, young hero
-  - character-female: immortal fairy, enchantress, demoness, female warrior
-  - scene         : sect mountain gate, cultivation cave, ancient battlefield
-  - weapon        : flying sword, demon blade, spirit pearl
-  - action        : battle slash, spell casting, flying technique
+两种风格的提示词体系完全不同（3D 写实讲渲染与材质，水墨讲笔触与留白），
+硬合成一份会让两边都变钝，所以各自保留完整的一份，这里只做路由。
 
-Supports two media types:
-  - image : static image (default)
-  - video : video clip (adds motion keywords)
+  python scripts/build_prompt.py --style 3d-realistic \
+      --subject "冷峻的青年剑修，月下山巅" --category character-male --ratio 3:4
 
-Supports four aspect ratios:
-  - 3:4  (portrait, character default)
-  - 16:9 (landscape, scene default)
-  - 9:16 (mobile portrait)
-  - 1:1  (square, weapon default)
+  python scripts/build_prompt.py --style ink-wash \
+      --subject "白衣书生，竹林独坐" --category character --ratio 3:4
 
-Example:
-  python scripts/build_prompt.py \
-      --subject "冷峻的青年剑修，月下山巅" \
-      --category character-male \
-      --ratio 3:4
-
-Output is JSON written to stdout:
-  {
-    "category": "character-male",
-    "media": "image",
-    "ratio": "3:4",
-    "subject": "...",
-    "positive_zh": "...",
-    "positive_en": "...",
-    "negative_zh": "...",
-    "negative_en": "...",
-    "recommended_size": "1024x1536"
-  }
+不带 --style 时默认 3d-realistic（人像最常用的起点）。
+其余参数原样透传，由各风格脚本自己校验——它们的 category 取值不同：
+  3d-realistic : character-male / character-female / scene / weapon / action
+  ink-wash     : character / creature / nature / poetry / scene
 """
 
-import argparse
-import json
+import os
+import subprocess
 import sys
 
-
-# ============================================================
-# Category-specific positive prompt fragments
-# ============================================================
-
-CHARACTER_MALE = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级3D光影，写实人像，UE5 Nanite + Lumen 渲染，"
-        "PBR材质，皮肤毛孔清晰，发丝根根分明，东方美学，仙侠玄幻，"
-        "气势磅礴，史诗感"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic 3D lighting, realistic portrait, "
-        "UE5 Nanite + Lumen render, PBR materials, visible skin pores, "
-        "individual hair strands, oriental aesthetics, xianxia fantasy, "
-        "epic atmosphere, masterpiece"
-    ),
-}
-
-CHARACTER_FEMALE = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级3D光影，写实人像，UE5 Nanite + Lumen 渲染，"
-        "PBR材质，皮肤有呼吸感，发丝半透明通透，丝绸材质若隐若现，"
-        "东方美学，仙侠玄幻，唯美空灵"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic 3D lighting, realistic portrait, "
-        "UE5 Nanite + Lumen render, PBR materials, luminous skin, "
-        "translucent hair strands, sheer silk textures, "
-        "oriental aesthetics, xianxia fantasy, ethereal beauty, masterpiece"
-    ),
-}
-
-SCENE = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级场景渲染，UE5 大气散射，体积云，"
-        "建筑材质有历史感，雾气飘渺，丁达尔效应，意境悠远，"
-        "东方美学，仙侠玄幻，气势恢宏，史诗感"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic environment render, "
-        "UE5 atmospheric scattering, volumetric clouds, "
-        "weathered architectural materials, drifting mist, god rays, "
-        "deep atmosphere, oriental aesthetics, xianxia fantasy, epic scale, masterpiece"
-    ),
-}
-
-WEAPON = {
-    "fixed_zh": (
-        "国产3D动漫风格，UE5 渲染，PBR材质细节，金属反射正确，"
-        "宝石发光质感，灵气粒子环绕，光效自然，"
-        "暗色调突出主体，电影级质感"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, UE5 render, detailed PBR materials, "
-        "correct metal reflections, glowing gemstone textures, "
-        "spiritual energy particles, natural light effects, "
-        "dark tones highlight subject, cinematic quality, masterpiece"
-    ),
-}
-
-ACTION = {
-    "fixed_zh": (
-        "国产3D动漫风格，电影级动作场面，UE5 Lumen 全局光照，"
-        "粒子特效，体积光，动态模糊，高速摄影冻结瞬间，"
-        "环境破坏，史诗感，仙侠战斗"
-    ),
-    "fixed_en": (
-        "Chinese 3D donghua anime style, cinematic action scene, "
-        "UE5 Lumen global illumination, particle effects, volumetric light, "
-        "motion blur, high-speed photography frozen moment, "
-        "environment destruction, epic feel, xianxia battle, masterpiece"
-    ),
-}
-
-CATEGORIES = {
-    "character-male": CHARACTER_MALE,
-    "character-female": CHARACTER_FEMALE,
-    "scene": SCENE,
-    "weapon": WEAPON,
-    "action": ACTION,
-}
+STYLES = ("3d-realistic", "ink-wash")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# ============================================================
-# Negative prompts (universal + category-specific)
-# ============================================================
-
-NEGATIVE_BASE_ZH = (
-    "2D动漫，赛璐璐，二次元眼睛，水墨画，工笔，平面卡通，"
-    "日漫风格，皮克斯，迪士尼，现代元素，手机，汽车，"
-    "西方元素，西式盔甲，塑料皮肤，磨皮过度，"
-    "头发糊成一片，手部畸形，六根手指，武器比例失调，"
-    "服饰混搭，中西混杂，过度饱和，糖果色，廉价光效"
-)
-
-NEGATIVE_BASE_EN = (
-    "2D anime, cel-shading, big anime eyes, watercolor, ink wash, flat cartoon, "
-    "Japanese anime style, Pixar, Disney, modern elements, smartphones, cars, "
-    "Western elements, European armor, plastic skin, over-smoothed, "
-    "hair blending into one mass, deformed hands, six fingers, incorrect weapon proportions, "
-    "mixed costumes, East-meets-West chaos, oversaturated, candy colors, cheap light effects"
-)
-
-NEGATIVE_VIDEO_ZH = (
-    "，动作僵直，构图松散，人物重叠混乱，特效堆积，"
-    "动作不到位，缺少动感模糊"
-)
-
-NEGATIVE_VIDEO_EN = (
-    ", stiff motion, loose composition, character overlap chaos, effect pile-up, "
-    "unconvincing action, lacking motion blur"
-)
-
-
-# ============================================================
-# Aspect ratio → recommended pixel size
-# ============================================================
-
-RATIO_TO_SIZE = {
-    "3:4": "1024x1536",
-    "16:9": "1536x1024",
-    "9:16": "1024x1536",  # mobile portrait uses same vertical resolution
-    "1:1": "1024x1024",
-}
-
-
-def build_prompt(category: str, media: str, subject: str, ratio: str) -> dict:
-    """Assemble positive and negative prompts for the chosen category and media."""
-    if category not in CATEGORIES:
-        raise ValueError(f"Unknown category: {category}")
-
-    cat_data = CATEGORIES[category]
-
-    # Build positive prompts
-    if media == "video":
-        positive_zh = f"{cat_data['fixed_zh']}，{subject}，电影级动态"
-        positive_en = f"{cat_data['fixed_en']}, {subject}, cinematic motion"
-    else:
-        positive_zh = f"{cat_data['fixed_zh']}，{subject}"
-        positive_en = f"{cat_data['fixed_en']}, {subject}"
-
-    # Build negative prompts
-    if media == "video":
-        negative_zh = NEGATIVE_BASE_ZH + NEGATIVE_VIDEO_ZH
-        negative_en = NEGATIVE_BASE_EN + NEGATIVE_VIDEO_EN
-    else:
-        negative_zh = NEGATIVE_BASE_ZH
-        negative_en = NEGATIVE_BASE_EN
-
-    return {
-        "category": category,
-        "media": media,
-        "ratio": ratio,
-        "subject": subject,
-        "positive_zh": positive_zh,
-        "positive_en": positive_en,
-        "negative_zh": negative_zh,
-        "negative_en": negative_en,
-        "recommended_size": RATIO_TO_SIZE.get(ratio, "1024x1024"),
-    }
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Build donghua 3D realistic style generation prompts.",
-    )
-    parser.add_argument(
-        "--category",
-        choices=list(CATEGORIES.keys()),
-        required=True,
-        help=(
-            "主体分类：character-male男性角色，character-female女性角色，"
-            "scene场景，weapon武器法宝，action战斗动作"
-        ),
-    )
-    parser.add_argument(
-        "--media",
-        choices=["image", "video"],
-        default="image",
-        help="生成媒介：image=静态图片（默认），video=视频片段",
-    )
-    parser.add_argument(
-        "--subject",
-        required=True,
-        help="主体描述，例如：冷峻的青年剑修，月下山巅",
-    )
-    parser.add_argument(
-        "--ratio",
-        choices=list(RATIO_TO_SIZE.keys()),
-        default="3:4",
-        help="画面比例：3:4竖版（默认）/ 16:9横版 / 9:16手机竖版 / 1:1方形",
-    )
-    args = parser.parse_args()
-
-    result = build_prompt(args.category, args.media, args.subject, args.ratio)
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+def main() -> int:
+    argv = sys.argv[1:]
+    style = "3d-realistic"
+    if "--style" in argv:
+        i = argv.index("--style")
+        if i + 1 >= len(argv):
+            sys.stderr.write("--style 后面要跟风格名\n")
+            return 2
+        style = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
+    if style not in STYLES:
+        sys.stderr.write(f"未知风格 {style!r}，可选：{' / '.join(STYLES)}\n")
+        return 2
+    target = os.path.join(ROOT, "styles", style, "build_prompt.py")
+    return subprocess.call([sys.executable, target, *argv])
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
