@@ -57,17 +57,13 @@ def generate(dynasty: str, subject: str, ratio: str, out_dir: str, raw_prompt: s
     safe_subject = "".join(c if c.isalnum() else "-" for c in subject[:30]) if subject else "default"
     full_out = Path(out_dir) / dynasty / date_str
     full_out.mkdir(parents=True, exist_ok=True)
+    out_path = full_out / f"{date_str}-{safe_subject}.jpg"
     
-    # 3. 调用 museav gen
-    safe_subject_slug = safe_subject
-    base_name = f"{date_str}-{safe_subject_slug}.jpg"
-    out_path = full_out / base_name
-    
+    # 3. 调用 museav gen（stdout 打 URL，没有 -o 选项）
     cmd = [
         "museav", "gen",
         "-p", prompt,
         "--ratio", ratio,
-        "-o", str(out_path),
     ]
     print("=" * 60)
     print(f"朝代: {dynasty}")
@@ -89,8 +85,27 @@ def generate(dynasty: str, subject: str, ratio: str, out_dir: str, raw_prompt: s
         print("❌ 出图失败:")
         print(result.stderr or result.stdout)
         sys.exit(1)
-    print("✅ 出图成功:", out_path)
     print(result.stdout)
+    
+    # 4. 从 stdout / stderr 解析 URL（museav 最后一行是 https://img.webkubor.online/...png）
+    url = None
+    for line in (result.stdout or "").splitlines() + (result.stderr or "").splitlines():
+        line = line.strip()
+        if line.startswith("https://") and line.endswith((".png", ".jpg", ".jpeg")):
+            url = line
+            break
+    if not url:
+        print("❌ 没找到图片 URL，请检查 museav 输出")
+        sys.exit(1)
+    print(f"✅ museav 输出 URL: {url}")
+    
+    # 5. 下载到 AI 素材盘（扩展名跟随 museav 实际返回）
+    out_path = out_path.with_suffix(Path(url).suffix or ".jpg")
+    print(f"下载到 {out_path} ...")
+    import urllib.request
+    with urllib.request.urlopen(url) as resp, open(out_path, "wb") as f:
+        f.write(resp.read())
+    print(f"✅ 出图完成 → {out_path}")
 
 def main():
     p = argparse.ArgumentParser(description="古风美人 · museav 出图")
