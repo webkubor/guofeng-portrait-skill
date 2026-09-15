@@ -48,6 +48,28 @@
   「淡到极致才是宋韵」—— 低饱和、有光源、有前景遮挡、留白给空气。</sub>
 </p>
 
+**命名风格示例** —— 同一张脸垫图锁定，三个 `--preset` 各出一张（柔光 / 青绿 / 夜景）：
+
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/platform/generated/custom/50b433bc-9b2c-4720-8e03-ae005e0e5956.png" alt="花影柔光" width="100%" />
+      <br/><b>🌸 花影柔光</b><br/><sub><code>blossom-veil</code></sub>
+      <br/><sub>斑驳树影 · 花枝三层前景 · 抓拍特写 85mm</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/platform/generated/custom/15dad3bc-f5ff-4a27-aa77-0ad40464c427.png" alt="竹影清茶" width="100%" />
+      <br/><b>🎋 竹影清茶</b><br/><sub><code>bamboo-tea</code></sub>
+      <br/><sub>竹叶漏光 · 青绿通透 Pro 400H · 倚栏</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/platform/generated/custom/17603dda-c179-4301-8272-43ce7aa79d13.png" alt="提灯夜行" width="100%" />
+      <br/><b>🏮 提灯夜行</b><br/><sub><code>lantern-walk</code></sub>
+      <br/><sub>灯笼暖光 · CineStill 800T 夜景 · 回眸</sub>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ### 🕊 国漫 3D 写实 · `3d-realistic`
