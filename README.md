@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.1.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.2.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-维度一画法)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-维度二朝代形制)
 [![Gallery](https://img.shields.io/badge/美人画廊-图鉴-ff69b4.svg)](#-美人风格图鉴与视觉画廊-beauty-gallery--styles)
@@ -251,7 +251,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
   ⑥ 情绪 ⭐ · 清冷、疏离、易碎（倚 / 趴 / 蹲坐 / 回眸 / 仰望 / 垂眸）
   ⑦ 抓拍感 ⭐ · **"像摄影师突然叫住她的一瞬间"** —— 这一步是分水岭
 
-- **五槽自由组合**（固定风格层永不变，只换槽位 = 稳定出图的根本）：
+- **六槽自由组合**（固定风格层永不变，只换槽位 = 稳定出图的根本）：
 
   | 槽位 | 取值 |
   |---|---|
@@ -259,6 +259,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
   | `--light` 光型 | `dappled-sun` 斑驳树影 / `snow-diffuse` 雪天散射 / `bamboo-leak` 竹叶漏光 / `lamp-warm` 灯火暖调 / `dusk-backlight` 暮色逆光 / `lantern-night` 提灯夜行 / `cold-window` 冷调窗光 |
   | `--mood` 情绪 | `quiet-aloof` 安静疏离 / `fragile` 易碎 / `wistful` 怅惘 / `lazy` 慵懒 / `tender` 温柔 / `cold-steel` 清冷 |
   | `--shot` 机位 | `candid-half` 抓拍半身 50mm f/1.8 / `candid-close` 抓拍特写 85mm f/1.4 / `full-figure` 全身 35mm f/2 / `high-angle` 俯拍 / `candid-turned` 回眸 / `back-view` 背影 |
+  | `--film` 胶片 | `pro400h` Fujifilm Pro 400H 青绿通透（默认）/ `portra400` Kodak Portra 400 暖奶油 / `superia` Fujifilm Superia 纪实 / `cinestill800t` CineStill 800T 夜景钨丝灯 / `none` 通用 |
   | `--era` 形制 | `song` 宋制 / `tang` 唐制 / `wei-jin` 魏晋 / `none` 不约束 |
 
 - **CLI 一键出图**（端到端：整理提示词 → 出图 → 落盘）：
@@ -266,7 +267,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
   ```bash
   ./styles/film-ambient/scripts/generate.py \
     --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶，微微抬头看向镜头" \
-    --scene bamboo-garden --light dappled-sun --mood quiet-aloof \
+    --scene bamboo-garden --light dappled-sun --film pro400h --mood quiet-aloof \
     --shot candid-half --era song --ratio 3:4 \
     --ref ~/refs/face-anchor.jpg      # ← 锁脸，稳定出同一个人
   ```
@@ -310,10 +311,10 @@ python scripts/build_prompt.py --style ink-wash \
   --subject "白衣书生，竹林独坐" \
   --category character --ratio 3:4
 
-# 古风氛围胶片 · 竹林抓拍（五槽位，--list 看全部取值）
+# 古风氛围胶片 · 竹林抓拍（六槽位，--list 看全部取值）
 python scripts/build_prompt.py --style film-ambient \
   --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶" \
-  --scene bamboo-garden --light dappled-sun \
+  --scene bamboo-garden --light dappled-sun --film pro400h \
   --mood quiet-aloof --shot candid-half --era song --ratio 3:4
 ```
 
@@ -355,7 +356,7 @@ styles/
     examples/  assets/
     SKILL-original.md       合并前的独立版本，保留备查
   film-ambient/             古风氛围胶片人像（真实摄影，非渲染）
-    build_prompt.py         五槽位提示词构建器（--list 看全部取值）
+    build_prompt.py         六槽位提示词构建器（--list 看全部取值）
     scripts/generate.py     端到端出图 wrapper（--ref 垫图锁脸）
     references/             visual-dna / light-patterns / camera-recipes / negative-prompts / model-recommendations
     examples/portrait/      手写基准范例（竹林抓拍 · 宋韵青绿）

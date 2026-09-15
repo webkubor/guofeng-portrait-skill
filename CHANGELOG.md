@@ -1,5 +1,38 @@
 # 更新日志 / Changelog
 
+## v3.2.0（2026-09-15）
+
+给 `film-ambient` 加**胶片型号锚点** —— 把"胶片感"从形容词变成硬锚点。
+
+### 新增（Added）
+
+- **`--film` 槽位**（第六个槽）—— 5 个取值，默认 `pro400h`：
+  - `pro400h` Fujifilm Pro 400H：青绿偏冷、通透薄荷调、肤色干净不发黄（**本画法招牌色**）
+  - `portra400` Kodak Portra 400：暖调奶油肤、宽容度高（配灯火 / 暮色）
+  - `superia` Fujifilm Superia：轻微偏青、颗粒明显、生活化的不精致（纪实感）
+  - `cinestill800t` CineStill 800T：钨丝灯夜景、高光 halation、暗部深蓝（配提灯夜行）
+  - `none`：通用"日系胶片扫描质感"（保底）
+
+### 变更（Changed）
+
+- `build_prompt.py`：固定层里的泛词"日系胶片扫描质感"抽出来做成 `--film` 槽
+  （默认 `pro400h`，比原泛词更具体、更可复现）；JSON 输出新增 `film` 字段。
+- `scripts/generate.py` 新增 `--film` 透传。
+- `references/visual-dna.md` 新增「胶片型号锚点」章节（选型逻辑 + 一次只用一个型号）。
+- `references/light-patterns.md` 组合规则新增第 4 条：**光型 × 胶片型号配对表**
+  （斑驳树影 / 竹叶漏光 / 雪天 → `pro400h`；灯火 / 暮色 → `portra400`；
+  提灯夜行 → `cinestill800t`）。
+- `references/model-recommendations.md`：槽位化一节补"胶片型号是性价比最高的锚点"。
+- `SKILL.md` / `README.md` / 基准范例：槽位数 5 → 6，命令与示例补 `--film`。
+
+### 为什么（Why）
+
+模型对**具体胶片名**的响应，远强于"film grain / 胶片质感"这类泛词 ——
+一个型号名同时锁定了色彩倾向、宽容度、高光行为与颗粒粗细。
+这是本画法"稳定出图"里成本最低、收益最高的一步。
+
+---
+
 ## v3.1.0（2026-09-15）
 
 新增第三套画法 **`film-ambient` 古风氛围胶片人像** —— 真实摄影，不是渲染。

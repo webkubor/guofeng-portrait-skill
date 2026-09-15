@@ -9,15 +9,17 @@ Build prompts for the film-ambient (古风氛围胶片人像) style.
 固定层（FIXED_ZH / FIXED_EN）包含七维审美指纹里的六维：
   色彩（低饱和青绿月白、高光泛白、阴影灰绿）
   光（自然日光侧逆、发丝轮廓光）
-  质感（日系胶片扫描 + 东方电影摄影、颗粒、光晕、浅景深）
+  质感（东方电影摄影的镜头光学感、浅景深、柔焦）
   造型（半披半束长黑发、细窄丝带、素色纱衣、无繁复头饰）
   情绪（真人抓拍、空气感、电影静帧）
   负面（影楼味、仙侠光效、网红脸、塑料皮肤 —— 见 NEGATIVE_*）
 
-可换槽位（五维）：
+可换槽位（六维）：
   --scene   环境（竹林庭院 / 雪庭 / 湖畔暮色 / 书案灯下 / 花影 / 夜色提灯 ...）
   --light   光型（斑驳树影 / 雪天散射 / 竹叶漏光 / 灯火暖调 / 暮色逆光 ...）
   --mood    情绪（安静疏离 / 易碎 / 怅惘 / 慵懒 / 温柔 / 清冷）
+  --film    胶片型号（Pro 400H 日系青绿 / Portra 400 暖奶油 / Superia 纪实 /
+            CineStill 800T 夜景钨丝灯 / none 通用）
   --shot    机位与景别（抓拍半身 50mm f/1.8 / 抓拍特写 85mm f/1.4 / 俯拍 ...）
   --era     朝代形制（宋 / 唐 / 魏晋，与 dynasties/ 维度对齐，不指定则不加约束）
   --subject 具体主体描述（唯一必须自由发挥的部分）
@@ -25,13 +27,13 @@ Build prompts for the film-ambient (古风氛围胶片人像) style.
 Example:
   python scripts/build_prompt.py --style film-ambient \
       --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶" \
-      --scene bamboo-garden --light dappled-sun \
+      --scene bamboo-garden --light dappled-sun --film pro400h \
       --mood quiet-aloof --shot candid-half --era song --ratio 3:4
 
 输出为 stdout 的 JSON：
   {
     "style": "film-ambient", "scene": "...", "light": "...", "mood": "...",
-    "shot": "...", "era": "...", "media": "image", "ratio": "3:4",
+    "shot": "...", "era": "...", "film": "...", "media": "image", "ratio": "3:4",
     "subject": "...", "positive_zh": "...", "positive_en": "...",
     "negative_zh": "...", "negative_en": "...", "recommended_size": "1024x1536"
   }
@@ -56,8 +58,7 @@ FIXED_ZH = (
     "乌黑长发半披半束，发型简洁，仅用细窄浅色丝带固定，几缕碎发被微风吹过脸颊；"
     "素色轻薄飘逸的古风纱衣，面料带细腻丝织纹理，轻盈宽袖；"
     "清透色调，低饱和，高光微微泛白，阴影呈灰绿色；"
-    "日系胶片扫描质感结合东方电影摄影，轻微胶片颗粒，柔和高光晕染，"
-    "真实镜头光学感，浅景深，前景轻微虚化，背景柔和散景；"
+    "东方电影摄影的真实镜头光学感，浅景深，前景轻微虚化，背景柔和散景；"
     "真人抓拍感、空气感、电影静帧感、真实摄影质感"
 )
 
@@ -69,8 +70,7 @@ FIXED_EN = (
     "a few wisps of hair blown across her cheek; "
     "sheer flowing period silk robe in muted tones, fine woven texture, light wide sleeves; "
     "clean color grading, low saturation, slightly blown highlights, grey-green shadows; "
-    "Japanese film-scan texture meets East Asian cinematography, subtle film grain, "
-    "soft halation, true lens optics, shallow depth of field, "
+    "true lens optics of East Asian cinematography, shallow depth of field, "
     "slightly blurred foreground, soft background bokeh; "
     "candid documentary feel, airy atmosphere, cinematic still, real photographic texture"
 )
@@ -250,6 +250,46 @@ ERAS = {
 
 
 # ============================================================
+# 槽位六：胶片型号（film）—— 把"胶片感"锚到具体型号，比形容词硬
+#
+# 模型对具体胶片名的响应，远强于"film grain / 胶片质感"这类泛词 ——
+# 一个型号名同时锁定了色彩倾向、宽容度、高光行为与颗粒粗细。
+# 默认 pro400h：它就是"日系胶片扫描"那个青绿通透调，最贴本画法的标杆九宫格。
+# ============================================================
+
+FILMS = {
+    "none": {
+        "zh": "日系胶片扫描质感，轻微胶片颗粒，柔和高光晕染",
+        "en": "Japanese film-scan texture, subtle film grain, soft halation",
+    },
+    "pro400h": {
+        "zh": "Fujifilm Pro 400H 胶片扫描质感：青绿偏冷的通透薄荷调，"
+              "高光柔和溢出，颗粒细腻，肤色干净不发黄",
+        "en": "Fujifilm Pro 400H film scan: airy mint-green cast with cool shadows, "
+              "gently blooming highlights, fine grain, clean non-yellowing skin tones",
+    },
+    "portra400": {
+        "zh": "Kodak Portra 400 胶片扫描质感：暖调奶油肤色，宽容度高，"
+              "阴影柔和通透，高光细腻不过曝",
+        "en": "Kodak Portra 400 film scan: warm creamy skin tones, wide latitude, "
+              "soft luminous shadows, delicate highlights that roll off without clipping",
+    },
+    "superia": {
+        "zh": "Fujifilm Superia 胶片扫描质感：日常纪实感，轻微偏青，颗粒明显，"
+              "生活化的不精致",
+        "en": "Fujifilm Superia film scan: everyday documentary feel, slight cyan shift, "
+              "pronounced grain, deliberately unpolished",
+    },
+    "cinestill800t": {
+        "zh": "CineStill 800T 钨丝灯夜景胶片：高光带暖色光晕 halation，"
+              "暗部偏深蓝，颗粒粗，夜戏电影感",
+        "en": "CineStill 800T tungsten night film: warm halation glowing around highlights, "
+              "deep blue shadows, coarse grain, night-scene cinematic feel",
+    },
+}
+
+
+# ============================================================
 # 负面词 —— 决定"高级感"的另一半，与另外两套画法不通用
 # ============================================================
 
@@ -285,14 +325,15 @@ RATIO_TO_SIZE = {
 }
 
 
-def build_prompt(scene, light, mood, shot, era, subject, media, ratio):
-    """把固定风格层与五个槽位拼成中英双版提示词。"""
+def build_prompt(scene, light, mood, shot, era, film, subject, media, ratio):
+    """把固定风格层与六个槽位拼成中英双版提示词。"""
     for name, value, table in (
         ("scene", scene, SCENES),
         ("light", light, LIGHTS),
         ("mood", mood, MOODS),
         ("shot", shot, SHOTS),
         ("era", era, ERAS),
+        ("film", film, FILMS),
     ):
         if value not in table:
             raise ValueError(f"未知 {name}: {value}")
@@ -302,16 +343,18 @@ def build_prompt(scene, light, mood, shot, era, subject, media, ratio):
     mood_zh, mood_en = MOODS[mood]["zh"], MOODS[mood]["en"]
     shot_zh, shot_en = SHOTS[shot]["zh"], SHOTS[shot]["en"]
     era_zh, era_en = ERAS[era]["zh"], ERAS[era]["en"]
+    film_zh, film_en = FILMS[film]["zh"], FILMS[film]["en"]
 
     # 顺序遵循 dynasties/common-prompt-base.md 的 4 段式：
-    # 主体 + 场景 + 光影 + 质感/规格，风格锚点贴身跟在主体之后
+    # 主体 + 场景 + 光影 + 质感/规格，风格锚点贴身跟在主体之后。
+    # film 落在"质感"段、shot（镜头规格）之前 —— 先定质感，再定镜头。
     parts_zh = [FIXED_ZH, subject]
     parts_en = [FIXED_EN, subject]
     if era_zh:
         parts_zh.append(era_zh)
         parts_en.append(era_en)
-    parts_zh += [scene_zh, light_zh, mood_zh, shot_zh]
-    parts_en += [scene_en, light_en, mood_en, shot_en]
+    parts_zh += [scene_zh, light_zh, mood_zh, film_zh, shot_zh]
+    parts_en += [scene_en, light_en, mood_en, film_en, shot_en]
 
     if media == "video":
         parts_zh.append("真人实拍动态，发丝与衣料在风里自然流动，轻微手持呼吸感")
@@ -330,6 +373,7 @@ def build_prompt(scene, light, mood, shot, era, subject, media, ratio):
         "mood": mood,
         "shot": shot,
         "era": era,
+        "film": film,
         "media": media,
         "ratio": ratio,
         "subject": subject,
@@ -351,6 +395,7 @@ def print_presets():
         ("--mood   情绪", MOODS),
         ("--shot   机位景别", SHOTS),
         ("--era    朝代形制", ERAS),
+        ("--film   胶片型号", FILMS),
     ):
         print(f"{title}")
         for key, value in table.items():
@@ -374,6 +419,9 @@ def main():
                         help="机位与景别槽位（默认 candid-half 抓拍半身 50mm f/1.8）")
     parser.add_argument("--era", choices=list(ERAS.keys()), default="none",
                         help="朝代形制槽位（默认 none，不注入形制约束）")
+    parser.add_argument("--film", choices=list(FILMS.keys()), default="pro400h",
+                        help="胶片型号槽位（默认 pro400h = 日系青绿通透调；"
+                             "夜景配 cinestill800t，暖调配 portra400）")
     parser.add_argument("--media", choices=["image", "video"], default="image",
                         help="生成媒介：image 静态图片（默认）/ video 视频片段")
     parser.add_argument("--ratio", choices=list(RATIO_TO_SIZE.keys()), default="3:4",
@@ -389,7 +437,7 @@ def main():
         parser.error("--subject 是必填的（除非用 --list 看槽位）")
 
     result = build_prompt(
-        args.scene, args.light, args.mood, args.shot, args.era,
+        args.scene, args.light, args.mood, args.shot, args.era, args.film,
         args.subject, args.media, args.ratio,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))

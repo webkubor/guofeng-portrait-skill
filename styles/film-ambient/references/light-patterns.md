@@ -73,3 +73,11 @@
    - 清冷疏离 → `snow-diffuse` / `cold-window` / `lantern-night`
    - 温柔通透 → `dappled-sun` / `bamboo-leak`
    - 怅惘易碎 → `dusk-backlight` / `lamp-warm`
+4. **光型要匹配胶片型号**（`--film`，见 `visual-dna.md` 的胶片锚点表）：
+
+| 光型 | 推荐胶片 | 理由 |
+|------|---------|------|
+| `dappled-sun` / `bamboo-leak` / `snow-diffuse` | `pro400h` | 青绿通透调吃住绿意与冷光，是本画法招牌色 |
+| `lamp-warm` / `dusk-backlight` | `portra400` | 暖奶油肤色接暖光，不会黄上加黄 |
+| `lantern-night` | `cinestill800t` | 钨丝灯胶片专为夜戏而生，高光 halation 直接出电影感 |
+| `cold-window` | `superia` 或 `pro400h` | 纪实轻微偏青 / 冷静通透，两种都成立 |

@@ -13,6 +13,7 @@
 | `--light` | `dappled-sun` 斑驳树影（阳光穿叶，不规则光影落在脸与衣料） |
 | `--mood` | `quiet-aloof` 安静疏离（清澈、略带好奇，不露齿笑） |
 | `--shot` | `candid-half` 抓拍半身（50mm f/1.8，机位略高于视线，占画面 ~65%） |
+| `--film` | `pro400h` Fujifilm Pro 400H（青绿通透薄荷调 —— 正是这条 prompt 说的"日系胶片扫描质感"） |
 | `--era` | `song` 宋制（低饱和青绿 + 月白，轻薄丝织） |
 
 **一句话出提示词**：
@@ -20,7 +21,7 @@
 ```bash
 python scripts/build_prompt.py --style film-ambient \
   --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶，另一只手自然垂落，微微抬头看向镜头，像摄影师突然叫住她的一瞬间" \
-  --scene bamboo-garden --light dappled-sun \
+  --scene bamboo-garden --light dappled-sun --film pro400h \
   --mood quiet-aloof --shot candid-half --era song --ratio 3:4
 ```
 
@@ -100,7 +101,7 @@ oversaturated colors, modern elements, deformed hands, extra fingers.
 ```bash
 ./styles/film-ambient/scripts/generate.py \
   --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶，另一只手自然垂落，微微抬头看向镜头，像摄影师突然叫住她的一瞬间" \
-  --scene bamboo-garden --light dappled-sun --mood quiet-aloof \
+  --scene bamboo-garden --light dappled-sun --film pro400h --mood quiet-aloof \
   --shot candid-half --era song --ratio 3:4 \
   --ref ~/refs/face-anchor.jpg
 ```

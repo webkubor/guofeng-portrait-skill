@@ -10,6 +10,9 @@
   # 换槽位（一次最多换两个，见 references/model-recommendations.md）
   ./generate.py --subject "..." --scene snow-court --light snow-diffuse --mood fragile
 
+  # 换胶片型号（默认 pro400h 日系青绿；夜景配 cinestill800t，暖调配 portra400）
+  ./generate.py --subject "..." --light lantern-night --film cinestill800t
+
   # 锁脸：稳定出同一个人（强烈建议每次都带）
   ./generate.py --subject "..." --ref ~/refs/face-anchor.jpg
 
@@ -39,7 +42,7 @@ DEFAULT_OUT = Path.home() / "Movies" / "guofeng-portrait" / "film-ambient"
 def make_prompt(args, subject):
     """按槽位生成完整提示词（英文，给 GPT Image 2.5）。"""
     result = build_prompt(
-        args.scene, args.light, args.mood, args.shot, args.era,
+        args.scene, args.light, args.mood, args.shot, args.era, args.film,
         subject, "image", args.ratio,
     )
     prompt = result["positive_en"]
@@ -81,6 +84,9 @@ def main():
     parser.add_argument("--mood", default="quiet-aloof")
     parser.add_argument("--shot", default="candid-half")
     parser.add_argument("--era", default="none", help="song / tang / wei-jin / none")
+    parser.add_argument("--film", default="pro400h",
+                        help="胶片型号：pro400h 日系青绿（默认）/ portra400 暖奶油 / "
+                             "superia 纪实 / cinestill800t 夜景钨丝灯 / none 通用")
     parser.add_argument("--ratio", default="3:4", choices=list(RATIO_TO_SIZE.keys()))
     parser.add_argument("--quality", default="high", choices=["low", "medium", "high"],
                         help="定稿用 high；摸槽位组合时用 low 省钱")

@@ -106,8 +106,9 @@ assets / build_prompt.py，本文只做路由。
 2. **题材**
    - `3d-realistic`：`character-male` / `character-female`
    - `ink-wash`：`character`
-   - `film-ambient`：五个槽位 `--scene` / `--light` / `--mood` / `--shot` / `--era`，
-     先 `--list` 看全部取值（默认：竹林庭院 + 斑驳树影 + 安静疏离 + 抓拍半身）
+   - `film-ambient`：六个槽位 `--scene` / `--light` / `--mood` / `--film` /
+     `--shot` / `--era`，先 `--list` 看全部取值
+     （默认：竹林庭院 + 斑驳树影 + 安静疏离 + Pro 400H + 抓拍半身）
 
 3. **朝代**（可选）：`tang` / `song` / `wei-jin`，不指定则不加朝代形制约束
 
@@ -134,12 +135,13 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
   --ratio <3:4|16:9|9:16|1:1> \
   [--media image]
 
-# film-ambient：五个槽位，默认值已是最通用的起点
+# film-ambient：六个槽位，默认值已是最通用的起点
 python scripts/build_prompt.py --style film-ambient \
   --subject "<主体描述>" \
   --scene <bamboo-garden|snow-court|lakeside-dusk|...> \
   --light <dappled-sun|snow-diffuse|bamboo-leak|...> \
   --mood <quiet-aloof|fragile|wistful|...> \
+  --film <pro400h|portra400|superia|cinestill800t|none> \
   --shot <candid-half|candid-close|candid-turned|...> \
   --era <none|song|tang|wei-jin> \
   --ratio 3:4
@@ -156,7 +158,7 @@ python scripts/build_prompt.py --style film-ambient \
 ```bash
 ./styles/film-ambient/scripts/generate.py \
   --subject "<主体描述>" --scene bamboo-garden --light dappled-sun \
-  --mood quiet-aloof --shot candid-half --era song \
+  --film pro400h --mood quiet-aloof --shot candid-half --era song \
   --ref ~/refs/face-anchor.jpg
 ```
 
@@ -228,6 +230,9 @@ python scripts/build_prompt.py --style film-ambient \
   一句"像摄影师突然叫住她的一瞬间"比"自然、放松、不摆拍"三个词都有效
 - **前景必须有一层遮挡**：花枝 / 竹叶 / 雪 / 落瓣 / 灯笼 / 剑 —— 没有前景 = 平面 = 影楼感
 - **色彩只有三个色**：雾白 / 灰青 / 烛金，红色只留在唇；阴影是**灰绿**，不是死黑
+- **用胶片型号当锚点**：具体型号名（`pro400h` / `portra400` / `cinestill800t`）
+  同时锁定色彩倾向、宽容度、高光行为与颗粒粗细，比"胶片质感 / film grain"这类泛词硬得多；
+  一次只用一个型号，混用会让模型两头不靠
 - 一次只换两个槽位，光型和机位别同时调（一次全换 = 重新抽卡）
 
 ## 参考资料

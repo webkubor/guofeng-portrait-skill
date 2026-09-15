@@ -20,7 +20,7 @@ film-ambient 讲摄影语言与胶片质感），硬合成一份会让三边都�
 其余参数原样透传，由各风格脚本自己校验——它们的参数体系不同：
   3d-realistic : --category character-male / character-female / scene / weapon / action
   ink-wash     : --category character / creature / nature / poetry / scene
-  film-ambient : --scene / --light / --mood / --shot / --era 五个槽位（--list 看全部取值）
+  film-ambient : --scene / --light / --mood / --film / --shot / --era 六个槽位（--list 看全部取值）
 """
 
 import os
