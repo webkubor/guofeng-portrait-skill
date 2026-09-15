@@ -54,14 +54,16 @@ permissions:
 
 ## 维度一：画法（必选）
 
-| 风格 | 对标作品 | 特征 | 目录 |
+| 风格 | 对标作品 / 质感来源 | 特征 | 目录 |
 |---|---|---|---|
 | **`3d-realistic`** 国漫 3D 写实 | 斗罗大陆、斗破苍穹、灵笼、完美世界、一念永恒 | UE5 电影级渲染、皮肤毛孔与发丝可见、仙侠光效、体积光 | `styles/3d-realistic/` |
 | **`ink-wash`** 国风水墨写意 | 大鱼海棠、中国奇谭、天书奇谭、山水情 | 手绘笔触、宣纸质感、极致留白、写意而非写实 | `styles/ink-wash/` |
+| **`film-ambient`** 古风氛围胶片人像 | 日系胶片扫描 × 东方电影摄影、真人抓拍 | 低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、清冷易碎情绪 | `styles/film-ambient/` |
 
-两种画法的提示词体系**互不相通**——一个讲渲染与材质，一个讲笔触与留白，
-所以各自保留完整的一套 references / examples / assets / build_prompt.py，
-本文只做路由。**混用两套关键词会让画面既不像 3D 也不像水墨。**
+三种画法的提示词体系**互不相通**——一个讲渲染与材质，一个讲笔触与留白，
+一个讲摄影语言与胶片质感，所以各自保留完整的一套 references / examples /
+assets / build_prompt.py，本文只做路由。
+**混用三套关键词，会让画面同时不像 3D、不像水墨、也不像照片。**
 
 ## 维度二：朝代形制（可选，但强烈建议指定）
 
@@ -99,10 +101,13 @@ permissions:
 1. **风格**（最重要，先问这个）
    - `3d-realistic` — 想要电影感、写实、有光效 → 默认
    - `ink-wash` — 想要手绘感、留白、意境
+   - `film-ambient` — 想要**真人实拍感、氛围感、胶片质感**（"像照片，不像画"）
 
 2. **题材**
    - `3d-realistic`：`character-male` / `character-female`
    - `ink-wash`：`character`
+   - `film-ambient`：五个槽位 `--scene` / `--light` / `--mood` / `--shot` / `--era`，
+     先 `--list` 看全部取值（默认：竹林庭院 + 斑驳树影 + 安静疏离 + 抓拍半身）
 
 3. **朝代**（可选）：`tang` / `song` / `wei-jin`，不指定则不加朝代形制约束
 
@@ -122,15 +127,38 @@ permissions:
 ### Step 2 — 构建提示词
 
 ```bash
+# 3d-realistic / ink-wash：单命令
 python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
   --subject "<主体描述>" \
   --category <见上方题材> \
   --ratio <3:4|16:9|9:16|1:1> \
   [--media image]
+
+# film-ambient：五个槽位，默认值已是最通用的起点
+python scripts/build_prompt.py --style film-ambient \
+  --subject "<主体描述>" \
+  --scene <bamboo-garden|snow-court|lakeside-dusk|...> \
+  --light <dappled-sun|snow-diffuse|bamboo-leak|...> \
+  --mood <quiet-aloof|fragile|wistful|...> \
+  --shot <candid-half|candid-close|candid-turned|...> \
+  --era <none|song|tang|wei-jin> \
+  --ratio 3:4
 ```
 
 不带 `--style` 默认 `3d-realistic`。输出是 JSON，取 `positive_en` 或
 `positive_zh`（Seedream / qwen-image 这类中文理解强的模型用后者）。
+
+**`film-ambient` 额外说明**：首选 **GPT Image 2.5**，用 `positive_en`（英文更稳）；
+出图必须`--ref` 垫图锁脸，否则每次换人 —— 详见
+`styles/film-ambient/references/model-recommendations.md`。该风格另有端到端 wrapper
+（整理提示词 → 出图 → 落盘）：
+
+```bash
+./styles/film-ambient/scripts/generate.py \
+  --subject "<主体描述>" --scene bamboo-garden --light dappled-sun \
+  --mood quiet-aloof --shot candid-half --era song \
+  --ref ~/refs/face-anchor.jpg
+```
 
 ### Step 3 — 参考已有示例
 
@@ -140,14 +168,20 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 - `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
 - `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词、镜头、公式、避坑）
 - `styles/ink-wash/examples/character/` — 水墨人物示例
+- `styles/film-ambient/examples/portrait/bamboo-candid.md` — **手写基准范例**
+  （竹林抓拍 · 宋韵青绿），含完整中英提示词与"这张为什么是对的"逐条拆解
 
 每个示例都带完整提示词（中英）、参考图、推荐画幅、调风格的注意事项。
 
 ### Step 4 — 合并负面词
 
 `ImageGen` / `VideoGen` 没有独立的 negative 字段，把负面词用 "Avoid:" 拼进提示词末尾。
-完整清单在各风格的 `references/negative-prompts.md` —— **两份不能混用**：
-3D 风格要避开水墨和 2D，水墨风格要避开 3D 渲染和照片写实。
+完整清单在各风格的 `references/negative-prompts.md` —— **三份不能混用**：
+3D 风格要避开水墨和 2D，水墨风格要避开 3D 渲染和照片写实，
+`film-ambient` 要避开影楼味、仙侠光效和塑料磨皮（它反过来**要**"照片写实 + 胶片质感"）。
+
+负面词**别堆成 60 个词的长列表** —— 模型对超长清单的响应会衰减，
+部分词反而会把概念"拉"进画面。8 组高价值词就够，脚本输出的已压缩过。
 
 ### Step 5 — 告知消耗
 
@@ -168,7 +202,7 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 
 用 `present_files` 把结果给用户看。
 
-## 两种风格的硬规则
+## 三种风格的硬规则
 
 **`3d-realistic`**
 - 绝不混入 2D 水彩 / 赛璐璐 / 平涂卡通 —— 它是纯 3D 渲染
@@ -184,6 +218,18 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 - 绝不要 3D 渲染 / 照片写实 / 厚涂 —— 那会毁掉写意
 - 笔触要可见（飞白、湿墨晕染），细节见 `styles/ink-wash/references/brush-techniques.md`
 
+**`film-ambient`**
+- **它要"像照片"**：绝不要写 "render / illustration / anime"，负面词必须带影楼味、
+  仙侠光效、塑料皮肤三组 —— 这三样是它最大的敌人
+- **光必须有来源**：树叶、雪、灯笼、夕阳、窗户。说不出光源的光不要；
+  **正面平光是"影楼味"的第一来源，永不使用**
+- **必须垫图锁脸**：提示词锁不住脸，不 `--ref` 就会每次换人 —— 这是"不稳定"的最大来源
+- **姿态要"被抓拍"**：静态内敛（倚 / 趴 / 蹲坐 / 回眸 / 仰望 / 垂眸），
+  一句"像摄影师突然叫住她的一瞬间"比"自然、放松、不摆拍"三个词都有效
+- **前景必须有一层遮挡**：花枝 / 竹叶 / 雪 / 落瓣 / 灯笼 / 剑 —— 没有前景 = 平面 = 影楼感
+- **色彩只有三个色**：雾白 / 灰青 / 烛金，红色只留在唇；阴影是**灰绿**，不是死黑
+- 一次只换两个槽位，光型和机位别同时调（一次全换 = 重新抽卡）
+
 ## 参考资料
 
 | 文件 | 内容 |
@@ -193,6 +239,10 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
 | `styles/<风格>/references/model-recommendations.md` | 各模型（Seedream / GPT-image / qwen / MJ）的调法 |
 | `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方（特写 / 半身 / 全身） |
 | `styles/ink-wash/references/brush-techniques.md` | 笔法、墨法、宣纸质感 |
+| `styles/film-ambient/references/visual-dna.md` | **本画法的七维审美指纹**（色彩 / 光 / 质感 / 构图 / 造型 / 情绪 / 抓拍感） |
+| `styles/film-ambient/references/light-patterns.md` | 7 种光型库（斑驳树影 / 雪天散射 / 竹叶漏光 / 灯火 / 暮色逆光 / 提灯 / 冷调窗光） |
+| `styles/film-ambient/references/camera-recipes.md` | 焦段机位配方 + 抓拍姿态库 + 构图三规则 |
+| `styles/film-ambient/assets/gallery-9grid.jpg` | **标杆九宫格** —— 出图偏离这张太远时回 visual-dna 比对 |
 | `dynasties/common-prompt-base.md` | 跨朝代通用 4 段式骨架 |
 | `dynasties/<朝代>/SKILL.md` | 该朝代的服饰 / 色彩 / 气质定义 |
 | `styles/ink-wash/SKILL-original.md` | 水墨 skill 合并前的独立版本（保留备查） |

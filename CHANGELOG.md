@@ -1,5 +1,55 @@
 # 更新日志 / Changelog
 
+## v3.1.0（2026-09-15）
+
+新增第三套画法 **`film-ambient` 古风氛围胶片人像** —— 真实摄影，不是渲染。
+
+前两套画法（3D 写实 / 水墨）都是"画"，这套是**用电影的摄影语言拍古装少女**：
+低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、清冷易碎的情绪。
+重心在**氛围与情绪浓度**，不在形制考究。
+
+### 新增（Added）
+
+- **`styles/film-ambient/`** —— 完整的第三套画法，与前两套平级：
+  - `build_prompt.py` —— **五槽位**提示词构建器（`--scene` 环境 8 种 ×
+    `--light` 光型 7 种 × `--mood` 情绪 6 种 × `--shot` 机位 6 种 × `--era` 朝代），
+    `--list` 可打印全部取值。**固定风格层永不变，只换槽位** —— 这是稳定出图的根本。
+  - `scripts/generate.py` —— **端到端出图 wrapper**（整理提示词 → 调 museav → 落盘），
+    支持 `--ref` 垫图锁脸与 `--batch` 批量。
+  - `references/visual-dna.md` —— **七维审美指纹**：色彩 / 光 / 质感 / 构图 / 造型 /
+    情绪 / 抓拍感，含与另外两套画法的边界对照、出图后的 7 条自检清单。
+  - `references/light-patterns.md` —— 7 种光型库（斑驳树影 / 雪天散射 / 竹叶漏光 /
+    灯火暖调 / 暮色逆光 / 提灯夜行 / 冷调窗光），逐条附适用场景与坑。
+  - `references/camera-recipes.md` —— 焦段机位配方（35/50/85mm）、构图三规则、抓拍姿态库。
+  - `references/negative-prompts.md` —— 8 组高价值负面词（影楼味 / 仙侠味 / 二次元 /
+    假脸 / 过头饰 / 过曝 / 现代 / 手）。
+  - `references/model-recommendations.md` —— GPT Image 2.5 调法、稳定出图四件事、
+    10 种常见失败的修法表。
+  - `examples/portrait/bamboo-candid.md` —— 手写基准范例（竹林抓拍 · 宋韵青绿），
+    含完整中英提示词与"这张为什么是对的"逐条拆解。
+  - `assets/gallery-9grid.jpg` —— 标杆九宫格（审美锚点，166KB）。
+
+### 变更（Changed）
+
+- `scripts/build_prompt.py` 路由加入 `film-ambient`，"两种风格"改为"三种风格"。
+- `SKILL.md`：画法表加第三行；`Required Decisions` 与 `Workflow` 补 film-ambient 的
+  五槽位用法与端到端 wrapper；硬规则一节从两条变三条。
+- `README.md`：画法 badge 2 → 3，画廊新增第 9 节（含槽位速查表与稳定出图三件事），
+  矩阵速查表加一行，目录结构补 film-ambient。
+- `manifest.yaml`：`version` → 3.1.0，补 `氛围感 / 胶片感 / 实拍人像 / film-look`
+  tags 与对应 triggers。
+
+### 设计说明（Notes）
+
+本画法的分水岭是最后两条指纹：**情绪**（清冷、易碎、疏离，姿态静态内敛）与
+**抓拍感**（"像摄影师突然叫住她的一瞬间"）。色彩光影做得再对，少了这两条，
+出来的也只是"精致的摆拍"。
+
+**稳定出图 ≠ 写好一段魔法提示词**，要靠四件事：风格锚点固化 → `--ref` 垫图锁脸
+（提示词锁不住脸）→ 槽位化（一次最多换两个槽）→ 出图后按七维自检打分改槽重出。
+
+---
+
 ## v3.0.0（2026-09-07）
 
 并入 `guofeng-meiren`（古风美人 skill 集），新增**朝代**维度。

@@ -1,12 +1,12 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](./CHANGELOG.md)
-[![Styles](https://img.shields.io/badge/画法-2-green.svg)](#-维度一画法)
+[![Version](https://img.shields.io/badge/Version-3.1.0-blue.svg)](./CHANGELOG.md)
+[![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-维度一画法)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-维度二朝代形制)
 [![Gallery](https://img.shields.io/badge/美人画廊-图鉴-ff69b4.svg)](#-美人风格图鉴与视觉画廊-beauty-gallery--styles)
 
-> 🎨 古风**人像**提示词库与 Agent Skill —— 画法（3D 写实 / 水墨）× 朝代（唐 / 宋 / 魏晋）自由组合
+> 🎨 古风**人像**提示词库与 Agent Skill —— 画法（3D 写实 / 水墨 / 氛围胶片）× 朝代（唐 / 宋 / 魏晋）自由组合
 
 ---
 
@@ -74,7 +74,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
   <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/d851afe2-b72.jpg" alt="古风东方美人风格总览 · 九宫格" width="640" />
   <br/>
   <sub><b>风格总览 · 九宫格</b> —— 花影柔光 · 雪落庭院 · 竹影清茶 · 灯下夜读 · 绿意回眸 · 湖畔逆光 · 江湖冷调 · 落英慵卧 · 提灯夜行</sub><br/>
-  <sub>同一套提示词体系下的九种气质，覆盖本 Skill 的东方美人审美谱系</sub>
+  <sub>同一套提示词体系下的九种气质 —— 来自第三套画法 <code>film-ambient</code>（古风氛围胶片人像），详见画廊第 9 节</sub>
 </div>
 
 ### 📊 美人风格与图片模板矩阵速查
@@ -91,6 +91,7 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 | **🖌️ 国风写意仕女** | `ink-wash` 水墨 | 诗意禅境、空灵留白 | 宣纸肌理、墨分五色、飞白笔触、朱砂微点 | 3:4 | `python scripts/build_prompt.py --style ink-wash ...` |
 | **🪟 窗光高级生活照** | `window-light-lifestyle` | 真实摄影感、去 AI 塑料味标杆 | Sony 85mm f/1.4、暖窗侧光、呼吸感真实毛孔与发丝 | 3:4 | `museav gen --template f17c7142-ce60-46b1-805f-da0a6d96e612` |
 | **🌅 黄金时刻自拍** | `golden-hour-car-selfie` | 手机原生质感、真实东方鹅蛋脸 | 夕阳斜射、不完美裁切、无过度磨皮纯生图质感 | 3:4 | `museav gen --template 44dd583a-8a7b-4f44-8b2c-959900a2ea4b` |
+| **🎞️ 古风氛围胶片** | 画法 `film-ambient` | 真实摄影、电影静帧、清冷易碎 | 低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、真人抓拍感 | 3:4 | `./styles/film-ambient/scripts/generate.py --subject "…" --scene bamboo-garden --light dappled-sun` |
 
 ---
 
@@ -233,6 +234,50 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 
 ---
 
+#### 9. 古风氛围胶片人像 · 第三套画法 (`film-ambient`)
+> **核心美学**：**真实摄影，不是渲染。** 用电影的摄影语言拍古装少女 ——
+> 低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、清冷易碎的情绪。
+> 卖的不是"漂亮的汉服妹"，是**一段有情绪、且正在消逝的东方影像**。
+
+顶部那张九宫格就是本画法的风格总览（花影 / 雪庭 / 竹影 / 灯下 / 绿意 /
+湖畔 / 江湖 / 落英 / 提灯 —— 同一套提示词体系下的九种气质）。
+
+- **七维审美指纹**（详见 [`visual-dna.md`](styles/film-ambient/references/visual-dna.md)）：
+  ① 色彩 · 低饱和三色（雾白 / 灰青 / 烛金），**阴影呈灰绿**，红色只留在唇
+  ② 光 · 有来源的**侧逆光** + 发丝轮廓光，永不用正面平光
+  ③ 质感 · 胶片颗粒 + 保留真实肌肤纹理 + 浅景深散景
+  ④ 构图 · 前景遮挡形成层次 + 大量留白 + 人物偏置
+  ⑤ 造型 · 半披半束长黑发、发饰 ≤ 1 件、素色轻薄纱衣
+  ⑥ 情绪 ⭐ · 清冷、疏离、易碎（倚 / 趴 / 蹲坐 / 回眸 / 仰望 / 垂眸）
+  ⑦ 抓拍感 ⭐ · **"像摄影师突然叫住她的一瞬间"** —— 这一步是分水岭
+
+- **五槽自由组合**（固定风格层永不变，只换槽位 = 稳定出图的根本）：
+
+  | 槽位 | 取值 |
+  |---|---|
+  | `--scene` 环境 | `bamboo-garden` 竹林庭院 / `snow-court` 雪庭 / `lakeside-dusk` 湖畔暮色 / `study-lamp` 书案灯下 / `blossom-shadow` 花影 / `night-lantern` 夜色提灯 / `pine-terrace` 松石亭台 / `river-wind` 江畔旷野 |
+  | `--light` 光型 | `dappled-sun` 斑驳树影 / `snow-diffuse` 雪天散射 / `bamboo-leak` 竹叶漏光 / `lamp-warm` 灯火暖调 / `dusk-backlight` 暮色逆光 / `lantern-night` 提灯夜行 / `cold-window` 冷调窗光 |
+  | `--mood` 情绪 | `quiet-aloof` 安静疏离 / `fragile` 易碎 / `wistful` 怅惘 / `lazy` 慵懒 / `tender` 温柔 / `cold-steel` 清冷 |
+  | `--shot` 机位 | `candid-half` 抓拍半身 50mm f/1.8 / `candid-close` 抓拍特写 85mm f/1.4 / `full-figure` 全身 35mm f/2 / `high-angle` 俯拍 / `candid-turned` 回眸 / `back-view` 背影 |
+  | `--era` 形制 | `song` 宋制 / `tang` 唐制 / `wei-jin` 魏晋 / `none` 不约束 |
+
+- **CLI 一键出图**（端到端：整理提示词 → 出图 → 落盘）：
+
+  ```bash
+  ./styles/film-ambient/scripts/generate.py \
+    --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶，微微抬头看向镜头" \
+    --scene bamboo-garden --light dappled-sun --mood quiet-aloof \
+    --shot candid-half --era song --ratio 3:4 \
+    --ref ~/refs/face-anchor.jpg      # ← 锁脸，稳定出同一个人
+  ```
+
+- **稳定出图三件事**（`styles/film-ambient/references/model-recommendations.md`）：
+  1. 首选 **GPT Image 2.5** + **英文**提示词（皮肤微纹理是它的强项）
+  2. **必须 `--ref` 垫图锁脸** —— 提示词锁不住脸，不锁脸就会每次换人（不稳定的最大来源）
+  3. 出图后按七维自检打分，不达标**改槽位重出**，不靠抽卡
+
+---
+
 ### 💡 出图避坑与模型调用法则
 
 1. **绝对排雷清单**：
@@ -264,6 +309,12 @@ python scripts/build_prompt.py --style 3d-realistic \
 python scripts/build_prompt.py --style ink-wash \
   --subject "白衣书生，竹林独坐" \
   --category character --ratio 3:4
+
+# 古风氛围胶片 · 竹林抓拍（五槽位，--list 看全部取值）
+python scripts/build_prompt.py --style film-ambient \
+  --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶" \
+  --scene bamboo-garden --light dappled-sun \
+  --mood quiet-aloof --shot candid-half --era song --ratio 3:4
 ```
 
 输出 JSON，含 `positive_zh` / `positive_en` / `negative_*` / `recommended_size`。
@@ -275,6 +326,8 @@ python scripts/build_prompt.py --style ink-wash \
 - `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
 - `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词表、镜头参数、组合公式、避坑）
 - `styles/ink-wash/examples/character/` — 水墨人物示例
+- `styles/film-ambient/examples/portrait/bamboo-candid.md` — **手写基准范例**（竹林抓拍 · 宋韵青绿），
+  含完整中英提示词与"这张为什么是对的"逐条拆解
 
 每个示例带完整提示词（中英）、参考图、推荐画幅。
 
@@ -301,6 +354,12 @@ styles/
     references/             visual-dna / brush-techniques / negative-prompts / model-recommendations
     examples/  assets/
     SKILL-original.md       合并前的独立版本，保留备查
+  film-ambient/             古风氛围胶片人像（真实摄影，非渲染）
+    build_prompt.py         五槽位提示词构建器（--list 看全部取值）
+    scripts/generate.py     端到端出图 wrapper（--ref 垫图锁脸）
+    references/             visual-dna / light-patterns / camera-recipes / negative-prompts / model-recommendations
+    examples/portrait/      手写基准范例（竹林抓拍 · 宋韵青绿）
+    assets/gallery-9grid.jpg 标杆九宫格（审美锚点）
 ```
 
 ---

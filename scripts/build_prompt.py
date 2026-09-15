@@ -2,8 +2,9 @@
 """
 古风人像提示词构建器 —— 按风格分发到 styles/<style>/build_prompt.py。
 
-两种风格的提示词体系完全不同（3D 写实讲渲染与材质，水墨讲笔触与留白），
-硬合成一份会让两边都变钝，所以各自保留完整的一份，这里只做路由。
+三种风格的提示词体系完全不同（3D 写实讲渲染与材质，水墨讲笔触与留白，
+film-ambient 讲摄影语言与胶片质感），硬合成一份会让三边都变钝，
+所以各自保留完整的一份，这里只做路由。
 
   python scripts/build_prompt.py --style 3d-realistic \
       --subject "冷峻的青年剑修，月下山巅" --category character-male --ratio 3:4
@@ -11,17 +12,22 @@
   python scripts/build_prompt.py --style ink-wash \
       --subject "白衣书生，竹林独坐" --category character --ratio 3:4
 
+  python scripts/build_prompt.py --style film-ambient \
+      --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶" \
+      --scene bamboo-garden --light dappled-sun --mood quiet-aloof --shot candid-half
+
 不带 --style 时默认 3d-realistic（人像最常用的起点）。
-其余参数原样透传，由各风格脚本自己校验——它们的 category 取值不同：
-  3d-realistic : character-male / character-female / scene / weapon / action
-  ink-wash     : character / creature / nature / poetry / scene
+其余参数原样透传，由各风格脚本自己校验——它们的参数体系不同：
+  3d-realistic : --category character-male / character-female / scene / weapon / action
+  ink-wash     : --category character / creature / nature / poetry / scene
+  film-ambient : --scene / --light / --mood / --shot / --era 五个槽位（--list 看全部取值）
 """
 
 import os
 import subprocess
 import sys
 
-STYLES = ("3d-realistic", "ink-wash")
+STYLES = ("3d-realistic", "ink-wash", "film-ambient")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
