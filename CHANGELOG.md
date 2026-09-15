@@ -1,5 +1,28 @@
 # 更新日志 / Changelog
 
+## v3.6.0（2026-09-15）
+
+README 去掉「业务中台」框架，改为介绍出图平台与模型选择，并补上作者账号。
+
+### 变更（Changed）
+
+- **撤下「图片模板作品（museav 中台）」整段** —— 那是平台侧模板的产出，不是本 skill 的作品。
+  摆在作品区会让人分不清"哪些是这个 skill 的能力，哪些是模板的产出"。
+- 新增 **「🚀 想要最好的出图体验」** —— 介绍 MUSE AV 出图中台
+  （[museav.top](https://museav.top) / [docs.museav.top](https://docs.museav.top)），
+  并给出**按用途选模型**的对照表：人像定稿 `GPT Image 2.5` · 批量摸组合 `qwen-image` ·
+  东方骨相 `Seedream` · 夜景氛围 `GPT Image 2.5 + --film cinestill800t`
+- 新增 **「📮 关注 / Follow」** —— 小红书 **山鬼映画**（东方电影美学 / AI 武侠影像）
+  与 MUSE AV 入口
+- README 图片数 **22 → 14**：撤掉模板样张后，剩下的全部是本 skill 的真实产出
+
+### 说明（Notes）
+
+分工写清楚了：**本 skill 负责"想清楚要什么"（`AESTHETIC.md`）与"怎么落地"（槽位 / 预设），
+MUSE AV 负责"把它画出来"。**
+
+---
+
 ## v3.5.0（2026-09-15）
 
 **重建 `3d-realistic`** —— 旧版产出幼态娃娃脸 + 塑料皮 + 满头堆砌 + 满屏荧光。

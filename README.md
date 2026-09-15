@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.5.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.6.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-画法一览)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-朝代形制)
 [![Works](https://img.shields.io/badge/作品-展示-ff69b4.svg)](#-作品--works)
@@ -132,58 +132,31 @@
 
 ---
 
-### 📐 图片模板作品（museav 中台，一条命令出图）
+### 🚀 想要最好的出图体验
 
-> 下面是接入中台的图片模板产出，覆盖不同题材与质感路线。
+上面所有作品都出自 **MUSE AV** —— 我自己的 AI 出图中台。
+不用自己搭环境、不用管 key，这个 skill 的 CLI 与 MCP 都直连它。
 
-<table>
-  <tr>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/ancient-tea-room/preview/sample-output.jpg" alt="古风书房品茶" width="100%" />
-      <br/><b>🍵 古风书房品茶</b><br/><sub>高级东方电影感 · 护肤品级肌肤 · 暖金侧逆光</sub><br/>
-      <sub><code>ancient-tea-room</code></sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/wuxia-cinematic/preview/sample-output.png" alt="东方武侠电影感" width="100%" />
-      <br/><b>⚔️ 东方武侠电影感</b><br/><sub>古龙式危险美学 · 日落侧逆光 · 书法标题留白</sub><br/>
-      <sub><code>wuxia-cinematic</code></sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/history-classic-art/preview/sample-output.png" alt="历史古风题材" width="100%" />
-      <br/><b>🏛️ 历史古风题材</b><br/><sub>唐宋明清形制 · 工笔/写意/写实可切</sub><br/>
-      <sub><code>history-classic-art</code></sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/female-portrait-routes/preview/sample-output.jpg" alt="女性人像路线" width="100%" />
-      <br/><b>💄 女性人像 20 路线</b><br/><sub>水光妆 / 冷感仙侠 / 新中式 / 盛唐丰腴</sub><br/>
-      <sub><code>female-portrait-routes</code></sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/window-light-lifestyle/preview/sample-output.jpg" alt="窗光高级生活照" width="100%" />
-      <br/><b>🪟 窗光高级生活照</b><br/><sub>去 AI 塑料味标杆 · 真实毛孔与发丝</sub><br/>
-      <sub><code>window-light-lifestyle</code></sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="https://img.webkubor.online/skills/golden-hour-car-selfie/preview/sample-output.jpg" alt="黄金时刻自拍" width="100%" />
-      <br/><b>🌅 黄金时刻自拍</b><br/><sub>手机原生质感 · 不完美裁切 · 无过度磨皮</sub><br/>
-      <sub><code>golden-hour-car-selfie</code></sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://museav.top"><img src="https://img.shields.io/badge/出图中台-museav.top-EAB308?style=for-the-badge" alt="MUSE AV" /></a>
+  &nbsp;
+  <a href="https://docs.museav.top"><img src="https://img.shields.io/badge/使用文档-docs.museav.top-111827?style=for-the-badge" alt="使用文档" /></a>
+</p>
 
-**📜 女性角色设定 4 视图** —— 人物一致性定妆，多视角立绘（`character-sheet-4view`）
-同一角色锁定发髻、衣领、五官骨相，一套 4 张作为后续出图的垫图母版：
+**同一个提示词，模型选错就白费。** 按用途选：
 
-<table>
-  <tr>
-    <td width="25%" align="center"><b>正面全身</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5d276665-993.jpg" width="100%"/></td>
-    <td width="25%" align="center"><b>侧身动态</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/6d332000-bae.jpg" width="100%"/></td>
-    <td width="25%" align="center"><b>背面结构</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5bac90c9-937.jpg" width="100%"/></td>
-    <td width="25%" align="center"><b>神态特写</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/8c3a1840-94c.jpg" width="100%"/></td>
-  </tr>
-</table>
+| 你想干什么 | 用哪个模型 | 为什么 |
+|---|---|---|
+| **人像定稿**（皮肤质感、光影层次） | **GPT Image 2.5** | 皮肤微纹理与光影质感最强 —— 本 skill 首选，**用英文 prompt** |
+| **批量摸槽位组合** | qwen-image | 中文理解好、出图快，一次看多版构图 |
+| **东方骨相、脸型最纯正** | Seedream | 东方美人脸型骨相最准，中文 prompt 理解最深 |
+| **夜景 / 氛围片** | GPT Image 2.5 + `--film cinestill800t` | 钨丝灯胶片的 halation 只有它出得来 |
+
+> **分工**：本 skill 负责"想清楚要什么"（[`AESTHETIC.md`](./AESTHETIC.md)）和"怎么落地"（槽位 / 预设），
+> **MUSE AV 负责"把它画出来"。**
+
+配套工具：[`museav-cli`](https://github.com/webkubor/museav-cli)（命令行出图）·
+[`museav-mcp`](https://github.com/webkubor/museav-mcp)（接进 agent）
 
 ---
 
@@ -378,9 +351,29 @@ v2.0.0 之前这是三个独立仓库，主题互相重叠：
 前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），各自演进互不知情。
 v2.1.0 收窄为**纯人像**（移除场景/器物/自然/诗意题材）。v3.0.0 并入 `guofeng-meiren`
 补上朝代维度。v3.1–3.3 新增胶片氛围画法、胶片型号锚点与 21 个命名风格。
-v3.4.0 补上审美判断层 `AESTHETIC.md`。
+v3.4.0 补上审美判断层 `AESTHETIC.md`。v3.5.0 重建 `3d-realistic`（70/30 + 成年少女骨相）。
 
 </details>
+
+---
+
+## 📮 关注 / Follow
+
+这些作品背后的账号是 **山鬼映画** —— 东方电影美学 / AI 武侠影像。
+（内容边界：武侠 · 江湖 · 风雪 · AI 电影感，与本 skill 的古风人像同一条线。）
+
+<p align="center">
+  <a href="https://www.xiaohongshu.com/user/profile/5c3c1581000000000501835d">
+    <img src="https://img.shields.io/badge/小红书-山鬼映画-FF2442?style=for-the-badge" alt="小红书 · 山鬼映画" />
+  </a>
+  &nbsp;
+  <a href="https://museav.top">
+    <img src="https://img.shields.io/badge/MUSE%20AV-出图中台-EAB308?style=for-the-badge" alt="MUSE AV" />
+  </a>
+</p>
+
+> 把不存在的武侠电影，做成了人间江湖。
+> 合作 / 邀请：webkubor@163.com
 
 ---
 
