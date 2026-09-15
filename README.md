@@ -2,88 +2,228 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/Version-3.4.0-blue.svg)](./CHANGELOG.md)
-[![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-维度一画法)
-[![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-维度二朝代形制)
-[![Gallery](https://img.shields.io/badge/美人画廊-图鉴-ff69b4.svg)](#-美人风格图鉴与视觉画廊-beauty-gallery--styles)
+[![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-画法一览)
+[![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-朝代形制)
+[![Works](https://img.shields.io/badge/作品-展示-ff69b4.svg)](#-作品--works)
 
 > 🎨 古风**人像** Agent Skill —— **先教审美判断，再给落地参数**。
 > 画法（3D 写实 / 水墨 / 氛围胶片）× 朝代（唐 / 宋 / 魏晋）自由组合。
 
+**这个 README 的主角是作品，不是代码。** 架构、槽位、脚本全部折叠在文末。
+
 ---
 
-## 📋 这是什么？
+## 🖼 作品 / Works
 
-生成**古风人像**（角色立绘、头像、人物海报）的 Agent Skill。
+### 🎞 胶片氛围 · `film-ambient`
 
-**它不只是提示词库 —— 核心是一层审美判断。** 出图质量的决定性因素不是"选哪套参数"，
-而是"有没有想清楚要什么"。所以这个仓库把两件事分开：
+> 真实摄影，不是渲染。低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、清冷易碎的情绪。
 
-| 层 | 文档 | 回答什么 |
-|---|---|---|
-| **审美判断（核心）** | [`AESTHETIC.md`](./AESTHETIC.md) | 什么算美、为什么美、面对新题材怎么从零推导、出图不好怎么诊断 |
-| 落地参数 | `styles/` · `dynasties/` | 具体怎么实现（槽位 / 预设 / 视觉定义 / 朝代 token） |
+<p align="center">
+  <a href="styles/film-ambient/references/style-presets.md">
+    <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/d851afe2-b72.jpg" alt="古风氛围胶片人像 · 九宫格风格总览" width="72%" />
+  </a>
+  <br/>
+  <sub><b>风格总览 · 九宫格</b> —— 花影柔光 · 雪落庭院 · 竹影清茶 · 灯下夜读 · 绿意回眸 · 湖畔逆光 · 江湖冷调 · 落英慵卧 · 提灯夜行</sub><br/>
+  <sub>九种气质，同一套提示词体系 · 对应 <a href="styles/film-ambient/references/style-presets.md">21 个命名风格</a> 中的前 9 个</sub>
+</p>
 
-> **提示词是答案，判断力是解题方法。答案会过时（模型换代、术语失效），方法不会。**
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/99eff342-7e1.jpg" alt="春日庭院 · 少女倚栏观花" width="100%" />
+      <br/><b>春日庭院 · 倚栏观花</b>
+      <br/><sub>宋韵 · 暖雾侧逆光 · 荷塘前景 · 85mm 浅景深</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5b045904-9f8.jpg" alt="湖畔暮色 · 柳影落日" width="100%" />
+      <br/><b>湖畔暮色 · 柳影落日</b>
+      <br/><sub>宋韵 · 逆光轮廓 · 亭台剪影 · 荷花</sub>
+    </td>
+  </tr>
+</table>
 
-### 🧠 审美核心讲了什么
+<p align="center">
+  <sub>↑ 两张都是本 skill 的 <code>dynasties/song/</code> + 胶片氛围画法的实际产出：<br/>
+  「淡到极致才是宋韵」—— 低饱和、有光源、有前景遮挡、留白给空气。</sub>
+</p>
 
-**六条第一性原理**（判断"美 / 俗"的根据）：
+---
 
-1. **克制法则** —— 视觉预算有限。能抢注意力的元素超过 3 个就是在堆砌；不确定该不该加时，默认不加。
-2. **暗示优于直给** —— 东方性在"不说尽"。留白 / 遮挡 / 背影 / 垂眸，让观者补全。
-3. **光必须有出处** —— 一句话说不出光从哪来，就是假光。正面平光是"影楼味"的第一来源。
-4. **情绪浓度 > 造型精度** —— 观众记住的是"她像在等谁"，不是簪子是哪个朝代的。
-5. **真实感来自不完美** —— 画面里指不出 2-3 处瑕疵，就是 CG。
-6. **对比度预算是有限的** —— 花在高饱和色上，就没法花在光影与情绪上。
+### 🕊 国漫 3D 写实 · `3d-realistic`
 
-**推导链**（顺序不能乱，后一步是前一步的函数）：
+> 对标《斗罗大陆》《斗破苍穹》《灵笼》《完美世界》。UE5 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒子。
 
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/character-female/immortal-fairy.jpg" alt="清冷仙子" width="100%" />
+      <br/><b>🕊 清冷仙子</b><br/><sub>冰蓝仙裙 · 星辰眼神 · 发丝轮廓光 · 云海仙山</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/character-female/enchantress.jpg" alt="妩媚妖女" width="100%" />
+      <br/><b>🥀 妩媚妖女</b><br/><sub>红黑轻纱 · 眉间花钿 · 灵力微芒 · 月下灯笼</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/character-male/swordsman.jpg" alt="青年剑修" width="100%" />
+      <br/><b>⚔️ 青年剑修</b><br/><sub>冷峻神情 · 剑气 · 夜色山巅 · 电影级景深</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/character-male/sect-master.jpg" alt="宗门宗主" width="100%" />
+      <br/><b>🏔 宗门宗主</b><br/><sub>玄金法袍 · 宗门威仪 · 体积光</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/character-male/demon-lord.jpg" alt="魔尊" width="100%" />
+      <br/><b>😈 魔尊</b><br/><sub>玄黑重甲 · 血脉觉醒 · 暗调暖光</sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="styles/3d-realistic/assets/sample-output.jpg" alt="综合样张" width="100%" />
+      <br/><b>✨ 综合样张</b><br/><sub>渲染质感基准 · 皮肤与发丝细节</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+### 🖌 国风水墨 · `ink-wash`
+
+> 对标《大鱼海棠》《中国奇谭》《山水情》。手绘笔触、宣纸质感、**极致留白**——留白是构图的一部分，不是没画完。
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="styles/ink-wash/assets/character/lady-portrait.jpg" alt="写意仕女" width="100%" />
+      <br/><b>🖌 国风写意仕女</b>
+      <br/><sub>宣纸肌理 · 墨分五色 · 飞白笔触 · 朱砂微点</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="styles/ink-wash/assets/character/scholar.jpg" alt="白衣书生" width="100%" />
+      <br/><b>📜 白衣书生</b>
+      <br/><sub>竹林独坐 · 大面积留白 · 写意而非写实</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+### 📐 图片模板作品（museav 中台，一条命令出图）
+
+> 下面是接入中台的图片模板产出，覆盖不同题材与质感路线。
+
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/ancient-tea-room/preview/sample-output.jpg" alt="古风书房品茶" width="100%" />
+      <br/><b>🍵 古风书房品茶</b><br/><sub>高级东方电影感 · 护肤品级肌肤 · 暖金侧逆光</sub><br/>
+      <sub><code>ancient-tea-room</code></sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/wuxia-cinematic/preview/sample-output.png" alt="东方武侠电影感" width="100%" />
+      <br/><b>⚔️ 东方武侠电影感</b><br/><sub>古龙式危险美学 · 日落侧逆光 · 书法标题留白</sub><br/>
+      <sub><code>wuxia-cinematic</code></sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/history-classic-art/preview/sample-output.png" alt="历史古风题材" width="100%" />
+      <br/><b>🏛️ 历史古风题材</b><br/><sub>唐宋明清形制 · 工笔/写意/写实可切</sub><br/>
+      <sub><code>history-classic-art</code></sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/female-portrait-routes/preview/sample-output.jpg" alt="女性人像路线" width="100%" />
+      <br/><b>💄 女性人像 20 路线</b><br/><sub>水光妆 / 冷感仙侠 / 新中式 / 盛唐丰腴</sub><br/>
+      <sub><code>female-portrait-routes</code></sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/window-light-lifestyle/preview/sample-output.jpg" alt="窗光高级生活照" width="100%" />
+      <br/><b>🪟 窗光高级生活照</b><br/><sub>去 AI 塑料味标杆 · 真实毛孔与发丝</sub><br/>
+      <sub><code>window-light-lifestyle</code></sub>
+    </td>
+    <td width="33%" align="center">
+      <img src="https://img.webkubor.online/skills/golden-hour-car-selfie/preview/sample-output.jpg" alt="黄金时刻自拍" width="100%" />
+      <br/><b>🌅 黄金时刻自拍</b><br/><sub>手机原生质感 · 不完美裁切 · 无过度磨皮</sub><br/>
+      <sub><code>golden-hour-car-selfie</code></sub>
+    </td>
+  </tr>
+</table>
+
+**📜 女性角色设定 4 视图** —— 人物一致性定妆，多视角立绘（`character-sheet-4view`）
+同一角色锁定发髻、衣领、五官骨相，一套 4 张作为后续出图的垫图母版：
+
+<table>
+  <tr>
+    <td width="25%" align="center"><b>正面全身</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5d276665-993.jpg" width="100%"/></td>
+    <td width="25%" align="center"><b>侧身动态</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/6d332000-bae.jpg" width="100%"/></td>
+    <td width="25%" align="center"><b>背面结构</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5bac90c9-937.jpg" width="100%"/></td>
+    <td width="25%" align="center"><b>神态特写</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/8c3a1840-94c.jpg" width="100%"/></td>
+  </tr>
+</table>
+
+---
+
+## ⚡ 三行上手
+
+```bash
+# ① 装成 Agent Skill：把仓库放进 agent 的 skills 目录，SKILL.md 即入口
+
+# ② 点一个命名风格出图（21 个，--list 可查）
+./styles/film-ambient/scripts/generate.py \
+  --preset blossom-veil --subject "凑近花枝，微微侧脸" --ref ~/refs/face-anchor.jpg
+
+# ③ 只出提示词，自己拿去别的模型
+python scripts/build_prompt.py --style film-ambient --preset bamboo-tea --subject "…"
 ```
-情绪  →  光  →  色  →  构图  →  质感  →  镜头
-```
 
-**诊断回路**：出图不理想时先定位**失败维度**、只改那一维重出 —— 而不是抽卡。
+---
 
-**反例解剖**："影楼汉服写真"为什么一眼俗？七条逐项归因（平光 = 光无出处 ·
-高饱和 = 预算花光 · 摆拍 = 无情绪 · 顶满画面 = 无留白 · 磨皮 = 无不完美 ·
-满头珠钗 = 堆砌 · 一句"汉服"就开拍 = 无形制）。**反着做，就是美。**
+## 🧠 这一个 skill 和「提示词库」的区别
 
-**生成前必答 5 问**：情绪是什么 / 光从哪来 / 删掉了什么 / 哪处不完美 / 观众会记住哪个瞬间。
-答不出任何一条，就不要开始生成。
+**提示词是答案，判断力是解题方法。答案会过时（模型换代、术语失效），方法不会。**
+
+所以仓库的核心不是提示词表，而是 [`AESTHETIC.md`](./AESTHETIC.md) —— 一层跨画法通用的审美判断：
+
+| 它在教什么 | 内容 |
+|---|---|
+| **六条第一性原理** | ① 克制法则（超过 3 个注意力锚点就是在堆砌）② 暗示优于直给 ③ **光必须有出处**（说不出光从哪来 = 假光）④ 情绪浓度 > 造型精度 ⑤ 真实感来自不完美（指不出 2-3 处瑕疵就是 CG）⑥ 对比度预算是有限的 |
+| **推导链** | 情绪 → 光 → 色 → 构图 → 质感 → 镜头。**后一步是前一步的函数**，不是独立选项 |
+| **诊断回路** | 出图不理想时：定位失败维度 → 只改那一维 → 重出。**不抽卡** |
+| **反例解剖** | 「影楼汉服写真」为什么一眼俗 —— 七条逐项归因（反着做就是美） |
+| **生成前 5 问** | 情绪是什么 / 光从哪来 / 删掉了什么 / 哪处不完美 / 记忆点是什么 |
+
+> 生成前先答完 5 问。**答不出任何一条，就不要开始生成** —— 那说明你在复制，不是在创作。
 
 📖 全文：**[`AESTHETIC.md`](./AESTHETIC.md)**
 
 ---
 
-## 🔍 只做人物
+<details>
+<summary><b>📐 全部架构与参数</b> &nbsp;·&nbsp; <sub>画法 / 朝代 / 槽位 / 预设 / 模型法则 / 目录结构 / 合并史 —— 点开</sub></summary>
 
-**这个 skill 不做**场景概念图、器物法宝、花鸟山水 —— 人物所处的环境只作为背景服务于人像。
-要那些题材请另找 skill，混在一起会让提示词失焦。
+<br/>
 
-两个**正交维度**自由组合：**画法**（怎么画）× **朝代**（画哪个年代的形制）。
-"宋韵美人的水墨画法" = `--style ink-wash` + `dynasties/song/`。
+### 画法一览
 
-## 🌟 维度一：画法
-
-### `3d-realistic` —— 国漫 3D 写实
-
+#### `3d-realistic` —— 国漫 3D 写实
 对标《斗罗大陆》《斗破苍穹》《灵笼》《完美世界》《一念永恒》《凡人修仙传》。
-
-不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**：
-UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒子、电影级景深。
-
+不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**。
 题材：`character-male` / `character-female`
 
-### `ink-wash` —— 国风水墨写意
-
+#### `ink-wash` —— 国风水墨写意
 对标《大鱼海棠》《中国奇谭》《天书奇谭》《山水情》。
+手绘笔触（飞白、湿墨晕染）、宣纸质感、极致留白。题材：`character`
 
-手绘笔触（飞白、湿墨晕染）、宣纸质感、**极致留白**——留白是构图的一部分，
-不是没画完。写意而非写实。
+#### `film-ambient` —— 古风氛围胶片人像
+**真实摄影，不是渲染。** 用电影的摄影语言拍古装少女：低饱和青绿月白、
+侧逆光斑驳树影、胶片颗粒、清冷易碎的情绪。**六槽位 + 21 个命名风格。**
 
-题材：`character`
+> ⚠️ **三套画法的提示词互不相通**。3D 讲渲染与材质，水墨讲笔触与留白，
+> film-ambient 讲摄影语言与胶片质感。混用会让画面同时不像 3D、不像水墨、也不像照片。
 
-### 📜 维度二：朝代形制
+---
+
+### 朝代形制
 
 不指定朝代时，模型画的"汉服"多半是杂糅形制——各朝代的衣领、袖型、腰线混在一起，
 懂的人一眼看出不对。指定朝代能拿到具体的服饰 token 与配色：
@@ -94,309 +234,91 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 | **宋 `song`** | "淡到极致才是宋韵"，清雅低饱和 | 江南园林、庭院、肖像特写（资料最全） |
 | **魏晋 `wei-jin`** | 飘逸出尘、褒衣博带 | 名士、洛神、松下抚琴 |
 
-跨朝代通用的 4 段式骨架（主体 + 场景 + 光影 + 质感）在
-`dynasties/common-prompt-base.md`，三个朝代只在服饰 / 色彩 / 气质上分支。
-每个朝代还带一个 `scripts/generate.py`，直接调 museav 出图。
-
 ```bash
 ./dynasties/song/scripts/generate.py --dynasty song \
   --subject "春日庭院，少女倚栏观花，海棠初开" --ratio 3:4
 ```
 
-> ⚠️ **两套画法的提示词互不相通**。3D 那套讲渲染与材质，水墨这套讲笔触与留白，
-> 混用会让画面既不像 3D 也不像水墨。所以两边各自保留完整的
-> references / examples / assets / build_prompt.py，顶层脚本只做路由。
+---
+
+### `film-ambient` 的六槽位
+
+固定风格层永不变，只换槽位 —— **变的东西越少，出图越像同一个人拍的**。
+
+| 槽位 | 取值 |
+|---|---|
+| `--scene` 环境 16 | `bamboo-garden` `snow-court` `lakeside-dusk` `study-lamp` `blossom-shadow` `night-lantern` `pine-terrace` `river-wind` `corridor-rain` `lotus-pond` `moonlit-court` `mountain-peak` `snow-field` `autumn-court` `boat-river` `pine-mist` |
+| `--light` 光型 12 | `dappled-sun` `snow-diffuse` `bamboo-leak` `lamp-warm` `dusk-backlight` `lantern-night` `cold-window` `rain-soft` `moonlight` `mist-dawn` `candle-flutter` `overcast-silver` |
+| `--mood` 情绪 10 | `quiet-aloof` `fragile` `wistful` `lazy` `tender` `cold-steel` `serene` `curious` `resolute` `dreamy` |
+| `--film` 胶片 5 | `pro400h` 青绿通透（默认）/ `portra400` 暖奶油 / `superia` 纪实 / `cinestill800t` 夜景钨丝灯 / `none` |
+| `--shot` 机位 7 | `candid-half` `candid-close` `full-figure` `high-angle` `candid-turned` `back-view` `low-angle` |
+| `--era` 形制 4 | `song` `tang` `wei-jin` `none` |
+
+**21 个命名风格**（`--preset`，显式槽位可覆盖预设）：
+
+| 气质 | 风格 |
+|---|---|
+| 🌸 花木与春夏 | 花影柔光 `blossom-veil` · 落英慵卧 `petal-recline` · 荷塘盛夏 `lotus-summer` · 春雪寻梅 `spring-plum` · 绿意回眸 `green-glance` |
+| ❄️ 雪与寒 | 雪落庭院 `snow-court` · 雪原独行 `snow-walk` |
+| 🎋 竹绿与山野 | 竹影清茶 `bamboo-tea` · 松间晨雾 `pine-dawn` · 山巅风起 `peak-wind` |
+| 🏮 夜与灯 | 灯下夜读 `lamp-reading` · 提灯夜行 `lantern-walk` · 烛影摇红 `candle-night` · 月下独坐 `moon-court` |
+| 🌊 水与远行 | 湖畔暮光 `lake-glow` · 舟头望水 `boat-gaze` · 回廊听雨 `corridor-rain` |
+| ⚔️ 江湖与侠气 | 江湖冷调 `jianghu-cold` · 月下横剑 `moon-blade` |
+| 🍂 秋与静室 | 秋庭落笺 `autumn-letter` · 书斋静读 `library-quiet` |
 
 ---
 
-## 🌸 美人风格图鉴与视觉画廊 (Beauty Gallery & Styles)
+### 三种用法
 
-针对不同题材与审美品味，本 Skill 将古风与东方美人沉淀为完整的正交风格谱系与 CLI 图片模板。所有模板均已接入中台 `museav` CLI，支持一条命令开箱出图。
+**一、装成 Agent Skill（推荐）** —— 把整个仓库放进 agent 的 skills 目录，
+`SKILL.md` 就是入口，agent 会自己问清风格与题材再出图。
 
-<div align="center">
-  <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/d851afe2-b72.jpg" alt="古风东方美人风格总览 · 九宫格" width="640" />
-  <br/>
-  <sub><b>风格总览 · 九宫格</b> —— 花影柔光 · 雪落庭院 · 竹影清茶 · 灯下夜读 · 绿意回眸 · 湖畔逆光 · 江湖冷调 · 落英慵卧 · 提灯夜行</sub><br/>
-  <sub>同一套提示词体系下的九种气质 —— 来自第三套画法 <code>film-ambient</code>（古风氛围胶片人像），详见画廊第 9 节</sub>
-</div>
-
-### 📊 美人风格与图片模板矩阵速查
-
-| 模板 / 风格分类 | CLI 模板 Slug | 审美气质与核心质感 | 典型视觉特征 | 样图比例 | CLI 一键出图命令 |
-|---|---|---|---|---|---|
-| **🍵 古风书房品茶** | `ancient-tea-room` | 高级东方电影感、护肤品级水润肌 | 奶白交领宽袖、墨香卷轴、暖金单侧逆光、85mm 浅景深 | 3:4 | `museav gen --template ef125107-a2e8-41a5-a048-89a5ac4fe974` |
-| **⚔️ 东方武侠电影感** | `wuxia-cinematic` | 古龙式危险美感、东方强骨相 | 日落侧逆光、风吹碎发、冷峻神情、局部阴影与书法标题留白 | 3:4 | `museav gen --template 6a5789d2-87e0-47d1-842c-90cf096dd866` |
-| **📜 女性角色设定4视图** | `character-sheet-4view` | 人物一致性定妆、多视角立绘 | 正面、侧面、背面、特写 4 视图联动，统一发型服饰与五官 | 16:9 | `museav gen --template <id> --image <垫图>` |
-| **🏛️ 历史古风题材** | `history-classic-art` | 历史考究、文化厚重 | 唐宋明清形制可选、工笔/写意/写实自由切换 | 3:4 | `museav gen --template 6ad907c2-66bd-453b-9b10-0b3157b7cad0` |
-| **💄 女性人像20路线** | `female-portrait-routes` | 水光妆/冷感仙侠/新中式/盛唐丰腴 | 20 条专业人像路线，精准控制妆造与骨相 | 3:4 | `museav gen --template d5dac3dc-31de-4ea9-a81b-fa044ccec677` |
-| **🕊️ 国漫清冷仙子** | `3d-realistic` 仙侠 | 绝尘出世、清冷出尘 | 冰蓝仙裙、星辰眼神、发丝轮廓光、云海仙山 | 3:4 | `python scripts/build_prompt.py --style 3d-realistic ...` |
-| **🥀 国漫妩媚妖女** | `3d-realistic` 玄幻 | 妖娆魅惑、神秘危险 | 红黑轻纱、眉间花钿、指尖灵力微芒、月下灯笼 | 3:4 | `python scripts/build_prompt.py --style 3d-realistic ...` |
-| **🖌️ 国风写意仕女** | `ink-wash` 水墨 | 诗意禅境、空灵留白 | 宣纸肌理、墨分五色、飞白笔触、朱砂微点 | 3:4 | `python scripts/build_prompt.py --style ink-wash ...` |
-| **🪟 窗光高级生活照** | `window-light-lifestyle` | 真实摄影感、去 AI 塑料味标杆 | Sony 85mm f/1.4、暖窗侧光、呼吸感真实毛孔与发丝 | 3:4 | `museav gen --template f17c7142-ce60-46b1-805f-da0a6d96e612` |
-| **🌅 黄金时刻自拍** | `golden-hour-car-selfie` | 手机原生质感、真实东方鹅蛋脸 | 夕阳斜射、不完美裁切、无过度磨皮纯生图质感 | 3:4 | `museav gen --template 44dd583a-8a7b-4f44-8b2c-959900a2ea4b` |
-| **🎞️ 古风氛围胶片** | 画法 `film-ambient` | 真实摄影、电影静帧、清冷易碎 | 低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、真人抓拍感 | 3:4 | `./styles/film-ambient/scripts/generate.py --subject "…" --scene bamboo-garden --light dappled-sun` |
-
----
-
-### 🎨 经典美人模板视觉画廊与出图指南
-
-#### 1. 古风书房品茶 · 东方静谧美人 (`ancient-tea-room`)
-> **核心美学**：高级东方电影截图 × 护肤品广告级肌肤质感 × 暖金侧逆光。彻底告别假面与网红脸。
-
-<div align="center">
-  <img src="https://img.webkubor.online/skills/ancient-tea-room/preview/sample-output.jpg" alt="古风书房品茶" width="420" />
-</div>
-
-- **视觉配方**：
-  - **人像特质**：年轻东方女性，鹅蛋脸骨相清晰自然，温润象牙白肤质，保留微细肌理与自然血色。
-  - **服饰场景**：奶白古装交领长裙（纱质宽袖带暗纹）；置身深色木质书架、卷轴笔架与古朴茶室。
-  - **光影镜头**：单一自然侧逆光，金色夕阳穿透衣料形成柔和光晕；85mm f/1.4 人像浅景深。
-- **CLI 出图**：
-  ```bash
-  museav gen --template ef125107-a2e8-41a5-a048-89a5ac4fe974
-  ```
-
----
-
-#### 2. 东方武侠电影感 · 危险与宿命感美人 (`wuxia-cinematic`)
-> **核心美学**：古龙式静止危险美学 × 新东方电影感摄影 × 强烈情绪留白。拒绝古偶廉价感与仙侠塑料发光。
-
-<div align="center">
-  <img src="https://img.webkubor.online/skills/wuxia-cinematic/preview/sample-output.png" alt="东方武侠电影感" width="420" />
-</div>
-
-- **视觉配方**：
-  - **人像特质**：成熟从容东方骨相，眼神清冷克制带有一丝未解的危险；风吹散落碎发，自然冷红肤色。
-  - **故事张力**：暗沉重袍披风带霜雪，单一自然夕阳/月色侧逆光，面部局部处于阴影之中。
-  - **留白排版**：上方留出充足负空间，可自然融入中式书法标题；带细微胶片颗粒。
-- **CLI 出图**：
-  ```bash
-  museav gen --template 6a5789d2-87e0-47d1-842c-90cf096dd866
-  ```
-
----
-
-#### 3. 女性角色设定 4 视图 · 人物一致性定妆 (`character-sheet-4view`)
-> **核心美学**：多角度立绘资产级输出。用于解决长篇短剧、连载插画、漫剧生产中的“人物容易跑脸”痛点。
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>正面全身立绘</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5d276665-993.jpg" width="220"/></td>
-      <td align="center"><b>侧身动态神韵</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/6d332000-bae.jpg" width="220"/></td>
-    </tr>
-    <tr>
-      <td align="center"><b>背面与服饰结构</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/5bac90c9-937.jpg" width="220"/></td>
-      <td align="center"><b>五官与神态特写</b><br/><img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/8c3a1840-94c.jpg" width="220"/></td>
-    </tr>
-  </table>
-</div>
-
-- **核心价值**：同一角色锁定发髻、衣领、腰封、刺绣纹样与五官骨相，一套 4 张多角度拆解，作为后续出图的垫图母版（Reference Anchor）。
-
----
-
-#### 4. 历史古风题材全景 (`history-classic-art`)
-> **核心美学**：朝代形制考究、文化纹样严谨。支持唐、宋、明、武侠江湖自由切换。
-
-<div align="center">
-  <img src="https://img.webkubor.online/skills/history-classic-art/preview/sample-output.png" alt="历史古风题材" width="420" />
-</div>
-
-- **CLI 出图（支持字段替换）**：
-  ```bash
-  # 宋代文秀美人
-  museav gen --template 6ad907c2-66bd-453b-9b10-0b3157b7cad0 \
-    --fields '{"era":"宋朝庭院","subject":"素衣仕女倚栏品茶观海棠","style":"影视写实"}'
-  ```
-
----
-
-#### 5. 女性肖像路线 20 系列 (`female-portrait-routes`)
-> **核心美学**：专攻东方女性人像摄影，包含 20 条互斥路线，禁止风格混搭污染。
-
-<div align="center">
-  <img src="https://img.webkubor.online/skills/female-portrait-routes/preview/sample-output.jpg" alt="女性肖像路线" width="420" />
-</div>
-
-- **典型细分路线**：
-  - `ancient-lady-dewy-makeup`：古风仕女水光妆，通透骨相与水润肌肤。
-  - `bright-luxury-gufeng`：明艳华丽盛唐古风，高髻步摇、明艳妆造。
-  - `cold-xianxia-enhanced`：冷感仙侠神女，绝尘清冷。
-  - `oriental-voluptuous`：东方丰腴古典体态，温婉大气。
-  - `new-chinese`：新中式现代国潮人像。
-
----
-
-#### 6. 国漫 3D 写实 · 仙侠双姝（清冷仙子 vs 妩媚妖女）
-> **核心美学**：对标顶级国漫番剧写实渲染。UE5 Nanite + Lumen 全局光照，发丝根根分明，仙侠灵气粒子。
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>清冷仙子 (Immortal Fairy)</b><br/><img src="styles/3d-realistic/assets/character-female/immortal-fairy.jpg" width="320"/></td>
-      <td align="center"><b>妩媚妖女 (Enchantress)</b><br/><img src="styles/3d-realistic/assets/character-female/enchantress.jpg" width="320"/></td>
-    </tr>
-  </table>
-</div>
-
-- **仙子核心特征**：淡蓝云纹仙裙、发丝蓝色侧逆光轮廓、清冷疏离、眼含星辰、背景虚化云海仙山。
-- **妖女核心特征**：红黑轻纱微透、额前朱砂花钿、指尖灵力微芒、月下红灯笼、暗调暖光。
-
----
-
-#### 7. 国风传统水墨 · 写意仕女 (`ink-wash`)
-> **核心美学**：手绘宣纸肌理、墨分五色（焦浓重淡清）、逆锋飞白、大面积留白与朱砂唇色点睛。
-
-<div align="center">
-  <img src="styles/ink-wash/assets/character/lady-portrait.jpg" alt="国风水墨仕女" width="420" />
-</div>
-
-- **核心特征**：写意而不写实，手绘毛笔触感可见，纸张纤维底色，留白装得下中式意境。
-
----
-
-#### 8. 东方美人的现代去 AI 味标杆模板 (`window-light` & `golden-hour`)
-> **核心美学**：通过真实窗光与自然日光，解决 AI 生成“塑料假面、过度磨皮”的核心难题。
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>窗光高级生活照 (85mm 实拍感)</b><br/><img src="https://img.webkubor.online/skills/window-light-lifestyle/preview/sample-output.jpg" width="320"/></td>
-      <td align="center"><b>黄金时刻自拍 (无修原生感)</b><br/><img src="https://img.webkubor.online/skills/golden-hour-car-selfie/preview/sample-output.jpg" width="320"/></td>
-    </tr>
-  </table>
-</div>
-
-- **去 AI 味实战增强句（推荐附加）**：
-  ```
-  The portrait should immediately feel believable at first glance.
-  Preserve tiny imperfections, natural asymmetry, realistic skin texture,
-  subtle hair flyaways, authentic lighting, and a strong sense of human presence.
-  ```
-
----
-
-#### 9. 古风氛围胶片人像 · 第三套画法 (`film-ambient`)
-> **核心美学**：**真实摄影，不是渲染。** 用电影的摄影语言拍古装少女 ——
-> 低饱和青绿月白、侧逆光斑驳树影、胶片颗粒、清冷易碎的情绪。
-> 卖的不是"漂亮的汉服妹"，是**一段有情绪、且正在消逝的东方影像**。
-
-顶部那张九宫格就是本画法的风格总览（花影 / 雪庭 / 竹影 / 灯下 / 绿意 /
-湖畔 / 江湖 / 落英 / 提灯 —— 同一套提示词体系下的九种气质）。
-
-- **七维审美指纹**（详见 [`visual-dna.md`](styles/film-ambient/references/visual-dna.md)）：
-  ① 色彩 · 低饱和三色（雾白 / 灰青 / 烛金），**阴影呈灰绿**，红色只留在唇
-  ② 光 · 有来源的**侧逆光** + 发丝轮廓光，永不用正面平光
-  ③ 质感 · 胶片颗粒 + 保留真实肌肤纹理 + 浅景深散景
-  ④ 构图 · 前景遮挡形成层次 + 大量留白 + 人物偏置
-  ⑤ 造型 · 半披半束长黑发、发饰 ≤ 1 件、素色轻薄纱衣
-  ⑥ 情绪 ⭐ · 清冷、疏离、易碎（倚 / 趴 / 蹲坐 / 回眸 / 仰望 / 垂眸）
-  ⑦ 抓拍感 ⭐ · **"像摄影师突然叫住她的一瞬间"** —— 这一步是分水岭
-
-- **21 个命名风格** —— 一条 `--preset` 直接出图，不用再想"该配什么光"
-  （完整菜单见 [`style-presets.md`](styles/film-ambient/references/style-presets.md)）：
-
-  | 气质 | 风格（`--preset`） |
-  |---|---|
-  | 🌸 花木与春夏 | 花影柔光 `blossom-veil` · 落英慵卧 `petal-recline` · 荷塘盛夏 `lotus-summer` · 春雪寻梅 `spring-plum` · 绿意回眸 `green-glance` |
-  | ❄️ 雪与寒 | 雪落庭院 `snow-court` · 雪原独行 `snow-walk` |
-  | 🎋 竹绿与山野 | 竹影清茶 `bamboo-tea` · 松间晨雾 `pine-dawn` · 山巅风起 `peak-wind` |
-  | 🏮 夜与灯 | 灯下夜读 `lamp-reading` · 提灯夜行 `lantern-walk` · 烛影摇红 `candle-night` · 月下独坐 `moon-court` |
-  | 🌊 水与远行 | 湖畔暮光 `lake-glow` · 舟头望水 `boat-gaze` · 回廊听雨 `corridor-rain` |
-  | ⚔️ 江湖与侠气 | 江湖冷调 `jianghu-cold` · 月下横剑 `moon-blade` |
-  | 🍂 秋与静室 | 秋庭落笺 `autumn-letter` · 书斋静读 `library-quiet` |
-
-  ⭐ 出自顶部九宫格的 9 个：花影柔光 · 雪落庭院 · 竹影清茶 · 灯下夜读 · 绿意回眸 ·
-  湖畔暮光 · 江湖冷调 · 落英慵卧 · 提灯夜行（逐格命名）。
-
-- **六槽自由组合**（固定风格层永不变，只换槽位 = 稳定出图的根本）：
-
-  | 槽位 | 取值 |
-  |---|---|
-  | `--scene` 环境 | `bamboo-garden` 竹林庭院 / `snow-court` 雪庭 / `lakeside-dusk` 湖畔暮色 / `study-lamp` 书案灯下 / `blossom-shadow` 花影 / `night-lantern` 夜色提灯 / `pine-terrace` 松石亭台 / `river-wind` 江畔旷野 |
-  | `--light` 光型 | `dappled-sun` 斑驳树影 / `snow-diffuse` 雪天散射 / `bamboo-leak` 竹叶漏光 / `lamp-warm` 灯火暖调 / `dusk-backlight` 暮色逆光 / `lantern-night` 提灯夜行 / `cold-window` 冷调窗光 |
-  | `--mood` 情绪 | `quiet-aloof` 安静疏离 / `fragile` 易碎 / `wistful` 怅惘 / `lazy` 慵懒 / `tender` 温柔 / `cold-steel` 清冷 |
-  | `--shot` 机位 | `candid-half` 抓拍半身 50mm f/1.8 / `candid-close` 抓拍特写 85mm f/1.4 / `full-figure` 全身 35mm f/2 / `high-angle` 俯拍 / `candid-turned` 回眸 / `back-view` 背影 |
-  | `--film` 胶片 | `pro400h` Fujifilm Pro 400H 青绿通透（默认）/ `portra400` Kodak Portra 400 暖奶油 / `superia` Fujifilm Superia 纪实 / `cinestill800t` CineStill 800T 夜景钨丝灯 / `none` 通用 |
-  | `--era` 形制 | `song` 宋制 / `tang` 唐制 / `wei-jin` 魏晋 / `none` 不约束 |
-
-- **CLI 一键出图**（端到端：整理提示词 → 出图 → 落盘）：
-
-  ```bash
-  # 推荐：点一个命名风格，只改主体
-  ./styles/film-ambient/scripts/generate.py \
-    --preset blossom-veil --subject "凑近花枝，微微侧脸" \
-    --ref ~/refs/face-anchor.jpg      # ← 锁脸，稳定出同一个人
-
-  # 风格 + 覆盖单个槽位（其余沿用预设）
-  ./styles/film-ambient/scripts/generate.py \
-    --preset snow-court --subject "抬头看雪" --shot candid-close
-  ```
-
-- **稳定出图三件事**（`styles/film-ambient/references/model-recommendations.md`）：
-  1. 首选 **GPT Image 2.5** + **英文**提示词（皮肤微纹理是它的强项）
-  2. **必须 `--ref` 垫图锁脸** —— 提示词锁不住脸，不锁脸就会每次换人（不稳定的最大来源）
-  3. 出图后按七维自检打分，不达标**改槽位重出**，不靠抽卡
-
----
-
-### 💡 出图避坑与模型调用法则
-
-1. **绝对排雷清单**：
-   - 严禁加入 `"8k", "masterpiece", "doll face", "unreal engine render"` 等被模型玩坏的空洞词，会直接触发千篇一律的 AI 网红假脸。
-   - 必须强制排查：添加 `Avoid: modern elements, western makeup, plastic skin, distorted fingers, excessive smoothing`。
-2. **多模型适配建议**：
-   - **Seedream（火山引擎）**：东方美人脸型骨相最纯正，中文提示词理解最深。
-   - **gpt-image-2**：**光影质感与皮肤微毛孔细节之王**。英文 Prompt + `cinematic lighting, 85mm f/1.4, subtle film grain` 效果封神。
-   - **qwen-image**：批量摸索与快速出多版人物草稿首选。
-
----
-
-## 🚀 三种用法
-
-### 一、装成 Agent Skill（推荐）
-
-把整个仓库放进 agent 的 skills 目录，`SKILL.md` 就是入口，
-agent 会自己问清风格与题材再出图。
-
-### 二、命令行生成提示词
+**二、命令行生成提示词**
 
 ```bash
-# 国漫 3D 写实 · 男性角色 · 人像画幅
+# 国漫 3D 写实 · 男性角色
 python scripts/build_prompt.py --style 3d-realistic \
   --subject "冷峻的青年剑修，月下山巅，黑色长发高束" \
   --category character-male --ratio 3:4
 
 # 国风水墨 · 人物
 python scripts/build_prompt.py --style ink-wash \
-  --subject "白衣书生，竹林独坐" \
-  --category character --ratio 3:4
+  --subject "白衣书生，竹林独坐" --category character --ratio 3:4
 
-# 古风氛围胶片 · 竹林抓拍（六槽位，--list 看全部取值）
+# 古风氛围胶片 · 点命名风格
 python scripts/build_prompt.py --style film-ambient \
-  --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶" \
-  --scene bamboo-garden --light dappled-sun --film pro400h \
-  --mood quiet-aloof --shot candid-half --era song --ratio 3:4
+  --preset bamboo-tea --subject "竹影扫阶，一盏清茶" --ratio 3:4
 ```
 
 输出 JSON，含 `positive_zh` / `positive_en` / `negative_*` / `recommended_size`。
 不带 `--style` 默认 `3d-realistic`。
 
-### 三、直接抄示例
+**三、直接抄示例**
 
-- `styles/3d-realistic/examples/character-male|character-female/` — 英文提示词
-- `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
-- `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词表、镜头参数、组合公式、避坑）
+- `styles/3d-realistic/examples/` `examples-zh/` `prompt-library-zh.md` — 中英示例 + 提示词库全文
 - `styles/ink-wash/examples/character/` — 水墨人物示例
-- `styles/film-ambient/examples/portrait/bamboo-candid.md` — **手写基准范例**（竹林抓拍 · 宋韵青绿），
-  含完整中英提示词与"这张为什么是对的"逐条拆解
-
-每个示例带完整提示词（中英）、参考图、推荐画幅。
+- `styles/film-ambient/examples/portrait/bamboo-candid.md` — **手写基准范例**
+  （竹林抓拍 · 宋韵青绿），含完整中英提示词与"这张为什么是对的"逐条拆解
 
 ---
 
-## 📁 目录结构
+### 出图避坑与模型法则
+
+1. **绝对排雷清单**
+   - 严禁 `"8k" "masterpiece" "doll face" "unreal engine render"` 等空洞词 —— 直接触发千篇一律的 AI 网红假脸
+   - 强制排查：`Avoid: modern elements, western makeup, plastic skin, distorted fingers, excessive smoothing`
+2. **多模型适配**
+   - **GPT Image 2.5**：光影质感与皮肤微毛孔细节之王。**用英文 prompt** + `cinematic lighting, 85mm f/1.4, subtle film grain`
+   - **Seedream（火山引擎）**：东方美人脸型骨相最纯正，中文理解最深
+   - **qwen-image**：批量摸槽位组合、快速出多版草稿
+3. **稳定出图三件事**（详见 `styles/film-ambient/references/model-recommendations.md`）
+   - 风格锚点固化（固定层永不变，只换槽位）
+   - **必须 `--ref` 垫图锁脸** —— 提示词锁不住脸，这是不稳定的最大来源
+   - 出图后按七维自检打分，不达标**改槽位重出**，不靠抽卡
+
+---
+
+### 目录结构
 
 ```
 AESTHETIC.md                审美判断层（先读）—— 六条原理 / 推导链 / 诊断回路 / 反例解剖
@@ -407,28 +329,18 @@ dynasties/
   common-prompt-base.md     跨朝代 4 段式通用骨架
   tang/ song/ wei-jin/      各朝代的 SKILL.md + references/ + scripts/generate.py
 styles/
-  3d-realistic/
-    build_prompt.py         该风格完整的提示词构建器
-    prompt-library-zh.md    中文提示词库全文
-    references/             visual-dna / camera-lenses / negative-prompts / model-recommendations
-    examples/  examples-zh/ 人像示例提示词（英 / 中）
-    assets/                 人像参考图
-  ink-wash/
-    build_prompt.py
-    references/             visual-dna / brush-techniques / negative-prompts / model-recommendations
-    examples/  assets/
-    SKILL-original.md       合并前的独立版本，保留备查
-  film-ambient/             古风氛围胶片人像（真实摄影，非渲染）
-    build_prompt.py         六槽位提示词构建器（--list 看全部取值）
-    scripts/generate.py     端到端出图 wrapper（--ref 垫图锁脸）
+  3d-realistic/             build_prompt.py / prompt-library-zh.md / references/ / examples/ / assets/
+  ink-wash/                 build_prompt.py / references/ / examples/ / assets/
+  film-ambient/             六槽位 + 21 命名风格
+    build_prompt.py         提示词构建器（--list 看风格与槽位）
+    scripts/generate.py     端到端出图（--preset / --ref 锁脸 / --batch）
     references/             visual-dna / style-presets / light-patterns / camera-recipes / negative-prompts / model-recommendations
-    examples/portrait/      手写基准范例（竹林抓拍 · 宋韵青绿）
     assets/gallery-9grid.jpg 标杆九宫格（审美锚点）
 ```
 
 ---
 
-## 📜 由三个仓库合并而来
+### 由三个仓库合并而来
 
 v2.0.0 之前这是三个独立仓库，主题互相重叠：
 
@@ -439,15 +351,14 @@ v2.0.0 之前这是三个独立仓库，主题互相重叠：
 | `guoman-ink-wash-skill` | 国风水墨 skill | `styles/ink-wash/` |
 | `guofeng-meiren` | 古风美人 skill 集（唐/宋/魏晋朝代形制） | `dynasties/` |
 
-前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），一个是 skill 包格式、
-一个是提示词库格式，各自演进互不知情——正是"一个项目两个仓库"的典型。
+前两个是**同一主题的两个版本**（slug 都是 `*-3d-realistic`），各自演进互不知情。
+v2.1.0 收窄为**纯人像**（移除场景/器物/自然/诗意题材）。v3.0.0 并入 `guofeng-meiren`
+补上朝代维度。v3.1–3.3 新增胶片氛围画法、胶片型号锚点与 21 个命名风格。
+v3.4.0 补上审美判断层 `AESTHETIC.md`。
 
-v2.1.0 进一步收窄为**纯人像**：场景、器物、自然、诗意题材的素材与提示词全部移除，
-两份 `build_prompt.py` 的对应 category 一并删掉。定位模糊的工具没人用得顺手。
+</details>
 
-v3.0.0 并入 `guofeng-meiren`——它同样是古风人像出图 skill，只是切分维度不同
-（按朝代而非按画法）。两者正交互补：原来只说"形制统一的汉服"却没有朝代知识，
-现在补上了唐/宋/魏晋的具体服饰 token 与配色。
+---
 
 ## 📄 License
 
