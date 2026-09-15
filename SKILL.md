@@ -106,9 +106,11 @@ assets / build_prompt.py，本文只做路由。
 2. **题材**
    - `3d-realistic`：`character-male` / `character-female`
    - `ink-wash`：`character`
-   - `film-ambient`：六个槽位 `--scene` / `--light` / `--mood` / `--film` /
-     `--shot` / `--era`，先 `--list` 看全部取值
-     （默认：竹林庭院 + 斑驳树影 + 安静疏离 + Pro 400H + 抓拍半身）
+   - `film-ambient`：**先看 21 个命名风格**（`--preset`，见
+     `styles/film-ambient/references/style-presets.md`），点一个再改主体最省事；
+     需要自定义时用六个槽位 `--scene` / `--light` / `--mood` / `--film` /
+     `--shot` / `--era`（先 `--list` 看全部取值）
+     （无预设时的默认：竹林庭院 + 斑驳树影 + 安静疏离 + Pro 400H + 抓拍半身）
 
 3. **朝代**（可选）：`tang` / `song` / `wei-jin`，不指定则不加朝代形制约束
 
@@ -135,7 +137,14 @@ python scripts/build_prompt.py --style <3d-realistic|ink-wash> \
   --ratio <3:4|16:9|9:16|1:1> \
   [--media image]
 
-# film-ambient：六个槽位，默认值已是最通用的起点
+# film-ambient：推荐先点命名风格（21 个），只改主体
+python scripts/build_prompt.py --style film-ambient \
+  --preset <blossom-veil|snow-court|bamboo-tea|...> \
+  --subject "<主体描述>" \
+  [--shot candid-close]        # 单槽位可覆盖预设
+  --ratio 3:4
+
+# film-ambient：手搭槽位（六个槽，默认值已是最通用的起点）
 python scripts/build_prompt.py --style film-ambient \
   --subject "<主体描述>" \
   --scene <bamboo-garden|snow-court|lakeside-dusk|...> \
@@ -233,6 +242,8 @@ python scripts/build_prompt.py --style film-ambient \
 - **用胶片型号当锚点**：具体型号名（`pro400h` / `portra400` / `cinestill800t`）
   同时锁定色彩倾向、宽容度、高光行为与颗粒粗细，比"胶片质感 / film grain"这类泛词硬得多；
   一次只用一个型号，混用会让模型两头不靠
+- **先用预设，再谈调参**：21 个命名风格覆盖了绝大多数需求，点一个只改主体
+  就能出图；只有预设都不合适时才手搭六个槽位
 - 一次只换两个槽位，光型和机位别同时调（一次全换 = 重新抽卡）
 
 ## 参考资料
@@ -245,6 +256,7 @@ python scripts/build_prompt.py --style film-ambient \
 | `styles/3d-realistic/references/camera-lenses.md` | 镜头、焦段、布光配方（特写 / 半身 / 全身） |
 | `styles/ink-wash/references/brush-techniques.md` | 笔法、墨法、宣纸质感 |
 | `styles/film-ambient/references/visual-dna.md` | **本画法的七维审美指纹**（色彩 / 光 / 质感 / 构图 / 造型 / 情绪 / 抓拍感） |
+| `styles/film-ambient/references/style-presets.md` | **21 个命名风格菜单**（花影柔光 / 雪落庭院 / 竹影清茶 …）+ 按情绪倒推选风格 + 怎么加新风格 |
 | `styles/film-ambient/references/light-patterns.md` | 7 种光型库（斑驳树影 / 雪天散射 / 竹叶漏光 / 灯火 / 暮色逆光 / 提灯 / 冷调窗光） |
 | `styles/film-ambient/references/camera-recipes.md` | 焦段机位配方 + 抓拍姿态库 + 构图三规则 |
 | `styles/film-ambient/assets/gallery-9grid.jpg` | **标杆九宫格** —— 出图偏离这张太远时回 visual-dna 比对 |

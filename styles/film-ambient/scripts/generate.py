@@ -4,22 +4,26 @@
 把 build_prompt.py 的槽位化提示词直接接到中台出图，并默认带上垫图锁脸。
 
 用法:
-  # 最小用法（默认：竹林庭院 + 斑驳树影 + 安静疏离 + 抓拍半身）
-  ./generate.py --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶"
+  # 最小用法：直接点一个命名风格（21 个，--list 可查）
+  ./generate.py --preset blossom-veil --subject "凑近花枝，微微侧脸"
+  ./generate.py --preset lantern-walk --subject "提着灯笼走过石阶"
 
-  # 换槽位（一次最多换两个，见 references/model-recommendations.md）
+  # 风格 + 覆盖单个槽位（其余沿用风格预设）
+  ./generate.py --preset snow-court --subject "抬头看雪" --shot candid-close
+
+  # 不用预设，手搭槽位
   ./generate.py --subject "..." --scene snow-court --light snow-diffuse --mood fragile
 
   # 换胶片型号（默认 pro400h 日系青绿；夜景配 cinestill800t，暖调配 portra400）
   ./generate.py --subject "..." --light lantern-night --film cinestill800t
 
   # 锁脸：稳定出同一个人（强烈建议每次都带）
-  ./generate.py --subject "..." --ref ~/refs/face-anchor.jpg
+  ./generate.py --preset green-glance --subject "..." --ref ~/refs/face-anchor.jpg
 
   # 只看提示词不出图
-  ./generate.py --subject "..." --dry-run
+  ./generate.py --preset bamboo-tea --subject "..." --dry-run
 
-  # 批量（每行一个 subject，其余槽位作为公共参数）
+  # 批量（每行一个 subject，其余槽位/风格作为公共参数）
   ./generate.py --batch subjects.txt --ref ~/refs/face-anchor.jpg
 
 依赖:
@@ -34,16 +38,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from build_prompt import build_prompt, RATIO_TO_SIZE  # noqa: E402
+from build_prompt import build_prompt, resolve_slots, PRESETS, RATIO_TO_SIZE  # noqa: E402
 
 DEFAULT_OUT = Path.home() / "Movies" / "guofeng-portrait" / "film-ambient"
 
 
 def make_prompt(args, subject):
-    """按槽位生成完整提示词（英文，给 GPT Image 2.5）。"""
+    """按命名风格 / 槽位生成完整提示词（英文，给 GPT Image 2.5）。"""
+    slots = resolve_slots(
+        getattr(args, "preset", None),
+        scene=args.scene, light=args.light, mood=args.mood,
+        film=args.film, shot=args.shot, era=args.era,
+    )
     result = build_prompt(
-        args.scene, args.light, args.mood, args.shot, args.era, args.film,
-        subject, "image", args.ratio,
+        slots["scene"], slots["light"], slots["mood"], slots["shot"],
+        slots["era"], slots["film"],
+        subject, "image", args.ratio, preset=getattr(args, "preset", None),
     )
     prompt = result["positive_en"]
     if not args.no_negative:
@@ -79,12 +89,15 @@ def main():
     )
     parser.add_argument("--subject", help="主体与姿态描述")
     parser.add_argument("--batch", help="批量模式：每行一个 subject 的文本文件")
-    parser.add_argument("--scene", default="bamboo-garden")
-    parser.add_argument("--light", default="dappled-sun")
-    parser.add_argument("--mood", default="quiet-aloof")
-    parser.add_argument("--shot", default="candid-half")
-    parser.add_argument("--era", default="none", help="song / tang / wei-jin / none")
-    parser.add_argument("--film", default="pro400h",
+    parser.add_argument("--preset", choices=list(PRESETS.keys()), default=None,
+                        help=f"命名风格（{len(PRESETS)} 个：花影柔光 / 雪落庭院 / 竹影清茶 ...）；"
+                             "单槽位参数可覆盖预设")
+    parser.add_argument("--scene", default=None)
+    parser.add_argument("--light", default=None)
+    parser.add_argument("--mood", default=None)
+    parser.add_argument("--shot", default=None)
+    parser.add_argument("--era", default=None, help="song / tang / wei-jin / none")
+    parser.add_argument("--film", default=None,
                         help="胶片型号：pro400h 日系青绿（默认）/ portra400 暖奶油 / "
                              "superia 纪实 / cinestill800t 夜景钨丝灯 / none 通用")
     parser.add_argument("--ratio", default="3:4", choices=list(RATIO_TO_SIZE.keys()))

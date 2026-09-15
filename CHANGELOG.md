@@ -1,5 +1,44 @@
 # 更新日志 / Changelog
 
+## v3.3.0（2026-09-15）
+
+给 `film-ambient` 建**命名风格库** —— 把槽位取值从"零件"变成"能直接点的菜"。
+
+### 新增（Added）
+
+- **21 个命名风格**（`--preset`）—— 每个是一套调好的槽位组合 + 一句美学定位：
+
+  | 气质 | 风格 |
+  |---|---|
+  | 🌸 花木与春夏 | 花影柔光 `blossom-veil` · 落英慵卧 `petal-recline` · 荷塘盛夏 `lotus-summer` · 春雪寻梅 `spring-plum` · 绿意回眸 `green-glance` |
+  | ❄️ 雪与寒 | 雪落庭院 `snow-court` · 雪原独行 `snow-walk` |
+  | 🎋 竹绿与山野 | 竹影清茶 `bamboo-tea` · 松间晨雾 `pine-dawn` · 山巅风起 `peak-wind` |
+  | 🏮 夜与灯 | 灯下夜读 `lamp-reading` · 提灯夜行 `lantern-walk` · 烛影摇红 `candle-night` · 月下独坐 `moon-court` |
+  | 🌊 水与远行 | 湖畔暮光 `lake-glow` · 舟头望水 `boat-gaze` · 回廊听雨 `corridor-rain` |
+  | ⚔️ 江湖与侠气 | 江湖冷调 `jianghu-cold` · 月下横剑 `moon-blade` |
+  | 🍂 秋与静室 | 秋庭落笺 `autumn-letter` · 书斋静读 `library-quiet` |
+
+  标 ⭐ 的前 9 个出自标杆九宫格，逐格命名。
+- **`references/style-presets.md`** —— 完整菜单：分组表 + 按情绪倒推选风格 + 加新风格的约束。
+- **槽位扩充**：环境 8→16、光型 7→12、情绪 6→10、机位 6→7（新增仰拍 `low-angle`），
+  槽位取值合计 36→54。
+
+### 变更（Changed）
+
+- `build_prompt.py`：新增 `PRESETS` / `DEFAULT_SLOTS` / `resolve_slots()`
+  （覆盖优先级：**显式槽位 > 预设 > 全局默认**）；新增 `--preset`；
+  `--list` 现在同时打印风格库与槽位表；JSON 输出新增 `preset` 字段。
+- `scripts/generate.py`：新增 `--preset`；槽位参数默认值改为 `None` 以支持预设覆盖。
+- `SKILL.md` / `README.md`：把"**先点风格，再谈调参**"作为 film-ambient 的推荐入口；
+  README 画廊第 9 节加 21 风格分组表。
+
+### 为什么（Why）
+
+36 个槽位取值 = 十万种理论组合，**对使用者等于没有菜单**。
+命名风格把验证过的组合固化，让"懂你的审美"从"需要调参"变成**一条命令**。
+
+---
+
 ## v3.2.0（2026-09-15）
 
 给 `film-ambient` 加**胶片型号锚点** —— 把"胶片感"从形容词变成硬锚点。

@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.2.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.3.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-维度一画法)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-维度二朝代形制)
 [![Gallery](https://img.shields.io/badge/美人画廊-图鉴-ff69b4.svg)](#-美人风格图鉴与视觉画廊-beauty-gallery--styles)
@@ -251,6 +251,22 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
   ⑥ 情绪 ⭐ · 清冷、疏离、易碎（倚 / 趴 / 蹲坐 / 回眸 / 仰望 / 垂眸）
   ⑦ 抓拍感 ⭐ · **"像摄影师突然叫住她的一瞬间"** —— 这一步是分水岭
 
+- **21 个命名风格** —— 一条 `--preset` 直接出图，不用再想"该配什么光"
+  （完整菜单见 [`style-presets.md`](styles/film-ambient/references/style-presets.md)）：
+
+  | 气质 | 风格（`--preset`） |
+  |---|---|
+  | 🌸 花木与春夏 | 花影柔光 `blossom-veil` · 落英慵卧 `petal-recline` · 荷塘盛夏 `lotus-summer` · 春雪寻梅 `spring-plum` · 绿意回眸 `green-glance` |
+  | ❄️ 雪与寒 | 雪落庭院 `snow-court` · 雪原独行 `snow-walk` |
+  | 🎋 竹绿与山野 | 竹影清茶 `bamboo-tea` · 松间晨雾 `pine-dawn` · 山巅风起 `peak-wind` |
+  | 🏮 夜与灯 | 灯下夜读 `lamp-reading` · 提灯夜行 `lantern-walk` · 烛影摇红 `candle-night` · 月下独坐 `moon-court` |
+  | 🌊 水与远行 | 湖畔暮光 `lake-glow` · 舟头望水 `boat-gaze` · 回廊听雨 `corridor-rain` |
+  | ⚔️ 江湖与侠气 | 江湖冷调 `jianghu-cold` · 月下横剑 `moon-blade` |
+  | 🍂 秋与静室 | 秋庭落笺 `autumn-letter` · 书斋静读 `library-quiet` |
+
+  ⭐ 出自顶部九宫格的 9 个：花影柔光 · 雪落庭院 · 竹影清茶 · 灯下夜读 · 绿意回眸 ·
+  湖畔暮光 · 江湖冷调 · 落英慵卧 · 提灯夜行（逐格命名）。
+
 - **六槽自由组合**（固定风格层永不变，只换槽位 = 稳定出图的根本）：
 
   | 槽位 | 取值 |
@@ -265,11 +281,14 @@ UE5 Nanite/Lumen 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒
 - **CLI 一键出图**（端到端：整理提示词 → 出图 → 落盘）：
 
   ```bash
+  # 推荐：点一个命名风格，只改主体
   ./styles/film-ambient/scripts/generate.py \
-    --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶，微微抬头看向镜头" \
-    --scene bamboo-garden --light dappled-sun --film pro400h --mood quiet-aloof \
-    --shot candid-half --era song --ratio 3:4 \
+    --preset blossom-veil --subject "凑近花枝，微微侧脸" \
     --ref ~/refs/face-anchor.jpg      # ← 锁脸，稳定出同一个人
+
+  # 风格 + 覆盖单个槽位（其余沿用预设）
+  ./styles/film-ambient/scripts/generate.py \
+    --preset snow-court --subject "抬头看雪" --shot candid-close
   ```
 
 - **稳定出图三件事**（`styles/film-ambient/references/model-recommendations.md`）：
@@ -358,7 +377,7 @@ styles/
   film-ambient/             古风氛围胶片人像（真实摄影，非渲染）
     build_prompt.py         六槽位提示词构建器（--list 看全部取值）
     scripts/generate.py     端到端出图 wrapper（--ref 垫图锁脸）
-    references/             visual-dna / light-patterns / camera-recipes / negative-prompts / model-recommendations
+    references/             visual-dna / style-presets / light-patterns / camera-recipes / negative-prompts / model-recommendations
     examples/portrait/      手写基准范例（竹林抓拍 · 宋韵青绿）
     assets/gallery-9grid.jpg 标杆九宫格（审美锚点）
 ```

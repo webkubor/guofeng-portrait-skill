@@ -14,17 +14,31 @@ Build prompts for the film-ambient (古风氛围胶片人像) style.
   情绪（真人抓拍、空气感、电影静帧）
   负面（影楼味、仙侠光效、网红脸、塑料皮肤 —— 见 NEGATIVE_*）
 
-可换槽位（六维）：
+命名风格库（PRESETS，21 个）—— 最省事的入口：
+  --preset 花影柔光 blossom-veil / 雪落庭院 snow-court / 竹影清茶 bamboo-tea /
+           灯下夜读 lamp-reading / 绿意回眸 green-glance / 湖畔暮光 lake-glow /
+           江湖冷调 jianghu-cold / 落英慵卧 petal-recline / 提灯夜行 lantern-walk /
+           回廊听雨 corridor-rain / 荷塘盛夏 lotus-summer / 月下独坐 moon-court /
+           山巅风起 peak-wind / 雪原独行 snow-walk / 秋庭落笺 autumn-letter /
+           舟头望水 boat-gaze / 松间晨雾 pine-dawn / 烛影摇红 candle-night /
+           书斋静读 library-quiet / 月下横剑 moon-blade / 春雪寻梅 spring-plum
+  完整菜单见 references/style-presets.md；--list 可打印全部。
+
+可换槽位（六维）—— 显式传入会覆盖预设：
   --scene   环境（竹林庭院 / 雪庭 / 湖畔暮色 / 书案灯下 / 花影 / 夜色提灯 ...）
   --light   光型（斑驳树影 / 雪天散射 / 竹叶漏光 / 灯火暖调 / 暮色逆光 ...）
-  --mood    情绪（安静疏离 / 易碎 / 怅惘 / 慵懒 / 温柔 / 清冷）
+  --mood    情绪（安静疏离 / 易碎 / 怅惘 / 慵懒 / 温柔 / 清冷 ...）
   --film    胶片型号（Pro 400H 日系青绿 / Portra 400 暖奶油 / Superia 纪实 /
             CineStill 800T 夜景钨丝灯 / none 通用）
   --shot    机位与景别（抓拍半身 50mm f/1.8 / 抓拍特写 85mm f/1.4 / 俯拍 ...）
   --era     朝代形制（宋 / 唐 / 魏晋，与 dynasties/ 维度对齐，不指定则不加约束）
   --subject 具体主体描述（唯一必须自由发挥的部分）
 
-Example:
+Example（推荐：点风格 + 只改主体）:
+  python scripts/build_prompt.py --style film-ambient \
+      --preset blossom-veil --subject "凑近花枝，微微侧脸"
+
+Example（手搭槽位）:
   python scripts/build_prompt.py --style film-ambient \
       --subject "轻轻蹲坐在青石旁，一只手随意拿着一小枝竹叶" \
       --scene bamboo-garden --light dappled-sun --film pro400h \
@@ -32,8 +46,9 @@ Example:
 
 输出为 stdout 的 JSON：
   {
-    "style": "film-ambient", "scene": "...", "light": "...", "mood": "...",
-    "shot": "...", "era": "...", "film": "...", "media": "image", "ratio": "3:4",
+    "style": "film-ambient", "preset": "...", "scene": "...", "light": "...",
+    "mood": "...", "shot": "...", "era": "...", "film": "...",
+    "media": "image", "ratio": "3:4",
     "subject": "...", "positive_zh": "...", "positive_en": "...",
     "negative_zh": "...", "negative_en": "...", "recommended_size": "1024x1536"
   }
@@ -116,6 +131,38 @@ SCENES = {
         "zh": "江畔旷野，风穿过草木，衣料与发丝被吹起",
         "en": "open riverside wilderness, wind moving through grass and trees, fabric and hair lifted by the breeze",
     },
+    "corridor-rain": {
+        "zh": "木质回廊檐下，雨幕垂落，青石地面泛着水光",
+        "en": "under the eaves of a wooden corridor, curtains of rain falling, wet flagstones catching the light",
+    },
+    "lotus-pond": {
+        "zh": "荷塘盛夏，荷叶与木栏，水面反光晃动",
+        "en": "a lotus pond in high summer, lotus leaves and a wooden railing, reflections shifting on the water",
+    },
+    "moonlit-court": {
+        "zh": "月下中式庭院，石阶与树影，夜色清冷",
+        "en": "a Chinese courtyard under moonlight, stone steps and tree shadows, cool night air",
+    },
+    "mountain-peak": {
+        "zh": "山巅云海，风起草伏，远景层叠山脊",
+        "en": "a mountain summit above a sea of clouds, wind moving through grass, layered ridges beyond",
+    },
+    "snow-field": {
+        "zh": "无垠雪原，枯树与远山，天地一片素白",
+        "en": "an endless snowfield, bare trees and distant hills, the world reduced to white",
+    },
+    "autumn-court": {
+        "zh": "秋日庭院，银杏与枫叶落满石径",
+        "en": "an autumn courtyard, ginkgo and maple leaves scattered across a stone path",
+    },
+    "boat-river": {
+        "zh": "江上小舟，船头望水，远岸淡去",
+        "en": "a small boat on the river, standing at the bow, the far bank fading into haze",
+    },
+    "pine-mist": {
+        "zh": "松林晨雾，石径半隐，光柱柔和",
+        "en": "a pine forest in morning mist, a half-hidden stone path, soft shafts of light",
+    },
 }
 
 
@@ -156,6 +203,26 @@ LIGHTS = {
         "zh": "冷调窗光侧照，柔和阴影呈灰绿，室内低调",
         "en": "cool window light from the side, soft grey-green shadows, low-key interior",
     },
+    "rain-soft": {
+        "zh": "阴雨散射柔光，低对比，空气湿润发亮",
+        "en": "soft diffused light in the rain, low contrast, humid air glowing",
+    },
+    "moonlight": {
+        "zh": "月华侧照，银蓝冷调，暗部深沉而通透",
+        "en": "moonlight from the side, silver-blue cast, deep yet luminous shadows",
+    },
+    "mist-dawn": {
+        "zh": "晨雾漫射，光线柔和成柱，空气透视明显",
+        "en": "dawn light diffused through mist, soft shafts, strong atmospheric depth",
+    },
+    "candle-flutter": {
+        "zh": "烛火摇曳的暖点光，大面积暗部，暖冷对比强",
+        "en": "flickering candlelight as a warm point source, large dark areas, strong warm-cool contrast",
+    },
+    "overcast-silver": {
+        "zh": "阴天银调，无方向的高级灰柔光，电影感",
+        "en": "overcast silver light, directionless soft grey, cinematic",
+    },
 }
 
 
@@ -187,6 +254,22 @@ MOODS = {
     "cold-steel": {
         "zh": "清冷克制，下颌微抬，眼神带一点危险感",
         "en": "cool and restrained, chin slightly raised, a hint of danger in her eyes",
+    },
+    "serene": {
+        "zh": "恬静安然，呼吸匀长，眉眼舒展",
+        "en": "serene and settled, unhurried breathing, softened brows",
+    },
+    "curious": {
+        "zh": "抬眼探询，微微前倾，像在听什么",
+        "en": "looking up in inquiry, leaning slightly in, as if listening to something",
+    },
+    "resolute": {
+        "zh": "目光沉稳，下颌微收，不笑",
+        "en": "steady unwavering gaze, chin slightly tucked, unsmiling",
+    },
+    "dreamy": {
+        "zh": "半梦半醒，眼神失焦，神思在别处",
+        "en": "half-awake, unfocused eyes, her mind somewhere else",
     },
 }
 
@@ -223,6 +306,11 @@ SHOTS = {
     "back-view": {
         "zh": "背影或侧背影，发丝与衣料随风，人物面向环境深处",
         "en": "back or three-quarter-back view, hair and fabric caught by the wind, facing into the depth of the scene",
+    },
+    "low-angle": {
+        "zh": "机位略低于视线仰拍，气场与疏离感，天空或屋檐入画",
+        "en": "camera slightly below eye level looking up, a sense of presence and distance, "
+              "sky or eaves entering the frame",
     },
 }
 
@@ -290,6 +378,176 @@ FILMS = {
 
 
 # ============================================================
+# 命名风格库（presets）—— 把槽位组合固化成"能直接点的菜"
+#
+# 36 个槽位取值 = 十万种理论组合，对使用者等于没有菜单。
+# 这里把验证过的组合命名固化：`--preset blossom-veil` 一条命令出图，
+# 显式传入的单个槽位会覆盖预设（预设只提供基础值）。
+#
+# 前 9 个来自标杆九宫格（assets/gallery-9grid.jpg），后面是扩展。
+# ============================================================
+
+PRESETS = {
+    # —— 以下 9 个对应标杆九宫格，逐格命名 ——
+    "blossom-veil": {
+        "zh": "花影柔光",
+        "line": "花枝掩面，光落成影 —— 最柔的一张",
+        "slots": {"scene": "blossom-shadow", "light": "dappled-sun", "mood": "tender",
+                  "film": "pro400h", "shot": "candid-close", "era": "song"},
+    },
+    "snow-court": {
+        "zh": "雪落庭院",
+        "line": "雪落无声，人比雪静",
+        "slots": {"scene": "snow-court", "light": "snow-diffuse", "mood": "fragile",
+                  "film": "pro400h", "shot": "candid-half", "era": "song"},
+    },
+    "bamboo-tea": {
+        "zh": "竹影清茶",
+        "line": "竹影扫阶，一盏清茶，人不想动",
+        "slots": {"scene": "bamboo-garden", "light": "bamboo-leak", "mood": "lazy",
+                  "film": "pro400h", "shot": "candid-half", "era": "song"},
+    },
+    "lamp-reading": {
+        "zh": "灯下夜读",
+        "line": "一灯如豆，书页半掩，暗部留得住",
+        "slots": {"scene": "study-lamp", "light": "lamp-warm", "mood": "wistful",
+                  "film": "portra400", "shot": "candid-close", "era": "song"},
+    },
+    "green-glance": {
+        "zh": "绿意回眸",
+        "line": "绿意深处，忽然回头 —— 像被谁叫了一声",
+        "slots": {"scene": "bamboo-garden", "light": "bamboo-leak", "mood": "quiet-aloof",
+                  "film": "pro400h", "shot": "candid-turned", "era": "song"},
+    },
+    "lake-glow": {
+        "zh": "湖畔暮光",
+        "line": "暮色落水，人影快要成剪影",
+        "slots": {"scene": "lakeside-dusk", "light": "dusk-backlight", "mood": "wistful",
+                  "film": "portra400", "shot": "back-view", "era": "none"},
+    },
+    "jianghu-cold": {
+        "zh": "江湖冷调",
+        "line": "天地不仁，衣袂带霜",
+        "slots": {"scene": "river-wind", "light": "overcast-silver", "mood": "cold-steel",
+                  "film": "superia", "shot": "low-angle", "era": "none"},
+    },
+    "petal-recline": {
+        "zh": "落英慵卧",
+        "line": "落瓣满身，懒得起身",
+        "slots": {"scene": "blossom-shadow", "light": "dappled-sun", "mood": "lazy",
+                  "film": "pro400h", "shot": "candid-half", "era": "song"},
+    },
+    "lantern-walk": {
+        "zh": "提灯夜行",
+        "line": "一盏灯笼，只照亮半张脸",
+        "slots": {"scene": "night-lantern", "light": "lantern-night", "mood": "quiet-aloof",
+                  "film": "cinestill800t", "shot": "candid-turned", "era": "none"},
+    },
+
+    # —— 扩展风格 ——
+    "corridor-rain": {
+        "zh": "回廊听雨",
+        "line": "檐外雨声很大，人没动",
+        "slots": {"scene": "corridor-rain", "light": "rain-soft", "mood": "wistful",
+                  "film": "pro400h", "shot": "candid-half", "era": "song"},
+    },
+    "lotus-summer": {
+        "zh": "荷塘盛夏",
+        "line": "盛夏荷风，眼睫低垂",
+        "slots": {"scene": "lotus-pond", "light": "dappled-sun", "mood": "serene",
+                  "film": "pro400h", "shot": "candid-half", "era": "song"},
+    },
+    "moon-court": {
+        "zh": "月下独坐",
+        "line": "月色很凉，人很静",
+        "slots": {"scene": "moonlit-court", "light": "moonlight", "mood": "serene",
+                  "film": "pro400h", "shot": "full-figure", "era": "none"},
+    },
+    "peak-wind": {
+        "zh": "山巅风起",
+        "line": "风从谷底上来，衣角和草一起倒",
+        "slots": {"scene": "mountain-peak", "light": "mist-dawn", "mood": "resolute",
+                  "film": "superia", "shot": "full-figure", "era": "none"},
+    },
+    "snow-walk": {
+        "zh": "雪原独行",
+        "line": "天地之间只剩她一个",
+        "slots": {"scene": "snow-field", "light": "snow-diffuse", "mood": "fragile",
+                  "film": "pro400h", "shot": "back-view", "era": "none"},
+    },
+    "autumn-letter": {
+        "zh": "秋庭落笺",
+        "line": "一叶落在信纸上，谁也没捡",
+        "slots": {"scene": "autumn-court", "light": "dappled-sun", "mood": "wistful",
+                  "film": "portra400", "shot": "candid-half", "era": "song"},
+    },
+    "boat-gaze": {
+        "zh": "舟头望水",
+        "line": "舟行水上，人在想别的事",
+        "slots": {"scene": "boat-river", "light": "mist-dawn", "mood": "dreamy",
+                  "film": "pro400h", "shot": "back-view", "era": "none"},
+    },
+    "pine-dawn": {
+        "zh": "松间晨雾",
+        "line": "雾里松针在滴水",
+        "slots": {"scene": "pine-mist", "light": "mist-dawn", "mood": "serene",
+                  "film": "pro400h", "shot": "full-figure", "era": "none"},
+    },
+    "candle-night": {
+        "zh": "烛影摇红",
+        "line": "烛火一跳，影子跟着晃",
+        "slots": {"scene": "study-lamp", "light": "candle-flutter", "mood": "dreamy",
+                  "film": "cinestill800t", "shot": "candid-close", "era": "none"},
+    },
+    "library-quiet": {
+        "zh": "书斋静读",
+        "line": "满墙旧书，一个人，没有声音",
+        "slots": {"scene": "study-lamp", "light": "cold-window", "mood": "serene",
+                  "film": "superia", "shot": "candid-half", "era": "song"},
+    },
+    "moon-blade": {
+        "zh": "月下横剑",
+        "line": "剑未出鞘，人已经冷了",
+        "slots": {"scene": "mountain-peak", "light": "moonlight", "mood": "resolute",
+                  "film": "superia", "shot": "low-angle", "era": "none"},
+    },
+    "spring-plum": {
+        "zh": "春雪寻梅",
+        "line": "梅开在残雪里，她凑近看",
+        "slots": {"scene": "snow-court", "light": "dappled-sun", "mood": "curious",
+                  "film": "pro400h", "shot": "candid-close", "era": "song"},
+    },
+}
+
+
+# 不指定任何槽位时的兜底（也是最通用的起点）
+DEFAULT_SLOTS = {
+    "scene": "bamboo-garden",
+    "light": "dappled-sun",
+    "mood": "quiet-aloof",
+    "film": "pro400h",
+    "shot": "candid-half",
+    "era": "none",
+}
+
+
+def resolve_slots(preset=None, **overrides):
+    """预设提供基础值 → 显式传入的槽位覆盖它 → 其余用全局默认。
+
+    overrides 里值为 None 表示"用户没传这个槽位"，不覆盖预设。
+    """
+    slots = dict(DEFAULT_SLOTS)
+    if preset:
+        if preset not in PRESETS:
+            raise ValueError(f"未知预设 {preset!r}，可选：{' / '.join(PRESETS)}")
+        slots.update(PRESETS[preset]["slots"])
+    for key, value in overrides.items():
+        if value is not None:
+            slots[key] = value
+    return slots
+
+
+# ============================================================
 # 负面词 —— 决定"高级感"的另一半，与另外两套画法不通用
 # ============================================================
 
@@ -325,7 +583,7 @@ RATIO_TO_SIZE = {
 }
 
 
-def build_prompt(scene, light, mood, shot, era, film, subject, media, ratio):
+def build_prompt(scene, light, mood, shot, era, film, subject, media, ratio, preset=None):
     """把固定风格层与六个槽位拼成中英双版提示词。"""
     for name, value, table in (
         ("scene", scene, SCENES),
@@ -368,6 +626,7 @@ def build_prompt(scene, light, mood, shot, era, film, subject, media, ratio):
 
     return {
         "style": "film-ambient",
+        "preset": preset,
         "scene": scene,
         "light": light,
         "mood": mood,
@@ -387,15 +646,28 @@ def build_prompt(scene, light, mood, shot, era, film, subject, media, ratio):
 
 
 def print_presets():
-    """打印所有槽位取值，方便人和 agent 选。"""
-    print("film-ambient 槽位一览 / available slots\n")
+    """打印命名风格库与所有槽位取值，方便人和 agent 选。"""
+    print("=" * 72)
+    print(f"film-ambient 命名风格库 / named styles（{len(PRESETS)} 个）")
+    print("用法： --preset <slug>   显式传入的槽位会覆盖预设")
+    print("=" * 72 + "\n")
+    for key, value in PRESETS.items():
+        s = value["slots"]
+        print(f"  {key:<16} {value['zh']}")
+        print(f"    {value['line']}")
+        print(f"    scene={s['scene']}  light={s['light']}  mood={s['mood']}")
+        print(f"    film={s['film']}  shot={s['shot']}  era={s['era']}\n")
+
+    print("=" * 72)
+    print("槽位一览 / available slots")
+    print("=" * 72 + "\n")
     for title, table in (
         ("--scene  环境", SCENES),
         ("--light  光型", LIGHTS),
         ("--mood   情绪", MOODS),
+        ("--film   胶片型号", FILMS),
         ("--shot   机位景别", SHOTS),
         ("--era    朝代形制", ERAS),
-        ("--film   胶片型号", FILMS),
     ):
         print(f"{title}")
         for key, value in table.items():
@@ -409,24 +681,27 @@ def main():
         description="Build film-ambient (古风氛围胶片人像) generation prompts.",
     )
     parser.add_argument("--subject", help="具体主体描述与姿态，例如：轻轻蹲坐在青石旁，手里拿着一小枝竹叶")
-    parser.add_argument("--scene", choices=list(SCENES.keys()), default="bamboo-garden",
+    parser.add_argument("--preset", choices=list(PRESETS.keys()), default=None,
+                        help="命名风格（--list 看全部 21 个）；单槽位参数可覆盖预设")
+    parser.add_argument("--scene", choices=list(SCENES.keys()), default=None,
                         help="环境槽位（默认 bamboo-garden 竹林庭院）")
-    parser.add_argument("--light", choices=list(LIGHTS.keys()), default="dappled-sun",
+    parser.add_argument("--light", choices=list(LIGHTS.keys()), default=None,
                         help="光型槽位（默认 dappled-sun 斑驳树影）")
-    parser.add_argument("--mood", choices=list(MOODS.keys()), default="quiet-aloof",
+    parser.add_argument("--mood", choices=list(MOODS.keys()), default=None,
                         help="情绪槽位（默认 quiet-aloof 安静疏离）")
-    parser.add_argument("--shot", choices=list(SHOTS.keys()), default="candid-half",
+    parser.add_argument("--shot", choices=list(SHOTS.keys()), default=None,
                         help="机位与景别槽位（默认 candid-half 抓拍半身 50mm f/1.8）")
-    parser.add_argument("--era", choices=list(ERAS.keys()), default="none",
+    parser.add_argument("--era", choices=list(ERAS.keys()), default=None,
                         help="朝代形制槽位（默认 none，不注入形制约束）")
-    parser.add_argument("--film", choices=list(FILMS.keys()), default="pro400h",
+    parser.add_argument("--film", choices=list(FILMS.keys()), default=None,
                         help="胶片型号槽位（默认 pro400h = 日系青绿通透调；"
                              "夜景配 cinestill800t，暖调配 portra400）")
     parser.add_argument("--media", choices=["image", "video"], default="image",
                         help="生成媒介：image 静态图片（默认）/ video 视频片段")
     parser.add_argument("--ratio", choices=list(RATIO_TO_SIZE.keys()), default="3:4",
                         help="画面比例：3:4 竖版人像（默认）/ 9:16 / 16:9 / 1:1")
-    parser.add_argument("--list", action="store_true", help="只打印所有槽位取值，不出提示词")
+    parser.add_argument("--list", action="store_true",
+                        help="只打印命名风格库与槽位取值，不出提示词")
     args = parser.parse_args()
 
     if args.list:
@@ -434,11 +709,17 @@ def main():
         return 0
 
     if not args.subject:
-        parser.error("--subject 是必填的（除非用 --list 看槽位）")
+        parser.error("--subject 是必填的（除非用 --list 看风格与槽位）")
 
+    slots = resolve_slots(
+        args.preset,
+        scene=args.scene, light=args.light, mood=args.mood,
+        film=args.film, shot=args.shot, era=args.era,
+    )
     result = build_prompt(
-        args.scene, args.light, args.mood, args.shot, args.era, args.film,
-        args.subject, args.media, args.ratio,
+        slots["scene"], slots["light"], slots["mood"], slots["shot"],
+        slots["era"], slots["film"],
+        args.subject, args.media, args.ratio, preset=args.preset,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
