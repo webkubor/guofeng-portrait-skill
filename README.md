@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.4.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.5.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-画法一览)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-朝代形制)
 [![Works](https://img.shields.io/badge/作品-展示-ff69b4.svg)](#-作品--works)
@@ -74,38 +74,40 @@
 
 ### 🕊 国漫 3D 写实 · `3d-realistic`
 
-> 对标《斗罗大陆》《斗破苍穹》《灵笼》《完美世界》。UE5 级渲染、皮肤毛孔与发丝可见、体积光与灵气粒子。
+> **70% 真人质感 + 30% 国漫理想化** —— 美型但保留真人骨相。
+> 20 岁左右**成年少女骨相**（不是幼童、不是御姐）：精致小鹅蛋脸、面中饱满、下颌线流畅、
+> 下巴短小圆润；大而清澈的暖棕**杏眼**，虹膜有真实晶体层次与细密纹理；
+> 皮肤白皙通透但有真实血色、柔和次表面散射与微毛孔，**不磨皮、不塑料、不蜡像**；
+> 发饰小巧精致、**克制不堆砌**。
+
+<p align="center">
+  <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/113c5ee5-404.jpg" alt="国漫女主特写 · 基准样张" width="74%" />
+  <br/>
+  <sub><b>国漫女主特写</b> · <code>heroine-closeup</code> —— 本画法基准样张</sub><br/>
+  <sub>超近头肩肖像（脸占 70-80%）· 暖金侧逆光 + 灯笼光斑 · 白玉花饰 + 珍珠流苏</sub>
+</p>
 
 <table>
   <tr>
     <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/character-female/immortal-fairy.jpg" alt="清冷仙子" width="100%" />
-      <br/><b>🕊 清冷仙子</b><br/><sub>冰蓝仙裙 · 星辰眼神 · 发丝轮廓光 · 云海仙山</sub>
+      <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/a69c3dfc-004.jpg" alt="亭台托腮" width="100%" />
+      <br/><b>🏛 亭台托腮</b><br/><sub>书案 · 青瓷茶盏 · 竹帘 · 荷塘远景 · 自然侧光</sub>
     </td>
     <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/character-female/enchantress.jpg" alt="妩媚妖女" width="100%" />
-      <br/><b>🥀 妩媚妖女</b><br/><sub>红黑轻纱 · 眉间花钿 · 灵力微芒 · 月下灯笼</sub>
+      <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/6cc18a15-1d2.jpg" alt="庭前持花" width="100%" />
+      <br/><b>🌸 庭前持花</b><br/><sub>玉花 + 珍珠流苏 · 花枝前景 · 斑驳树影</sub>
     </td>
     <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/character-male/swordsman.jpg" alt="青年剑修" width="100%" />
-      <br/><b>⚔️ 青年剑修</b><br/><sub>冷峻神情 · 剑气 · 夜色山巅 · 电影级景深</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/character-male/sect-master.jpg" alt="宗门宗主" width="100%" />
-      <br/><b>🏔 宗门宗主</b><br/><sub>玄金法袍 · 宗门威仪 · 体积光</sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/character-male/demon-lord.jpg" alt="魔尊" width="100%" />
-      <br/><b>😈 魔尊</b><br/><sub>玄黑重甲 · 血脉觉醒 · 暗调暖光</sub>
-    </td>
-    <td width="33%" align="center">
-      <img src="styles/3d-realistic/assets/sample-output.jpg" alt="综合样张" width="100%" />
-      <br/><b>✨ 综合样张</b><br/><sub>渲染质感基准 · 皮肤与发丝细节</sub>
+      <img src="https://img.webkubor.online/refs/45d47835-cde2-4022-bd4d-5bc729ff8f1f/7f41834f-efb.jpg" alt="执卷回眸" width="100%" />
+      <br/><b>📜 执卷回眸</b><br/><sub>青绿纱衣 · 竹卷轴 · 光影层次 · 回眸</sub>
     </td>
   </tr>
 </table>
+
+<p align="center">
+  <sub>↑ 这几张就是 <code>3d-realistic</code> 的验收标准：<b>骨相是成年人的，皮肤是有人味的，光是有出处的，</b>
+  <br/>发饰只有一件 —— 而不是满头珠翠 + 满屏荧光 + 塑料磨皮。</sub>
+</p>
 
 ---
 
@@ -228,9 +230,10 @@ python scripts/build_prompt.py --style film-ambient --preset bamboo-tea --subjec
 ### 画法一览
 
 #### `3d-realistic` —— 国漫 3D 写实
-对标《斗罗大陆》《斗破苍穹》《灵笼》《完美世界》《一念永恒》《凡人修仙传》。
-不是日漫 2D，不是好莱坞 3D，是**国漫特有的东方审美 + 写实渲染 + 仙侠光效**。
-题材：`character-male` / `character-female`
+**70% 真人质感 + 30% 国漫理想化**，美型但保留真人骨相 —— 成年少女骨相、SSS 皮肤与微毛孔、
+发饰克制不堆砌。四槽位（`--scene` / `--light` / `--framing` / `--mood`）+ 6 个命名风格。
+不是日漫 2D，不是好莱坞 3D，**也不是满头珠翠 + 满屏荧光的廉价仙侠**（那是 v3.5.0 之前的病灶）。
+题材：`character-female` / `character-male`
 
 #### `ink-wash` —— 国风水墨写意
 对标《大鱼海棠》《中国奇谭》《天书奇谭》《山水情》。
@@ -298,10 +301,9 @@ python scripts/build_prompt.py --style film-ambient --preset bamboo-tea --subjec
 **二、命令行生成提示词**
 
 ```bash
-# 国漫 3D 写实 · 男性角色
+# 国漫 3D 写实 · 女主特写（基准样张）
 python scripts/build_prompt.py --style 3d-realistic \
-  --subject "冷峻的青年剑修，月下山巅，黑色长发高束" \
-  --category character-male --ratio 3:4
+  --preset heroine-closeup --subject "轻轻向镜头靠近，直视镜头" --ratio 3:4
 
 # 国风水墨 · 人物
 python scripts/build_prompt.py --style ink-wash \
