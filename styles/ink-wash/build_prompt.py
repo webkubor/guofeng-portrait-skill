@@ -63,13 +63,22 @@ CHARACTER = {
     "fixed_zh": (
         "中国传统水墨画，手绘毛笔笔触，宣纸纹理，"
         "墨色浓淡变化，大面积留白，写意风格，"
-        "传统国画美学，诗意空灵，禅意"
+        "传统国画美学，诗意空灵，禅意；"
+        "画中人是古典仕女：成年东方女性，清雅端庄的古典美人气质，"
+        "鹅蛋脸，五官以简练笔触写意、不刻画过度，眉目疏朗，"
+        "姿态含蓄（侧身、回眸、执扇、垂眸），衣纹线条流畅飘逸，"
+        "不幼态、不网红、不浓妆"
     ),
     "fixed_en": (
         "traditional Chinese ink wash painting, hand-painted brushwork, "
         "rice paper texture, ink density variation, "
         "vast negative space, freehand aesthetic, "
-        "traditional Chinese painting, poetic ethereal mood, Zen"
+        "traditional Chinese painting, poetic ethereal mood, Zen; "
+        "the figure is a classical Chinese beauty (shinu): an adult East Asian woman with "
+        "refined serene classical elegance, oval face, features suggested with economical "
+        "brushwork rather than over-rendered, sparse graceful brows and eyes, "
+        "a reserved pose (three-quarter turn, glancing back, holding a fan, lowered gaze), "
+        "flowing concise drapery lines; not childlike, not an influencer face, no heavy makeup"
     ),
 }
 
@@ -78,7 +87,7 @@ CHARACTER = {
 
 
 CATEGORIES = {
-    "character": CHARACTER,
+    "character-female": CHARACTER,
 }
 
 
@@ -130,7 +139,8 @@ NEGATIVE_BASE_ZH = (
     "3D渲染，CGI，立体感，电影级光影，UE5，PBR材质，写实照片，"
     "日漫风格，赛璐璐，二次元眼睛，线稿风格，皮克斯，迪士尼，"
     "现代元素，手机，汽车，霓虹灯，高饱和度，糖果色，鲜艳色彩，"
-    "均匀笔触，平滑边缘，完美对称，过多细节，画面拥挤，塑料质感"
+    "均匀笔触，平滑边缘，完美对称，过多细节，画面拥挤，塑料质感，"
+    "幼态，娃娃脸，童颜，网红脸，网红妆，浓妆，过度刻画五官，写实五官，萌系"
 )
 
 NEGATIVE_BASE_EN = (
@@ -139,7 +149,9 @@ NEGATIVE_BASE_EN = (
     "Japanese anime style, cel-shading, line art, anime eyes, "
     "Pixar, Disney, modern elements, smartphones, cars, neon lights, "
     "oversaturated colors, candy colors, bright primary colors, "
-    "uniform brushstrokes, smooth edges, perfect symmetry, cluttered composition, plastic texture"
+    "uniform brushstrokes, smooth edges, perfect symmetry, cluttered composition, plastic texture, "
+    "childlike, baby face, influencer face, heavy makeup, over-rendered facial features, "
+    "hyper-realistic facial rendering, moe style"
 )
 
 NEGATIVE_VIDEO_ZH = (

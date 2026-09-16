@@ -95,4 +95,4 @@ Southern Song Dynasty lady, leaning on wooden rail by lotus pond in scholar's ga
 详见 `dynasties/{tang,song,wei-jin}/references/prompt-core.md`：
 - Tang：丰腴雍容 / 齐胸襦裙 / 浓艳撞色 / 额黄花钿
 - Song：清雅克制 / 褙子 / 三白法 / 素色低饱和 / 园林留白
-- Wei-Jin：飘逸出尘 / 杂裾垂髾 / 宽袖 / 玄青素纱 / 名士风骨
+- Wei-Jin：飘逸出尘 / 杂裾垂髾 / 宽袖 / 玄青素纱 / 魏晋风骨

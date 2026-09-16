@@ -10,7 +10,7 @@ film-ambient 讲摄影语言与胶片质感），硬合成一份会让三边都�
       --subject "凑近花枝，微微侧脸" --category character-female --ratio 3:4
 
   python scripts/build_prompt.py --style ink-wash \
-      --subject "白衣书生，竹林独坐" --category character --ratio 3:4
+      --subject "执扇仕女，庭前独立" --category character-female --ratio 3:4
 
   python scripts/build_prompt.py --style film-ambient \
       --subject "轻轻蹲坐在青石旁，手里拿着一小枝竹叶" \

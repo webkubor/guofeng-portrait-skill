@@ -2,7 +2,7 @@
 
 > "魏晋风度，名士飘逸，超然物外"——魏晋的核心是「逸」。
 >
-> 适用：魏晋名士 / 杂裾垂髾服 / 竹林七贤风骨 / 隐逸田园。
+> 适用：魏晋仕女 / 杂裾垂髾服 / 竹林七贤风骨（作气质参照）/ 隐逸田园。
 > 不适用：盛唐华贵（看 [../tang/SKILL.md](../tang/SKILL.md)）/ 宋淡雅（看 [../song/SKILL.md](../song/SKILL.md)）。
 > 共享骨架：[../common-prompt-base.md](../common-prompt-base.md)
 
@@ -22,13 +22,13 @@
 
 ### 命令行（museav）
 ```bash
-./dynasties/wei-jin/scripts/generate.py --dynasty wei-jin --subject "魏晋名士，松下抚琴，衣袂飘举" --ratio 16:9
+./dynasties/wei-jin/scripts/generate.py --dynasty wei-jin --subject "魏晋仕女，松下抚琴，衣袂飘举" --ratio 16:9
 ./dynasties/wei-jin/scripts/generate.py --dynasty wei-jin --subject "洛水女神，凌波微步" --ratio 3:4
 ```
 
 ### 给大模型一句画面
 ```
-魏晋名士，松下抚琴，宽袖衫衣袂飘举，竹林深处。
+魏晋仕女，松下抚琴，宽袖衫衣袂飘举，竹林深处。
 ```
 skill 整理成魏晋完整 prompt（飘逸出尘 + 玄青素纱 + 名士风骨）。
 
@@ -75,7 +75,7 @@ skill 整理成魏晋完整 prompt（飘逸出尘 + 玄青素纱 + 名士风骨�
 ## 魏晋 Prompt 模板
 
 ```
-[Wei-Jin noblewoman / scholar-gentleman] + [场景：松下/溪畔/月下/竹林/草堂] + [神态：远眺/抚琴/对月/闲步/超然] + [服饰：杂裾垂髾服（三角下摆飘举）+宽袖大袖衫+薄纱蝉衣+玄色/天青/素白+素纱飘带] + [场景：自然山水/松竹流水/月] + [光影：晨昏柔光/月色清冷] + [85mm portrait / 玄青天青鹤灰低饱和 / 微妙胶片颗粒 / 写真级构图]
+[Wei-Jin noblewoman 魏晋仕女] + [场景：松下/溪畔/月下/竹林/草堂] + [神态：远眺/抚琴/对月/闲步/超然] + [服饰：杂裾垂髾服（三角下摆飘举）+宽袖大袖衫+薄纱蝉衣+玄色/天青/素白+素纱飘带] + [场景：自然山水/松竹流水/月] + [光影：晨昏柔光/月色清冷] + [85mm portrait / 玄青天青鹤灰低饱和 / 微妙胶片颗粒 / 写真级构图]
 ```
 
 ---

@@ -88,7 +88,7 @@ assets / build_prompt.py，本文只做路由。
 |---|---|---|---|
 | **`tang`** 唐 | 华贵丰腴、色彩浓烈 | 宫廷仕女、盛世气象 | `dynasties/tang/` |
 | **`song`** 宋 | "淡到极致才是宋韵"，清雅低饱和 | 江南园林、庭院、肖像特写 | `dynasties/song/`（最完整） |
-| **`wei-jin`** 魏晋 | 飘逸出尘、褒衣博带 | 名士、洛神、松下抚琴 | `dynasties/wei-jin/` |
+| **`wei-jin`** 魏晋 | 飘逸出尘、褒衣博带 | 洛神、仕女、松下抚琴 | `dynasties/wei-jin/` |
 
 用法：读 `dynasties/<朝代>/SKILL.md` 取服饰形制与配色 token，拼进 `--subject`。
 每个朝代目录下：
@@ -104,7 +104,7 @@ assets / build_prompt.py，本文只做路由。
 
 - "画个古风人像 / 古风头像"
 - "斗罗大陆风格的剑修" / "灵笼风格的角色"
-- "水墨风格的白衣书生" / "写意人物画"
+- "水墨风格的执扇仕女" / "写意人物画"
 - "Chinese 3D donghua portrait" / "ink wash portrait"
 - 任何「古风 / 仙侠 / 国风」+ 人物 + 出图的请求
 
@@ -119,7 +119,7 @@ assets / build_prompt.py，本文只做路由。
 
 2. **题材**
    - `3d-realistic`：`character-female`（本 skill 只画女性）
-   - `ink-wash`：`character`
+   - `ink-wash`：`character-female`（只画女性）
    - `film-ambient`：**先看 21 个命名风格**（`--preset`，见
      `styles/film-ambient/references/style-presets.md`），点一个再改主体最省事；
      需要自定义时用六个槽位 `--scene` / `--light` / `--mood` / `--film` /

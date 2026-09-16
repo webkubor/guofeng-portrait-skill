@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.7.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.8.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-画法一览)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-朝代形制)
 [![Works](https://img.shields.io/badge/作品-展示-ff69b4.svg)](#-作品--works)
@@ -113,22 +113,19 @@
 
 ### 🖌 国风水墨 · `ink-wash`
 
-> 对标《大鱼海棠》《中国奇谭》《山水情》。手绘笔触、宣纸质感、**极致留白**——留白是构图的一部分，不是没画完。
+> 对标《大鱼海棠》《中国奇谭》《山水情》。手绘笔触、宣纸质感、**极致留白** —— 留白是构图的一部分，不是没画完。
+> 画中人一律是**古典仕女**：成年东方女性，清雅端庄，五官以简练笔触写意，姿态含蓄，朱砂点睛。
 
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <img src="styles/ink-wash/assets/character/lady-portrait.jpg" alt="写意仕女" width="100%" />
-      <br/><b>🖌 国风写意仕女</b>
-      <br/><sub>宣纸肌理 · 墨分五色 · 飞白笔触 · 朱砂微点</sub>
-    </td>
-    <td width="50%" align="center">
-      <img src="styles/ink-wash/assets/character/scholar.jpg" alt="白衣书生" width="100%" />
-      <br/><b>📜 白衣书生</b>
-      <br/><sub>竹林独坐 · 大面积留白 · 写意而非写实</sub>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="styles/ink-wash/assets/character/lady-portrait.jpg" alt="国风写意仕女" width="56%" />
+  <br/>
+  <sub><b>国风写意仕女</b> · <code>ink-wash</code></sub><br/>
+  <sub>宣纸肌理 · 墨分五色 · 飞白笔触 · 执扇回眸 · 朱砂点睛 · 大面积留白</sub>
+</p>
+
+<p align="center">
+  <sub>↑ 水墨的"像美人"靠<b>姿态与点睛色</b>，不靠把脸画细 —— 把脸画满就不像水墨了。</sub>
+</p>
 
 ---
 
@@ -230,7 +227,7 @@ python scripts/build_prompt.py --style film-ambient --preset bamboo-tea --subjec
 |---|---|---|
 | **唐 `tang`** | 华贵丰腴、色彩浓烈 | 宫廷仕女、盛世气象 |
 | **宋 `song`** | "淡到极致才是宋韵"，清雅低饱和 | 江南园林、庭院、肖像特写（资料最全） |
-| **魏晋 `wei-jin`** | 飘逸出尘、褒衣博带 | 名士、洛神、松下抚琴 |
+| **魏晋 `wei-jin`** | 飘逸出尘、褒衣博带 | 洛神、仕女、松下抚琴 |
 
 ```bash
 ./dynasties/song/scripts/generate.py --dynasty song \
@@ -280,7 +277,7 @@ python scripts/build_prompt.py --style 3d-realistic \
 
 # 国风水墨 · 人物
 python scripts/build_prompt.py --style ink-wash \
-  --subject "白衣书生，竹林独坐" --category character --ratio 3:4
+  --subject "执扇仕女，庭前独立" --category character-female --ratio 3:4
 
 # 古风氛围胶片 · 点命名风格
 python scripts/build_prompt.py --style film-ambient \
