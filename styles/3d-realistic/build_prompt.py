@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Build prompts for the Donghua 3D Realistic style (国漫 3D 写实).
+Build prompts for the Donghua 3D Realistic style (国漫 3D 写实 · 古风美人).
+
+本画法**只画女性** —— 这个 skill 是「古风美人」，不做男性角色。
 
 重写于 v3.5.0 —— 旧版固定层只有一句"PBR材质，皮肤有呼吸感…唯美空灵"，
 没有任何脸型 / 年龄 / 骨相 / 比例约束，导致模型自由发挥成**幼态娃娃脸 + 塑料皮
@@ -55,12 +57,14 @@ import sys
 
 FEMALE_FIXED_ZH = (
     "高级中国国漫电影级 CGI，美型但保留真人骨相，70% 真人质感 + 30% 国漫理想化；"
-    "20 岁左右成年东方少女，精致小鹅蛋脸，略带柔和感但保持成年少女骨相，"
-    "面中饱满，下颌线流畅，下巴短小圆润、不尖不长；"
-    "大而清澈的暖棕色杏眼，眼型圆润但不二次元夸张，虹膜具有真实晶体层次与细密纹理，"
+    "20 岁左右成年东方女性，精致鹅蛋脸，但骨相与比例明确是成年人的（不是儿童比例），"
+    "面中饱满、下颌结构清晰，下颌线流畅，下巴圆润不尖不长；"
+    "清澈的暖棕色杏仁眼，与脸型比例协调、不过大，眼型圆润但不二次元夸张，"
+    "虹膜具有真实晶体层次与细密纹理，"
     "湿润自然的眼神高光，细长自然睫毛；眉形柔和自然；小巧挺直鼻梁，鼻头圆润精致；"
     "柔软饱满的樱粉色嘴唇，唇峰自然，嘴角轻微放松；"
-    "皮肤白皙通透但有真实血色，脸颊自然淡粉红晕，细腻真实皮肤纹理与轻微毛孔，"
+    "皮肤白皙通透但有真实血色，脸颊只有极淡的自然血色（不是浓重腮红），"
+    "细腻真实皮肤纹理与可见毛孔，"
     "柔和次表面散射，鼻尖、眼下、脸颊有克制的自然高光，不磨皮、不塑料、不蜡像；"
     "乌黑浓密长发，发丝逐根清晰，额前与脸颊有纤细自然碎发；"
     "发饰小巧精致、克制不堆砌；"
@@ -70,40 +74,24 @@ FEMALE_FIXED_ZH = (
 FEMALE_FIXED_EN = (
     "high-end Chinese animation cinematic CGI, idealized yet retaining real human bone structure, "
     "70% photoreal texture + 30% donghua idealization; "
-    "East Asian young woman in her early twenties, refined small oval face, soft but distinctly adult "
-    "bone structure, full midface, smooth jawline, short rounded chin — neither pointed nor elongated; "
-    "large clear warm-brown almond eyes, rounded but not exaggeratedly anime, iris with real crystalline "
+    "East Asian woman in her early twenties, refined oval face with distinctly ADULT facial proportions "
+    "and bone structure (NOT childlike proportions), full midface, defined jaw, smooth jawline, "
+    "rounded chin — neither pointed nor elongated; "
+    "clear warm-brown almond eyes, proportionate to the face rather than oversized, "
+    "rounded but not exaggeratedly anime, iris with real crystalline "
     "depth and fine texture, moist natural catchlights, fine natural lashes; soft natural brows; "
-    "small straight nose with a refined rounded tip; soft full cherry-pink lips, natural cupid's bow, "
-    "gently relaxed corners; fair translucent skin with real blood tone and a natural pink flush on the "
-    "cheeks, fine real skin texture with subtle pores, soft subsurface scattering, restrained natural "
+    "small straight nose with a refined rounded tip; soft pale-pink lips, natural shape without "
+    "exaggeration, neither glossy nor plump, gently relaxed corners; "
+    "fair translucent skin with real blood tone, only the faintest natural flush on the "
+    "cheeks (NOT heavy blush), fine real skin texture with visible pores, soft subsurface scattering, "
+    "restrained natural "
     "highlights on the nose tip, under the eyes and on the cheeks — not airbrushed, not plastic, not waxen; "
     "thick black hair with individually resolved strands and fine loose wisps at the forehead and cheeks; "
     "small refined hair ornaments, restrained, never piled up; "
     "refined oriental aesthetics, delicate, lively, natural, alive"
 )
 
-MALE_FIXED_ZH = (
-    "高级中国国漫电影级 CGI，美型但保留真人骨相，70% 真人质感 + 30% 国漫理想化；"
-    "20-30 岁成年东方男性骨相，眉骨与下颌结构扎实，轮廓清晰，不是少年幼态、不是欧美骨相；"
-    "眼神有神，眼型自然不夸张；鼻梁挺直自然；"
-    "皮肤有真实肌理与毛孔，真实血色，不磨皮、不塑料、不蜡像；"
-    "发丝逐根清晰，发型克制不夸张；"
-    "高级东方审美，沉稳、有质感、有生命感"
-)
-
-MALE_FIXED_EN = (
-    "high-end Chinese animation cinematic CGI, idealized yet retaining real human bone structure, "
-    "70% photoreal texture + 30% donghua idealization; "
-    "East Asian man in his twenties to early thirties, solid brow ridge and jaw structure, clear "
-    "silhouette — not a boyish youth, not a Western bone structure; "
-    "expressive natural eyes, not exaggerated; naturally straight nose bridge; "
-    "skin with real texture and pores, real blood tone — not airbrushed, not plastic, not waxen; "
-    "individually resolved hair strands, restrained hairstyle; "
-    "refined oriental aesthetics, composed, textured, alive"
-)
-
-# 两性共用的技术栈与镜头规格（决定"电影级 CGI"的质感下限）
+# 通用技术栈与镜头规格（决定"电影级 CGI"的质感下限）
 TECH_ZH = (
     "realistic CGI portrait，PBR skin shader，subsurface scattering，ray tracing，"
     "global illumination，realistic iris，strand-based hair，film color grading，"
@@ -119,7 +107,6 @@ TECH_EN = (
 
 CATEGORIES = {
     "character-female": {"zh": FEMALE_FIXED_ZH, "en": FEMALE_FIXED_EN},
-    "character-male": {"zh": MALE_FIXED_ZH, "en": MALE_FIXED_EN},
 }
 
 
@@ -298,20 +285,6 @@ PRESETS = {
         "slots": {"scene": "snow-temple", "light": "moonlight-cool",
                   "framing": "head-shoulder", "mood": "cold"},
     },
-    "swordsman-night": {
-        "zh": "月下剑修",
-        "line": "月华冷光勾轮廓，成年男性骨相，沉稳不怒",
-        "category": "character-male",
-        "slots": {"scene": "moonlit-terrace", "light": "moonlight-cool",
-                  "framing": "half-body", "mood": "resolute"},
-    },
-    "sect-master": {
-        "zh": "宗门宗主",
-        "line": "殿堂内部烛光，威仪感来自骨相与光位，不靠堆砌",
-        "category": "character-male",
-        "slots": {"scene": "palace-hall", "light": "candle-warm",
-                  "framing": "head-shoulder", "mood": "resolute"},
-    },
 }
 
 
@@ -346,7 +319,7 @@ def resolve_slots(preset=None, **overrides):
 NEGATIVE_ZH = (
     # —— 幼态 / 脸型（旧版最大漏洞）——
     "幼童，儿童脸，过度婴儿肥，圆饼脸，尖锥脸，长脸，成熟御姐，欧美骨相，"
-    "网红脸，韩式整容脸，蛇精脸，"
+    "网红脸，韩式整容脸，蛇精脸，娃娃脸，童颜，幼态，浓重腮红，油亮唇，玻尿酸唇，滤镜脸，眼睛过大，"
     # —— 五官失真 ——
     "眼睛巨大，动漫眼，眼距异常，斗鸡眼，死鱼眼，假睫毛过重，鼻梁过高，鼻头过尖，"
     "嘴巴过小，嘴歪，五官僵硬，假笑，"
@@ -365,7 +338,8 @@ NEGATIVE_ZH = (
 NEGATIVE_EN = (
     "toddler, child face, excessive baby fat, round pancake face, sharp cone face, long face, "
     "mature femme fatale, Western bone structure, influencer face, Korean plastic-surgery face, "
-    "v-shape snake face, "
+    "v-shape snake face, baby face, childlike facial proportions, heavy blush, glossy lips, "
+    "filler lips, beauty-filter face, oversized eyes, "
     "giant eyes, anime eyes, abnormal eye spacing, cross-eyed, dead fish eyes, heavy fake lashes, "
     "overly high nose bridge, overly pointed nose tip, tiny mouth, crooked mouth, stiff features, fake smile, "
     "over-retouched, airbrushed skin, plastic skin, wax figure, greasy shine, over-sharpened, "
@@ -402,12 +376,6 @@ def build_prompt(category, media, subject, ratio,
 
     slots = resolve_slots(preset, scene=scene, light=light, framing=framing, mood=mood)
 
-    # 未指定预设时按分类给更贴合的兜底 —— 男角色不该默认"轻轻向镜头靠近"的少女向景别与情绪
-    if preset is None and category == "character-male":
-        if framing is None:
-            slots["framing"] = "half-body"
-        if mood is None:
-            slots["mood"] = "resolute"
 
     for name, value, table in (
         ("scene", slots["scene"], SCENES),
@@ -500,7 +468,7 @@ def main():
         description="Build donghua 3D realistic (国漫 3D 写实) generation prompts.",
     )
     parser.add_argument("--category", choices=list(CATEGORIES.keys()), default="character-female",
-                        help="主体分类：character-female 女性（默认）/ character-male 男性")
+                        help="主体分类：仅 character-female（本 skill 只画女性）")
     parser.add_argument("--preset", choices=list(PRESETS.keys()), default=None,
                         help="命名风格（--list 看全部）；单槽位参数可覆盖预设")
     parser.add_argument("--scene", choices=list(SCENES.keys()), default=None, help="场景槽位")

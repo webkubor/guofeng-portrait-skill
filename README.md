@@ -1,7 +1,7 @@
 # 古风人像 / Guofeng Portrait Skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-3.6.0-blue.svg)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-3.7.0-blue.svg)](./CHANGELOG.md)
 [![Styles](https://img.shields.io/badge/画法-3-green.svg)](#-画法一览)
 [![Dynasties](https://img.shields.io/badge/朝代-3-orange.svg)](#-朝代形制)
 [![Works](https://img.shields.io/badge/作品-展示-ff69b4.svg)](#-作品--works)
@@ -204,9 +204,9 @@ python scripts/build_prompt.py --style film-ambient --preset bamboo-tea --subjec
 
 #### `3d-realistic` —— 国漫 3D 写实
 **70% 真人质感 + 30% 国漫理想化**，美型但保留真人骨相 —— 成年少女骨相、SSS 皮肤与微毛孔、
-发饰克制不堆砌。四槽位（`--scene` / `--light` / `--framing` / `--mood`）+ 6 个命名风格。
+发饰克制不堆砌。四槽位（`--scene` / `--light` / `--framing` / `--mood`）+ 4 个命名风格。
 不是日漫 2D，不是好莱坞 3D，**也不是满头珠翠 + 满屏荧光的廉价仙侠**（那是 v3.5.0 之前的病灶）。
-题材：`character-female` / `character-male`
+题材：仅 `character-female`（**古风美人 · 只画女性**）
 
 #### `ink-wash` —— 国风水墨写意
 对标《大鱼海棠》《中国奇谭》《天书奇谭》《山水情》。

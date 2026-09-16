@@ -73,6 +73,7 @@ FIXED_ZH = (
     "乌黑长发半披半束，发型简洁，仅用细窄浅色丝带固定，几缕碎发被微风吹过脸颊；"
     "素色轻薄飘逸的古风纱衣，面料带细腻丝织纹理，轻盈宽袖；"
     "清透色调，低饱和，高光微微泛白，阴影呈灰绿色；"
+    "可见的 400 度胶片颗粒（是胶片颗粒，不是数码噪点），在暗部与中间调最明显；"
     "东方电影摄影的真实镜头光学感，浅景深，前景轻微虚化，背景柔和散景；"
     "真人抓拍感、空气感、电影静帧感、真实摄影质感"
 )
@@ -85,6 +86,7 @@ FIXED_EN = (
     "a few wisps of hair blown across her cheek; "
     "sheer flowing period silk robe in muted tones, fine woven texture, light wide sleeves; "
     "clean color grading, low saturation, slightly blown highlights, grey-green shadows; "
+    "visible 400-speed film grain (real film grain, not digital noise), most apparent in shadows and midtones; "
     "true lens optics of East Asian cinematography, shallow depth of field, "
     "slightly blurred foreground, soft background bokeh; "
     "candid documentary feel, airy atmosphere, cinematic still, real photographic texture"
@@ -347,14 +349,14 @@ ERAS = {
 
 FILMS = {
     "none": {
-        "zh": "日系胶片扫描质感，轻微胶片颗粒，柔和高光晕染",
-        "en": "Japanese film-scan texture, subtle film grain, soft halation",
+        "zh": "日系胶片扫描质感，可见胶片颗粒，柔和高光晕染",
+        "en": "Japanese film-scan texture, visible film grain, soft halation",
     },
     "pro400h": {
         "zh": "Fujifilm Pro 400H 胶片扫描质感：青绿偏冷的通透薄荷调，"
-              "高光柔和溢出，颗粒细腻，肤色干净不发黄",
+              "高光柔和溢出，真实可见的 400 度颗粒，肤色干净不发黄",
         "en": "Fujifilm Pro 400H film scan: airy mint-green cast with cool shadows, "
-              "gently blooming highlights, fine grain, clean non-yellowing skin tones",
+              "gently blooming highlights, visible 400-speed grain, clean non-yellowing skin tones",
     },
     "portra400": {
         "zh": "Kodak Portra 400 胶片扫描质感：暖调奶油肤色，宽容度高，"
@@ -369,10 +371,11 @@ FILMS = {
               "pronounced grain, deliberately unpolished",
     },
     "cinestill800t": {
-        "zh": "CineStill 800T 钨丝灯夜景胶片：高光带暖色光晕 halation，"
+        "zh": "CineStill 800T 钨丝灯夜景胶片：高光周围有明显暖色 halation 光晕（光晕外扩，不是柔光），"
               "暗部偏深蓝，颗粒粗，夜戏电影感",
-        "en": "CineStill 800T tungsten night film: warm halation glowing around highlights, "
-              "deep blue shadows, coarse grain, night-scene cinematic feel",
+        "en": "CineStill 800T tungsten night film: pronounced warm halation blooming around "
+              "highlights (halation spreading outward, not soft glow), deep blue shadows, "
+              "coarse grain, night-scene cinematic feel",
     },
 }
 

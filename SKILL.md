@@ -46,7 +46,7 @@ permissions:
 ## Overview
 
 生成**古风人像**（角色立绘、头像、人物海报）的图像与短视频。
-**这是一个纯人像 skill —— 只画人**，不做场景概念图、器物法宝、花鸟山水。
+**这是一个「古风美人」skill —— 只画女性**，不画男性角色，也不做场景概念图、器物法宝、花鸟山水。
 人物所处的环境只作为背景服务于人像。
 
 两个**正交维度**，自由组合：**画法**（怎么画）× **朝代**（画哪个年代的形制）。
@@ -118,7 +118,7 @@ assets / build_prompt.py，本文只做路由。
    - `film-ambient` — 想要**真人实拍感、氛围感、胶片质感**（"像照片，不像画"）
 
 2. **题材**
-   - `3d-realistic`：`character-male` / `character-female`
+   - `3d-realistic`：`character-female`（本 skill 只画女性）
    - `ink-wash`：`character`
    - `film-ambient`：**先看 21 个命名风格**（`--preset`，见
      `styles/film-ambient/references/style-presets.md`），点一个再改主体最省事；
@@ -146,7 +146,7 @@ assets / build_prompt.py，本文只做路由。
 ### Step 1 — 确认输入
 
 风格、题材、媒介、画幅、主体描述。用户只说"画个古风人像"时，
-按 `3d-realistic` + `character-male` + `image` + `3:4` 走。
+按 `3d-realistic` + `character-female` + `image` + `3:4` 走。
 
 ### Step 2 — 构建提示词
 
@@ -196,7 +196,7 @@ python scripts/build_prompt.py --style film-ambient \
 
 脚本跑不了、或用户要更具体的风格时，翻对应风格的示例：
 
-- `styles/3d-realistic/examples/character-male|character-female/` — 英文提示词
+- `styles/3d-realistic/examples/character-female/` — 英文提示词
 - `styles/3d-realistic/examples-zh/characters/` — 中文提示词，更细
 - `styles/3d-realistic/prompt-library-zh.md` — 中文人像提示词库全文（关键词、镜头、公式、避坑）
 - `styles/ink-wash/examples/character/` — 水墨人物示例

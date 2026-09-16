@@ -85,7 +85,7 @@
 ## 风格分类
 
 ### 角色类
-- **男性角色**：剑修、宗主、魔尊、少年、老者
+- **女性角色**：仕女、仙子、侠女、少女、古典美人
 - **女性角色**：仙子、妖女、女侠、少女、老妪
 - **战斗角色**：出招、防御、飞行、施法
 
@@ -108,13 +108,12 @@
 
 ### 文件命名
 - 使用小写字母和连字符
-- 例如：`male-characters.md`、`scenes.md`
+- 例如：`female-characters.md`、`scenes.md`
 
 ### 目录结构
 ```
 examples/
 ├── characters/          # 角色示例
-│   ├── male-characters.md
 │   └── female-characters.md
 ├── scenes/              # 场景示例
 │   └── scenes.md

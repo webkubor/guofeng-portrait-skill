@@ -75,7 +75,7 @@ museav gen --prompt "..." --ref ~/refs/face-anchor.jpg --ratio 3:4
 
 | 症状 | 根因 | 修法 |
 |------|------|------|
-| **塑料感 / 磨皮** | 模型默认美化 | 正面写 `visible skin texture, subtle film grain`；负面加 `over-smoothed skin`；换 `-q high` |
+| **塑料感 / 磨皮** | 模型默认美化 | 正面写 `visible skin texture, visible 400-speed film grain`；负面加 `over-smoothed skin`；换 `-q high` |
 | **网红脸** | 训练数据偏向 | 负面必须带 `influencer face, doll-like face`；用 `--ref` 垫真实感的脸 |
 | **仙侠味** | 关键词串味 | 检查有没有混进 3d-realistic 的光效词；负面加 `xianxia glow effects` |
 | **摆拍感** | 姿态描述太"演" | 改用 `--shot candid-turned`；主体写"像摄影师突然叫住她的一瞬间" |

@@ -7,7 +7,7 @@ film-ambient 讲摄影语言与胶片质感），硬合成一份会让三边都�
 所以各自保留完整的一份，这里只做路由。
 
   python scripts/build_prompt.py --style 3d-realistic \
-      --subject "冷峻的青年剑修，月下山巅" --category character-male --ratio 3:4
+      --subject "凑近花枝，微微侧脸" --category character-female --ratio 3:4
 
   python scripts/build_prompt.py --style ink-wash \
       --subject "白衣书生，竹林独坐" --category character --ratio 3:4
@@ -18,7 +18,7 @@ film-ambient 讲摄影语言与胶片质感），硬合成一份会让三边都�
 
 不带 --style 时默认 3d-realistic（人像最常用的起点）。
 其余参数原样透传，由各风格脚本自己校验——它们的参数体系不同：
-  3d-realistic  : --category character-female / character-male
+  3d-realistic  : --category character-female（只画女性）
                   + 四槽位 --scene / --light / --framing / --mood + 6 个命名风格（--list 看）
   ink-wash     : --category character / creature / nature / poetry / scene
   film-ambient : --scene / --light / --mood / --film / --shot / --era 六个槽位（--list 看全部取值）
